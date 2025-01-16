@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:http/http.dart' as http;
-import 'package:qfix/model/TaskModel.dart';
+import 'package:qfix_nitmo_new/model/TaskModel.dart';
 
 class TenantAPI {
   final LocalStorage storage = LocalStorage('qfix');
@@ -16,9 +16,7 @@ class TenantAPI {
         storage.getItem('tenant') +
         ".go.digitable.io/qfix/api/v1/";
 
-    // return "https://" + storage.getItem('tenant') + ".rype3.com/qfix/api/v1/";
-    // return "http://" + storage.getItem('tenant') + ".rype3.loc/qfix/api/v1/";
-    // return "http://10.0.2.2/api/avidi/v1/
+    // return "http://" + storage.getItem('tenant') + ".go.rype3.loc/qfix/api/v1/";
   }
 }
 
@@ -30,6 +28,7 @@ class APIService {
     try {
       String url =
           'https://' + tenant + '.go.digitable.io/qfix/api/v1/getservicetype';
+      // 'http://' + tenant + '.go.rype3.loc/qfix/api/v1/getservicetype';
 
       final response = await http.get(
         Uri.parse(url),
@@ -97,9 +96,9 @@ class APIService {
         body: data,
         encoding: Encoding.getByName("utf-8"));
 
-    print(response);
+    // print(response);
     var values = json.decode(response.body);
-    print(values);
+    // print(values);
     showToast(values['message']);
     return true;
   }
@@ -282,7 +281,7 @@ class APIService {
       },
     );
     var values = json.decode(response.body);
-    print('api ${values}');
+    // print('api ${values}');
     if (values['status']) {
       return values['data'];
     } else {
@@ -399,7 +398,7 @@ class APIService {
           return [];
         }
       } else {
-        throw Exception("Failed to load leaves");
+        throw Exception("Failed to load getTaskList");
       }
     } catch (error, stackTrace) {
       print("Error :  $error");

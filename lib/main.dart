@@ -1,6 +1,4 @@
 import 'dart:async';
-
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +6,16 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:provider/provider.dart';
+import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
+import 'package:qfix_nitmo_new/l10n/l10n.dart';
+import 'package:qfix_nitmo_new/provider/locale_provider.dart';
 import 'api/geoShare.dart';
 import 'firebase_options.dart';
 import 'route.dart';
 import 'screens/splashScreen/splashScreen.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -33,6 +36,7 @@ class NitmoAPP extends StatefulWidget {
 }
 
 class _NitmoAPPState extends State<NitmoAPP> {
+    final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   late StreamSubscription subscription;
   late StreamSubscription internetSubscription;
   ConnectivityResult result = ConnectivityResult.none;
@@ -112,28 +116,39 @@ void checkConnection() async {
 }
 
   @override
-  Widget build(BuildContext context) {
-    return OverlaySupport(
-      child: MaterialApp(
-        title: 'QFix',
-        theme: ThemeData(
-          textSelectionTheme: const TextSelectionThemeData(
-            cursorColor: Colors.black,
-          ),
-          appBarTheme: const AppBarTheme(
-          //  backgroundColor: ColorsRes.appBarBG,
-            iconTheme: IconThemeData(
-              color: Colors.white,
-            ), // set backbutton color here which will reflect in all screens.
-          ),
-          fontFamily: GoogleFonts.lato().fontFamily,
-        ),
-
-        debugShowCheckedModeBanner: false,
-        // home: MapScreen(),
-        initialRoute: SplashScreen.routeName,
-        routes: routes,
-      ),
-    );
-  }
+   Widget build(BuildContext context) => ChangeNotifierProvider(
+        create: (context) => LocaleProvider(),
+        builder: (context, child) {
+          final provider = Provider.of<LocaleProvider>(context);
+          return OverlaySupport(
+            child: MaterialApp(
+              title: 'QFix',
+              theme: ThemeData(
+                textSelectionTheme: TextSelectionThemeData(
+                  cursorColor: Colors.black,
+                ),
+                appBarTheme: AppBarTheme(
+                  backgroundColor: ColorsRes.appBarBG,
+                  iconTheme: IconThemeData(
+                    color: Colors.white,
+                  ),
+                ),
+                fontFamily: GoogleFonts.lato().fontFamily,
+              ),
+              navigatorKey: navigatorKey,
+              supportedLocales: L10n.all,
+              locale: provider.locale,
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+               GlobalWidgetsLocalizations.delegate,
+              ],
+              debugShowCheckedModeBanner: false,
+              initialRoute: SplashScreen.routeName,
+              routes: routes,
+            ),
+          );
+        },
+      );
 }

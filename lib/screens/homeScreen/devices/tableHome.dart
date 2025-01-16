@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
-import 'package:animated_icon/animate_icon.dart';
-import 'package:animated_icon/animate_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -10,19 +8,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:qfix/api/apiService.dart';
-import 'package:qfix/helper/CheckingCheckoutBottom.dart';
-import 'package:qfix/helper/ColorsRes.dart';
-import 'package:qfix/helper/DesignConfig.dart';
-import 'package:qfix/helper/Drawer.dart';
-import 'package:qfix/helper/NotificationAction.dart';
-import 'package:qfix/helper/StringsRes.dart';
-import 'package:qfix/Constant/Slideanimation.dart';
-import 'package:qfix/model/TableModel.dart';
-import 'package:qfix/model/TaskModel.dart';
-import 'package:qfix/screens/manageScreen/manageScreen.dart';
-import 'package:qfix/screens/notificationScreen/notificationScreen.dart';
 import 'package:octo_image/octo_image.dart';
+import 'package:qfix_nitmo_new/Constant/Slideanimation.dart';
+import 'package:qfix_nitmo_new/api/apiService.dart';
+import 'package:qfix_nitmo_new/helper/CheckingCheckoutBottom.dart';
+import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
+import 'package:qfix_nitmo_new/helper/DesignConfig.dart';
+import 'package:qfix_nitmo_new/helper/Drawer.dart';
+import 'package:qfix_nitmo_new/helper/NotificationAction.dart';
+import 'package:qfix_nitmo_new/helper/StringsRes.dart';
+import 'package:qfix_nitmo_new/model/TaskModel.dart';
+import 'package:qfix_nitmo_new/screens/manageScreen/manageScreen.dart';
 
 class TabletHome extends StatefulWidget {
   const TabletHome({Key? key}) : super(key: key);
@@ -229,258 +225,6 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
           clipBehavior: Clip.none,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    SlideAnimation(
-                      position: 1,
-                      itemCount: 8,
-                      slideDirection: SlideDirection.fromLeft,
-                      animationController: _animationController,
-                      child: Container(
-                        padding: EdgeInsets.only(
-                          top: 20,
-                          left: MediaQuery.of(context).size.width / 26,
-                          right: MediaQuery.of(context).size.width / 26,
-                          bottom: 15,
-                        ),
-                        child: Stack(
-                          children: [
-                            Container(
-                              height: MediaQuery.of(context).size.height / 7,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 244, 241, 241),
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(15)),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Color.fromARGB(41, 0, 0, 0),
-                                    offset: new Offset(2, 5),
-                                    blurRadius: 10.0,
-                                    spreadRadius: 0,
-                                  )
-                                ],
-                              ),
-                              child: Container(
-                                height: MediaQuery.of(context).size.height,
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 10),
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Expanded(
-                                            child: Container(
-                                              padding: EdgeInsets.only(
-                                                left: 18,
-                                              ),
-                                              child: Text(
-                                                _dateTime ?? "loading...",
-                                                maxLines: 2,
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                22,
-                                            margin: const EdgeInsets.only(
-                                                right: 10),
-                                            width: 45,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: ColorsRes
-                                                  .detailItemBackgroundColor,
-                                              border: Border.all(
-                                                width: 1,
-                                                color: ColorsRes
-                                                    .detailItemBackgroundColor,
-                                              ),
-                                            ),
-                                            child: IconButton(
-                                              icon: Icon(
-                                                Icons.access_time,
-                                                color: ColorsRes.black,
-                                                size: 40,
-                                              ),
-                                              onPressed: () {
-                                                selectDate(
-                                                    CupertinoDatePickerMode
-                                                        .time);
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        bottom: 8.0,
-                                        left:
-                                            MediaQuery.of(context).size.width /
-                                                16,
-                                        top: 10,
-                                      ),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          GestureDetector(
-                                            onTap: () {
-                                              projectCard('checkin');
-                                            },
-                                            child: Align(
-                                              alignment: Alignment.topLeft,
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    20,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    2.5,
-                                                decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      colors: [
-                                                        Colors.blue,
-                                                        Colors.blue,
-                                                      ],
-                                                      begin:
-                                                          Alignment.centerLeft,
-                                                      end: Alignment
-                                                          .centerRight),
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(15),
-                                                    bottomLeft:
-                                                        Radius.circular(15),
-                                                  ),
-                                                ),
-                                                alignment:
-                                                    AlignmentDirectional.center,
-                                                margin: EdgeInsets.only(
-                                                  left: 1.0,
-                                                ),
-                                                padding: EdgeInsets.all(0.5),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      'CHECK-IN',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 5),
-                                                    Icon(
-                                                      Icons.input,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              projectCard('checkout');
-                                            },
-                                            child: Align(
-                                              alignment: Alignment.topRight,
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    20,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    2.6,
-                                                decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      colors: [
-                                                        Colors.orange,
-                                                        Colors.orange,
-                                                      ],
-                                                      begin:
-                                                          Alignment.centerLeft,
-                                                      end: Alignment
-                                                          .centerRight),
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topRight:
-                                                        Radius.circular(15),
-                                                    bottomRight:
-                                                        Radius.circular(15),
-                                                  ),
-                                                ),
-                                                alignment:
-                                                    AlignmentDirectional.center,
-                                                margin: EdgeInsets.only(
-                                                  left: 5.0,
-                                                ),
-                                                padding: EdgeInsets.all(0.5),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      'CHECK-OUT',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 5),
-                                                    Icon(
-                                                      Icons.output,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               SliverAppBar(
                 backgroundColor: ColorsRes.backgroundColor,
                 shadowColor: Colors.transparent,
@@ -938,6 +682,226 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
           ),
         );
       },
+    );
+  }
+
+  Widget checkingCheckoutSection() {
+    return SliverList(
+      delegate: SliverChildListDelegate(
+        [
+          SlideAnimation(
+            position: 1,
+            itemCount: 8,
+            slideDirection: SlideDirection.fromLeft,
+            animationController: _animationController,
+            child: Container(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: MediaQuery.of(context).size.width / 26,
+                right: MediaQuery.of(context).size.width / 26,
+                bottom: 15,
+              ),
+              child: Stack(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height / 7,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 244, 241, 241),
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromARGB(41, 0, 0, 0),
+                          offset: new Offset(2, 5),
+                          blurRadius: 10.0,
+                          spreadRadius: 0,
+                        )
+                      ],
+                    ),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    padding: EdgeInsets.only(
+                                      left: 18,
+                                    ),
+                                    child: Text(
+                                      _dateTime ?? "loading...",
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.height / 22,
+                                  margin: const EdgeInsets.only(right: 10),
+                                  width: 45,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: ColorsRes.detailItemBackgroundColor,
+                                    border: Border.all(
+                                      width: 1,
+                                      color:
+                                          ColorsRes.detailItemBackgroundColor,
+                                    ),
+                                  ),
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.access_time,
+                                      color: ColorsRes.black,
+                                      size: 40,
+                                    ),
+                                    onPressed: () {
+                                      selectDate(CupertinoDatePickerMode.time);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              bottom: 8.0,
+                              left: MediaQuery.of(context).size.width / 16,
+                              top: 10,
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                GestureDetector(
+                                  onTap: () {
+                                    projectCard('checkin');
+                                  },
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              20,
+                                      width: MediaQuery.of(context).size.width /
+                                          2.5,
+                                      decoration: const BoxDecoration(
+                                        gradient: LinearGradient(
+                                            colors: [
+                                              Colors.blue,
+                                              Colors.blue,
+                                            ],
+                                            begin: Alignment.centerLeft,
+                                            end: Alignment.centerRight),
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(15),
+                                          bottomLeft: Radius.circular(15),
+                                        ),
+                                      ),
+                                      alignment: AlignmentDirectional.center,
+                                      margin: EdgeInsets.only(
+                                        left: 1.0,
+                                      ),
+                                      padding: EdgeInsets.all(0.5),
+                                      child: const Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'CHECK-IN',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(width: 5),
+                                          Icon(
+                                            Icons.input,
+                                            color: Colors.white,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    projectCard('checkout');
+                                  },
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              20,
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      decoration: const BoxDecoration(
+                                        gradient: LinearGradient(
+                                            colors: [
+                                              Colors.orange,
+                                              Colors.orange,
+                                            ],
+                                            begin: Alignment.centerLeft,
+                                            end: Alignment.centerRight),
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(15),
+                                          bottomRight: Radius.circular(15),
+                                        ),
+                                      ),
+                                      alignment: AlignmentDirectional.center,
+                                      margin: EdgeInsets.only(
+                                        left: 5.0,
+                                      ),
+                                      padding: EdgeInsets.all(0.5),
+                                      child: const Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'CHECK-OUT',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(width: 5),
+                                          Icon(
+                                            Icons.output,
+                                            color: Colors.white,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

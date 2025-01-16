@@ -1,0 +1,277 @@
+{
+    "language": "English",
+    "@language":{
+      "description": "The current Language"
+    },
+
+    "companycode": "Company Code",
+    "@companycode":{
+      "description": "The Tenant Code"
+    },
+
+    "login": "Login",
+    "@login":{
+      "description": "Login Txt"
+    },
+
+    "checking": "Checking",
+    "@checking":{
+      "description": "Checking Txt"
+    },
+
+    "errorCompanyCode": "Company code is required",
+    "@errorCompanyCode":{
+      "description": "Error Msg Company code is required"
+    },
+
+    "errorUsername": "Please enter username",
+    "@errorUsername":{
+      "description": "Error Msg username"
+    },
+
+    "errorPassword": "Please enter password",
+    "@errorPassword":{
+      "description": "Error Msg password"
+    },
+
+    "errorEmail": "Please enter correct email address",
+    "@errorEmail":{    
+      "description": "Error Msg email"
+    },
+
+    "username": "Username",
+    "@username":{
+      "description": "username field txt"
+    },
+
+    "password": "Password",
+    "@password":{
+      "description": "password field txt"
+    },
+
+    "forgotPassword": "Forgot Password?",
+    "@forgotPassword":{
+      "description": "forgotPassword field txt"
+    },
+
+    "contactAdministrator" : "Contact administrator",
+    "@contactAdministrator":{
+      "description": "Contact administrator msg txt"
+    },
+  
+    "customerService": "Customer Service",
+    "@customerService":{
+      "description": "Menu customerService"
+    },
+
+    "inventoryControl": "Inventory Control",
+    "@inventoryControl":{
+      "description": "Menu inventoryControl"
+    },
+
+    "attendance": "Attendance",
+    "@attendance":{
+      "description": "Menu attendance"
+    },
+
+    "settings": "Settings",
+    "@settings":{
+      "description": "Menu settings"
+    },
+
+    "about": "About",
+    "@about":{
+      "description": "Menu about"
+    },
+
+    "logout": "Logout",
+    "@logout":{
+      "description": "Menu logout"
+    },
+
+    "areyousure": "Are you sure?",
+    "@areyousure":{
+      "description": "Alret areyousure"
+    },
+
+    "doyouwantlogout": "Do you want to logout",
+    "@doyouwantlogout":{
+      "description": "Alret doyouwantlogout"
+    },
+
+    "yes": "Yes",
+    "@yes":{
+      "description": "Alret yes"
+    },
+
+    "no": "No",
+    "@no":{
+      "description": "Alret no"
+    },
+
+    "permissionError": "You do not have permission",
+    "@permissionError":{
+      "description": "Alret permissionError"
+    },
+
+    "csr": "CSR",
+    "@csr":{
+      "description": "menu csr"
+    },
+
+    "site": "Site",
+    "@site":{
+      "description": "menu site"
+    },
+
+    "work": "Work",
+    "@work":{
+      "description": "menu work"
+    },
+
+    "parts": "Parts",
+    "@parts":{
+      "description": "menu parts"
+    },
+
+    "timeline": "Timeline",
+    "@timeline":{
+      "description": "menu timeline"
+    },
+
+    "goTaskScreen": "Do you want to go task screen",
+    "@goTaskScreen":{
+      "description": "back goTaskScreen"
+    },
+
+    "issueTask":"Issue / Task",
+    "@issueTask":{
+      "description": "text issue task"
+    },
+
+    "solution" : "Solution",
+    "@solution":{
+      "description": "text solution"
+    },
+
+    "technicians" : "Technician's",
+    "@technicians":{
+      "description": "text technicians"
+    },
+
+    "customer" : "Customer",
+    "@customer":{
+      "description": "text customer"
+    },
+
+    "assignedTo": "Assigned To",
+    "@assignedTo":{
+      "description": "text assignedTo"
+    },
+
+    "owner" : "Owner",
+    "@owner":{
+      "description": "text owner"
+    },
+
+    "cancel" : "CANCEL",
+    "@cancel":{
+      "description": "text cancel"
+    },
+
+    "submit" : "SUBMIT",
+    "@submit":{
+      "description": "text submit"
+    },
+
+    "solutionError": "Please enter solution",
+    "@solutionError":{
+      "description": "Alret solutionError"
+    },
+
+    "markIn": "Mark In",
+    "@markIn":{
+      "description": "Alret markIn"
+    },
+
+    "markOut": "Mark Out",
+    "@markOut":{
+      "description": "Alret markOut"
+    },
+
+    "onTheWay" : "On The Way",
+    "@onTheWay":{
+      "description": "Alret onTheWay"
+    },
+    
+    "startWork" : "Start Work",
+    "@startWork":{
+      "description": "Alret startWork"
+    },
+
+    "markAsDelay" : "Mark as Delay",
+    "@markAsDelay":{
+      "description": "Alret markAsDelay"
+    },
+
+    "markAsComplete" : "Mark as Complete",
+    "@markAsComplete":{
+      "description": "Alret markAsComplete"
+    },
+
+    "reschedule" : "Reschedule",
+    "@reschedule":{
+      "description": "Alret reschedule"
+    },
+
+    "clear" : "Clear",
+    "@clear":{
+      "description": "clear lbl"
+    },
+
+    "customersName": "Customer's Name",
+    "@customersName":{
+      "description": "customersName filed"
+    },
+
+    "customersNameError": "Please enter customer's Name",
+    "@customersNameError":{
+      "description": "customersNameError filed"
+    },
+
+    "description": "Description",
+    "@description":{
+      "description": "description filed"
+    },
+
+    "descriptionError": "Please enter description",
+    "@descriptionError":{
+      "description": "descriptionError filed"
+    },
+
+    "customerSignature": "customer signature",
+    "@customerSignature":{
+      "description": "customerSignature txt"
+    },
+
+    "orderBtnName" : "Order New Parts",
+    "@orderBtnName":{
+      "description": "orderBtnName txt"
+    },
+
+    "partsFiled" : "New Parts List",
+    "@partsFiled":{
+      "description": "partsFiled filed"
+    },
+
+    "partsFiledError" : "Please enter new parts list",
+    "@partsFiledError":{
+      "description": "partsFiled partsFiledError"
+    },
+
+    "notimeLinetxt" : "No timeline found",
+    "@notimeLinetxt":{
+      "description": "No timeline found txt"
+    }
+    
+}
