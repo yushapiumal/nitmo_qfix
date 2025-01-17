@@ -124,10 +124,10 @@ void checkConnection() async {
             child: MaterialApp(
               title: 'QFix',
               theme: ThemeData(
-                textSelectionTheme: TextSelectionThemeData(
+                textSelectionTheme: const TextSelectionThemeData(
                   cursorColor: Colors.black,
                 ),
-                appBarTheme: AppBarTheme(
+                appBarTheme: const AppBarTheme(
                   backgroundColor: ColorsRes.appBarBG,
                   iconTheme: IconThemeData(
                     color: Colors.white,

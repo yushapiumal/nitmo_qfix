@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.qfix_nitmo_new.app-mergeDebugResources-65:/values-land/values-land.xml",
+            "map": [
+                {
+                    "source": "/home/akesh/.gradle/caches/transforms-3/3139985a4b7b1112692b78fc72a0577f/transformed/appcompat-1.4.2/res/values-land/values-land.xml",
+                    "from": {
+                        "startLines": "2,3,4",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,125,196",
+                        "endColumns": "69,70,67",
+                        "endOffsets": "120,191,259"
+                    }
+                }
+            ]
+        }
+    ]
+}

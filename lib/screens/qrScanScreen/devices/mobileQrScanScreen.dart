@@ -1,10 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
-//import 'package:qr_code_scanner/qr_code_scanner.dart';
+
 
 
 class MobileQRScanScreen extends StatefulWidget {
@@ -16,8 +16,11 @@ class MobileQRScanScreen extends StatefulWidget {
 
 class _MobileQRScanScreenState extends State<MobileQRScanScreen> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-//  Barcode? result;
- // QRViewController? controller;
+  Barcode? result;
+  MobileScannerController? controller;
+    MobileScannerController cameraController = MobileScannerController();
+  bool loadingText = true;
+
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -25,9 +28,9 @@ class _MobileQRScanScreenState extends State<MobileQRScanScreen> {
   void reassemble() {
     super.reassemble();
     if (Platform.isAndroid) {
-      //controller!.pauseCamera();
+      cameraController.stop();  // Stop the camera if the app is reassembled
     } else if (Platform.isIOS) {
-     // controller!.resumeCamera();
+      cameraController.start(); // Start the camera if the app is reassembled
     }
   }
 
@@ -74,7 +77,7 @@ class _MobileQRScanScreenState extends State<MobileQRScanScreen> {
       ),
       body: Column(
         children: <Widget>[
-        //  Expanded(flex: 4, child: _buildQrView(context)),
+          Expanded(flex: 4, child: _buildQrView(context)),
           Expanded(
             flex: 1,
             child: FittedBox(
@@ -93,34 +96,37 @@ class _MobileQRScanScreenState extends State<MobileQRScanScreen> {
                     children: <Widget>[
                       Container(
                         margin: const EdgeInsets.all(8),
-                        // child: ElevatedButton(
-                        //     onPressed: () async {
-                        //     //  await controller?.toggleFlash();
-                        //       setState(() {});
-                        //     },
-                           
-                        //    ),
+                        child: ElevatedButton(
+                            onPressed: () async {
+                              await cameraController.toggleTorch();
+                              setState(() {});
+                            },
+                            child: FutureBuilder(
+                              future: cameraController.switchCamera(),
+                              builder: (context, snapshot) {
+                                return Text('Flash: ${snapshot.data}');
+                              },
+                            )),
                       ),
-                   //   Container(
-                    //    margin: const EdgeInsets.all(8),
-                       // child: ElevatedButton(
-                         //   onPressed: () async {
-                             // await controller?.flipCamera();
-                            //  setState(() {});
-                          //  },
-                            // child: FutureBuilder(
-                            //   future: controller?.getCameraInfo(),
-                            //   builder: (context, snapshot) {
-                            //     if (snapshot.data != null) {
-                            //       return Text(
-                            //           'Camera facing ${describeEnum(snapshot.data!)}');
-                            //     } else {
-                            //       return const Text('loading');
-                            //     }
-                            //   },
-                            // )
-                       //     ),
-                    //  )
+                      // Container(
+                      //   margin: const EdgeInsets.all(8),
+                      //   child: ElevatedButton(
+                      //       onPressed: () async {
+                      //         await cameraController.switchCamera();
+                      //         setState(() {});
+                      //       },
+                      //       child: FutureBuilder(
+                      //         future: controller?.getCameraInfo(),
+                      //         builder: (context, snapshot) {
+                      //           if (snapshot.data != null) {
+                      //             return Text(
+                      //                 'Camera facing ${describeEnum(snapshot.data!)}');
+                      //           } else {
+                      //             return const Text('loading');
+                      //           }
+                      //         },
+                      //       )),
+                      // )
                     ],
                   ),
                   Row(
@@ -158,51 +164,72 @@ class _MobileQRScanScreenState extends State<MobileQRScanScreen> {
     );
   }
 
-  //Widget _buildQrView(BuildContext context) {
-    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
-  //  var scanArea = (MediaQuery.of(context).size.width < 400 ||
-    //        MediaQuery.of(context).size.height < 400)
-     //   ? 200.0
-     //   : 300.0;
-    // To ensure the Scanner view is properly sizes after rotation
-    // we need to listen for Flutter SizeChanged notification and update controller
-    // return QRView(
-    //   key: qrKey,
-    //   onQRViewCreated: _onQRViewCreated,
-    //   overlay: QrScannerOverlayShape(
-    //     borderColor: Colors.red,
-    //     borderRadius: 10,
-    //     borderLength: 30,
-    //     borderWidth: 10,
-    //     cutOutSize: scanArea,
-    //   ),
-    //   onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
-    // );
- // }
+  Widget _buildQrView(BuildContext context) {
+    //For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
+   var scanArea = (MediaQuery.of(context).size.width < 400 ||
+           MediaQuery.of(context).size.height < 400)
+       ? 200.0
+       : 300.0;
+  //  To ensure the Scanner view is properly sizes after rotation
+   // we need to listen for Flutter SizeChanged notification and update controller
+  return Scaffold(
+      appBar: AppBar(
+        title: const Text('QR Scanner'),
+      ),
+      body: Stack(
+        children: [
+          // MobileScanner widget to scan QR codes
+         MobileScanner(
+  controller: cameraController,
+  onDetect: (BarcodeCapture barcodeCapture) {
+    final List<Barcode> barcodes = barcodeCapture.barcodes;
+    for (final barcode in barcodes) {
+      setState(() {
+        result = barcode; // Store the detected barcode
+        loadingText = false; // Hide loading text after scan
+      });
+      if (result != null) {
+        _handleScannedResult(result!.rawValue!); // Ensure rawValue is not null
+      }
+    }
+  },
+),
 
-  // void _onQRViewCreated(QRViewController controller) {
-  //   setState(() {
-  //     this.controller = controller;
-  //   });
-  //   controller.scannedDataStream.listen((scanData) {
-  //     setState(() {
-  //       result = scanData;
-  //     });
-  //   });
-  // }
 
-  // void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
-  //   print('${DateTime.now().toIso8601String()}_onPermissionSet $p');
-  //   if (!p) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(content: Text('no Permission')),
-  //     );
-  //   }
-  // }
+          // Custom overlay (cut-out scanner view)
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                width: scanArea,
+                height: scanArea,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.red, width: 10),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+          // Loading text or any other UI on top of scanner
+          if (loadingText)
+            const Center(
+              child: CircularProgressIndicator(),
+            ),
+        ],
+      ),
+    );
+  }
+
+  // Handle the scanned QR code result
+  void _handleScannedResult(String result) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Scanned Result: $result')),
+    );
+  }
 
   @override
   void dispose() {
-    //controller?.dispose();
+    controller?.dispose();
     super.dispose();
   }
 }
