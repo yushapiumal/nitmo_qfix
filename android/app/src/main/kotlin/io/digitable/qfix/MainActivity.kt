@@ -1,4 +1,4 @@
-package com.example.qfix_nitmo_new
+package io.digitable.qfix
 
 import io.flutter.embedding.android.FlutterActivity
 
