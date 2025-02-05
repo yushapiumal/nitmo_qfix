@@ -10,7 +10,7 @@ import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
 import 'package:qfix_nitmo_new/screens/manageStoreScreen/checkStoreScreen.dart';
 import 'package:qfix_nitmo_new/widgets/widgets.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MobileNewItemScreen extends StatefulWidget {
   const MobileNewItemScreen({Key? key}) : super(key: key);
@@ -75,29 +75,29 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
               Icons.arrow_back,
             ),
             onPressed: () {
-              // Navigator.of(context).pop();
-              Navigator.popAndPushNamed(context, CheckStoreScreen.routeName);
+               Navigator.of(context).pop();
+             // Navigator.popAndPushNamed(context, CheckStoreScreen.routeName);
             },
           ),
           shadowColor: Colors.transparent,
           title: Text(
-            "Add New Item".toUpperCase(),
-            style: TextStyle(
+            AppLocalizations.of(context)!.addNewItem,
+            style: const TextStyle(
               letterSpacing: 4,
             ),
           ),
-          bottom: PreferredSize(
+          bottom: const PreferredSize(
+            preferredSize: Size(50, 5),
             child: Divider(
               color: ColorsRes.greyColor,
               height: 2.3,
             ),
-            preferredSize: Size(50, 5),
           ),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
         body: Container(
-          margin: EdgeInsets.only(top: 20),
+          margin: const EdgeInsets.only(top: 20),
           child: showBody(),
         ),
       ),
@@ -116,8 +116,8 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
         animationController: _animationController,
         child: textField(
           itemCodeController,
-          'Item Code',
-          'Please enter item code / bin code',
+          AppLocalizations.of(context)!.itemCode,
+          AppLocalizations.of(context)!.itemCodeError,
           TextInputType.text,
           FilteringTextInputFormatter.allow(RegExp("[0-9a-zA-Z]")),
           formKey,
@@ -139,8 +139,8 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
         animationController: _animationController,
         child: textField(
           itemNameController,
-          'Item Name',
-          'Please enter item name',
+          AppLocalizations.of(context)!.itemName,
+          AppLocalizations.of(context)!.itemNameerror,
           TextInputType.text,
           false,
           formKey,
@@ -162,8 +162,8 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
         animationController: _animationController,
         child: textField(
           itemLocationController,
-          'Item Location',
-          'Please enter item location',
+          AppLocalizations.of(context)!.itemLocation,
+          AppLocalizations.of(context)!.itemLocationError,
           TextInputType.text,
           false,
           formKey,
@@ -180,12 +180,12 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
       slideDirection: SlideDirection.fromRight,
       animationController: _animationController,
       child: Container(
-        margin: EdgeInsets.only(
+        margin: const EdgeInsets.only(
           top: 10,
           bottom: 10,
         ),
         width: MediaQuery.of(context).size.width / 1.2,
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
@@ -197,8 +197,8 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
         child: DropdownButtonHideUnderline(
           child: DropdownButton(
             hint: Text(
-              'Please select uom',
-              style: TextStyle(color: ColorsRes.warmGreyColor),
+              AppLocalizations.of(context)!.selectUom,
+              style: const TextStyle(color: ColorsRes.warmGreyColor),
             ),
             items: uomList.map((con) {
               return DropdownMenuItem(
@@ -234,8 +234,8 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
         animationController: _animationController,
         child: textField(
           itemMaxController,
-          'Item Max Amount',
-          'Please enter item max amount',
+          AppLocalizations.of(context)!.itemMaxAmount,
+          AppLocalizations.of(context)!.itemMaxAmountError,
           TextInputType.phone,
           FilteringTextInputFormatter.allow(RegExp("[0-9]")),
           formKey,
@@ -257,8 +257,8 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
         animationController: _animationController,
         child: textField(
           itemMinController,
-          'Item Min Amount',
-          'Please enter item min amount',
+          AppLocalizations.of(context)!.itemMinAmount,
+          AppLocalizations.of(context)!.itemMinAmountError,
           TextInputType.phone,
           FilteringTextInputFormatter.allow(RegExp("[0-9]")),
           formKey,
@@ -280,8 +280,8 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
         animationController: _animationController,
         child: textField(
           itemReorderController,
-          'Item Re-order Amount',
-          'Please enter item reorder amount',
+          AppLocalizations.of(context)!.itemReOderAmount,
+          AppLocalizations.of(context)!.itemReOderAmountError,
           TextInputType.phone,
           FilteringTextInputFormatter.allow(RegExp("[0-9]")),
           formKey,
@@ -307,19 +307,19 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
             if (value!.isNotEmpty) {
               return null;
             } else {
-              return 'Please enter item description';
+              return AppLocalizations.of(context)!.pleaseitemDescription;
             }
           },
           controller: itemDetailController,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(left: 15.0, top: 20),
+            contentPadding: const EdgeInsets.only(left: 15.0, top: 20),
             hintStyle: TextStyle(
               color: ColorsRes.purpalColor,
               fontSize: 16,
               fontWeight: FontWeight.normal,
             ),
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
                 color: ColorsRes.warmGreyColor,
                 fontSize: 16,
                 fontWeight: FontWeight.normal),
@@ -328,20 +328,20 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
             focusedBorder: OutlineInputBorder(
               gapPadding: 2.0,
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: ColorsRes.warmGreyColor,
               ),
             ),
             border: OutlineInputBorder(
               gapPadding: 0.3,
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: ColorsRes.warmGreyColor,
                 width: 1,
               ),
             ),
-            labelText: 'Item Description',
-            hintText: 'Please enter item description',
+            labelText: AppLocalizations.of(context)!.itemDescription,
+            hintText: AppLocalizations.of(context)!.pleaseitemDescription,
           ),
         ),
       ),
@@ -360,8 +360,8 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
         animationController: _animationController,
         child: textField(
           categoryController,
-          'Item Category (optional)',
-          'Please enter item category (optional)',
+          AppLocalizations.of(context)!.itemCategory,
+          AppLocalizations.of(context)!.itemCategoryError,
           TextInputType.text,
           false,
           formKey,
@@ -383,8 +383,8 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
         animationController: _animationController,
         child: textField(
           subCategoryController,
-          'Item SubCategory (optional)',
-          'Please enter item subcategory (optional)',
+          AppLocalizations.of(context)!.itemSubCategory,
+          AppLocalizations.of(context)!.itemSubCategoryError,
           TextInputType.text,
           false,
           formKey,
@@ -408,7 +408,7 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
               ),
             ),
           )
-        : SizedBox();
+        : const SizedBox();
   }
 
   submitForm() async {
@@ -436,7 +436,7 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
           itemMaxController.clear();
           itemLocationController.clear();
           itemNameController.clear();
-          uomDropdownValue = "Please select uom";
+          uomDropdownValue = AppLocalizations.of(context)!.selectUomError;
           itemSelected = false;
           itemMinController.clear();
           itemMinController.clear();
@@ -454,7 +454,7 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
     } else {
       setState(() {
         showError = true;
-        errorText = 'Please select uom';
+        errorText = AppLocalizations.of(context)!.selectUomError;
         btnDisable = false;
       });
     }
@@ -470,47 +470,47 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
             child: Column(
               children: [
                 itemCode(),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 itemName(),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 itemCategory(),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 itemSubCategory(),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 itemLocation(),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 itemUom(),
                 showErrors(),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 itemMaxCount(),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 itemMinCount(),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 itemReorderCount(),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 itemDetails(),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 SlideAnimation(
@@ -519,6 +519,10 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
                   slideDirection: SlideDirection.fromRight,
                   animationController: _animationController,
                   child: CupertinoButton(
+                    color: ColorsRes.secondaryButton,
+                    onPressed: () {
+                      btnDisable ? false : submitForm();
+                    },
                     child: RichText(
                       text: TextSpan(
                         children: [
@@ -532,8 +536,8 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
                             ),
                           ),
                           TextSpan(
-                            text: btnDisable ? "Wait..." : "Add New Item",
-                            style: TextStyle(
+                            text: btnDisable ? AppLocalizations.of(context)!.checking : AppLocalizations.of(context)!.addItem,
+                            style: const TextStyle(
                                 fontSize: 17,
                                 color: ColorsRes.black,
                                 fontWeight: FontWeight.bold),
@@ -541,13 +545,9 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
                         ],
                       ),
                     ),
-                    color: ColorsRes.secondaryButton,
-                    onPressed: () {
-                      btnDisable ? false : submitForm();
-                    },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
               ],

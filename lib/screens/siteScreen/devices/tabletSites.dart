@@ -44,11 +44,7 @@ class _TabletSitesState extends State<TabletSites>
 
   Widget buttonMarkIn() {
     return Container(
-      margin: EdgeInsets.only(
-        left: MediaQuery.of(context).size.width / 30,
-        right: MediaQuery.of(context).size.width / 30,
-        top: MediaQuery.of(context).size.width / 30,
-      ),
+      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
       width: 600,
       child: CupertinoButton(
           child: Row(
@@ -61,15 +57,15 @@ class _TabletSitesState extends State<TabletSites>
                       Icon(
                         Icons.input_rounded,
                         color: Colors.black,
-                        size: 35.0,
+                        size: 24.0,
                       ),
                       SizedBox(width: 15),
                       Text(
                         AppLocalizations.of(context)!.markIn,
                         style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   )
@@ -97,11 +93,7 @@ class _TabletSitesState extends State<TabletSites>
 
   Widget buttonMarkOut() {
     return Container(
-      margin: EdgeInsets.only(
-        left: MediaQuery.of(context).size.width / 30,
-        right: MediaQuery.of(context).size.width / 30,
-        top: MediaQuery.of(context).size.width / 30,
-      ),
+      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
       width: 600,
       child: CupertinoButton(
           child: Row(
@@ -114,7 +106,7 @@ class _TabletSitesState extends State<TabletSites>
                       Icon(
                         Icons.output_rounded,
                         color: Colors.black,
-                        size: 35.0,
+                        size: 24.0,
                       ),
                       SizedBox(width: 15),
                       Text(
@@ -122,7 +114,6 @@ class _TabletSitesState extends State<TabletSites>
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
                         ),
                       ),
                     ],
@@ -151,11 +142,7 @@ class _TabletSitesState extends State<TabletSites>
 
   Widget buttonOnTheWay() {
     return Container(
-      margin: EdgeInsets.only(
-        left: MediaQuery.of(context).size.width / 30,
-        right: MediaQuery.of(context).size.width / 30,
-        top: MediaQuery.of(context).size.width / 30,
-      ),
+      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
       width: 600,
       child: CupertinoButton(
           child: Row(
@@ -168,7 +155,7 @@ class _TabletSitesState extends State<TabletSites>
                       Icon(
                         Icons.motorcycle_rounded,
                         color: Colors.black,
-                        size: 35.0,
+                        size: 24.0,
                       ),
                       SizedBox(width: 15),
                       Text(
@@ -176,7 +163,6 @@ class _TabletSitesState extends State<TabletSites>
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
                         ),
                       ),
                     ],
@@ -208,12 +194,10 @@ class _TabletSitesState extends State<TabletSites>
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
           color: ColorsRes.backgroundColor,
           child: Column(
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height / 18),
+              SizedBox(height: MediaQuery.of(context).size.height / 99),
               // helpingText(),
               buttonMarkIn(),
               buttonMarkOut(),

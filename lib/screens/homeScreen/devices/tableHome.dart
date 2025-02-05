@@ -8,8 +8,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:localstorage/localstorage.dart';
+
 import 'package:octo_image/octo_image.dart';
 import 'package:qfix_nitmo_new/Constant/Slideanimation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/CheckingCheckoutBottom.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
@@ -21,7 +23,8 @@ import 'package:qfix_nitmo_new/model/TaskModel.dart';
 import 'package:qfix_nitmo_new/screens/manageScreen/manageScreen.dart';
 
 class TabletHome extends StatefulWidget {
-  const TabletHome({Key? key}) : super(key: key);
+  const TabletHome({Key? key , required this.markUpdateTask}) : super(key: key);
+  final bool markUpdateTask;
 
   @override
   State<TabletHome> createState() => _TabletHomeState();
@@ -61,8 +64,8 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    getTaskList();
     super.initState();
+    getTaskList();
     _timer = new Timer.periodic(Duration(seconds: 1), (Timer t) => getTime());
 
     _animationController = AnimationController(
@@ -206,22 +209,22 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
         centerTitle: true,
         title: Text(
           appName,
-          style: TextStyle(
-            letterSpacing: 10,
+          style: const TextStyle(
+            letterSpacing: 4,
           ),
         ),
         shadowColor: Colors.transparent,
-        actions: [
+        actions: const [
           NotificationAction(),
         ],
       ),
-      drawer: CustomDrawer(),
+      drawer: const CustomDrawer(),
       backgroundColor: ColorsRes.backgroundColor,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: NestedScrollView(
           controller: _scrollBottomBarController,
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           clipBehavior: Clip.none,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
@@ -229,16 +232,13 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                 backgroundColor: ColorsRes.backgroundColor,
                 shadowColor: Colors.transparent,
                 automaticallyImplyLeading: false,
-                toolbarHeight: MediaQuery.of(context).size.height / 80,
+                toolbarHeight:0 ,
                 titleSpacing: 0,
                 pinned: true,
                 bottom: TabBar(
                   physics: const AlwaysScrollableScrollPhysics(),
                   isScrollable: true,
-                  // padding: EdgeInsets.only(
-                  //   top: MediaQuery.of(context).size.width / 70,
-                  //   bottom: MediaQuery.of(context).size.width / 50,
-                  // ),
+                  padding: const EdgeInsets.only(top: 5.0, bottom: 10.0),
                   indicatorPadding: EdgeInsets.zero,
                   controller: _tabController,
                   labelColor: ColorsRes.white,
@@ -246,70 +246,52 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                   indicator:
                       DesignConfig.buttonShadowColor(ColorsRes.tabsColor, 20.0),
                   labelStyle: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      fontSize: 14, fontWeight: FontWeight.bold),
                   indicatorColor: Colors.transparent,
                   tabs: [
                     Container(
-                      padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).size.width / 70,
-                        top: MediaQuery.of(context).size.width / 70,
-                        left: MediaQuery.of(context).size.width / 50,
-                        right: MediaQuery.of(context).size.width / 50,
-                      ),
+                      padding: const EdgeInsets.only(
+                          bottom: 6.0, top: 6.0, left: 10.0, right: 10.0),
                       child: Text(
-                        'ALL',
-                        style: TextStyle(
-                          fontSize: 18,
+                     AppLocalizations.of(context)!.all,
+                        style: const TextStyle(
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: Colors.black54,
                         ),
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).size.width / 70,
-                        top: MediaQuery.of(context).size.width / 70,
-                        left: MediaQuery.of(context).size.width / 50,
-                        right: MediaQuery.of(context).size.width / 50,
-                      ),
-                      child: const Text(
-                        'OPEN',
-                        style: TextStyle(
-                          fontSize: 18,
+                      padding: const EdgeInsets.only(
+                          bottom: 6.0, top: 6.0, left: 10.0, right: 10.0),
+                      child:  Text(
+                      AppLocalizations.of(context)!.open,
+                        style: const TextStyle(
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: Colors.black54,
                         ),
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).size.width / 70,
-                        top: MediaQuery.of(context).size.width / 70,
-                        left: MediaQuery.of(context).size.width / 50,
-                        right: MediaQuery.of(context).size.width / 50,
-                      ),
-                      child: const Text(
-                        'PRIORITY',
-                        style: TextStyle(
-                          fontSize: 18,
+                      padding: const EdgeInsets.only(
+                          bottom: 6.0, top: 6.0, left: 10.0, right: 10.0),
+                      child:  Text(
+                        AppLocalizations.of(context)!.priority,
+                        style: const TextStyle(
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: Colors.black54,
                         ),
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).size.width / 70,
-                        top: MediaQuery.of(context).size.width / 70,
-                        left: MediaQuery.of(context).size.width / 50,
-                        right: MediaQuery.of(context).size.width / 50,
-                      ),
-                      child: const Text(
-                        'MINE',
-                        style: TextStyle(
-                          fontSize: 18,
+                      padding: const EdgeInsets.only(
+                          bottom: 6.0, top: 6.0, left: 10.0, right: 10.0),
+                      child:  Text(
+                        AppLocalizations.of(context)!.mine,
+                        style: const TextStyle(
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: Colors.black54,
                         ),
@@ -323,8 +305,8 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
             ];
           },
           body: Container(
-            padding:
-                EdgeInsets.only(top: MediaQuery.of(context).size.width / 14),
+            margin:
+                EdgeInsets.only(top: MediaQuery.of(context).size.width / 50),
             color: ColorsRes.appBG,
             child: Container(
               child: TabBarView(
@@ -366,15 +348,10 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
   Widget taskData(filter) {
     return _taskListCount == 0
         ? Container(
-            child: Padding(
+            child: const Padding(
               padding: EdgeInsets.symmetric(vertical: 5),
               child: Center(
-                child: Text(
-                  'No CSR found',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
+                child: Text('No CSR found'),
               ),
             ),
           )
@@ -426,263 +403,6 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
 
   Future<void> _pullRefresh() async {
     getTaskList();
-  }
-
-  Widget showStatus(status) {
-    if (status == 'CLOSE') {
-      // COMPLETE
-      return Icon(
-        Icons.radio_button_checked,
-        color: Colors.green,
-      );
-    }
-    if (status == 'OPEN') {
-      return Icon(
-        Icons.radio_button_checked,
-        color: Colors.purple,
-      );
-    }
-
-    if (status == 'INPROGRESS') {
-      return AnimatedBuilder(
-        animation: animation,
-        builder: (BuildContext context, Widget? child) {
-          return Icon(
-            Icons.radio_button_checked,
-            color: animation.value,
-          );
-        },
-      );
-    }
-    if (status == 'DELAY') {
-      return Icon(
-        Icons.radio_button_checked,
-        color: Colors.amber[700],
-      );
-    }
-
-    return Icon(
-      Icons.radio_button_off,
-      color: ColorsRes.greyColor,
-    );
-  }
-
-  Widget showWorkAddress(data) {
-    return SlideAnimation(
-      position: 1,
-      itemCount: _taskListCount,
-      slideDirection: SlideDirection.fromLeft,
-      animationController: _animationController,
-      child: GestureDetector(
-        onTap: () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ManageScreen(
-                taskData: data,
-              ),
-            ),
-          );
-        },
-        child: Container(
-          decoration: DesignConfig.buttonShadowColor(
-              data.status != 'CLOSE' ? Colors.purple[50]! : Colors.green[50]!,
-              10),
-          margin: EdgeInsets.only(
-              top: 1,
-              bottom: 2,
-              left: MediaQuery.of(context).size.width / 20,
-              right: MediaQuery.of(context).size.width / 20),
-          child: Container(
-            decoration: data.status != 'CLOSE'
-                ? DesignConfig.boxDecorationBorderButtonColor(
-                    Colors.purple[100]!, 10)
-                : DesignConfig.boxDecorationBorderButtonColor(
-                    Colors.green[100]!, 10),
-            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    showStatus(data.status),
-                    SizedBox(width: 10.0),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Text(
-                            '#' + data.csr_id.toString(),
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: ColorsRes.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Flexible(
-                            child: Text(
-                              data.customer['name'].toUpperCase(),
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontSize: 18, color: ColorsRes.purpalColor),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        apiService.showToast('call now');
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 10),
-                        height: MediaQuery.of(context).size.width / 22,
-                        width: MediaQuery.of(context).size.width / 22,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.greenAccent[700]!.withOpacity(0.70)),
-                        child: Padding(
-                          padding: EdgeInsets.all(2),
-                          child: Icon(
-                            Icons.phone,
-                            size: 25,
-                            color: Colors.brown[900],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 5),
-                Row(
-                  children: [
-                    SizedBox(width: 30.0),
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  data.description,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black54,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Container(
-                                height: MediaQuery.of(context).size.width / 22,
-                                width: MediaQuery.of(context).size.width / 22,
-                                decoration: DesignConfig.complexityIcon(
-                                    data.complexity),
-                                child: Padding(
-                                  padding: EdgeInsets.all(2),
-                                  child: Center(
-                                    child: Text(
-                                      data.complexity,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 5.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              // Flexible(
-                              //   child: Text(
-                              //     "",
-                              //     style: TextStyle(
-                              //       fontSize: 14,
-                              //       color: Colors.black54,
-                              //     ),
-                              //   ),
-                              // ),
-                              Expanded(
-                                child: Text(
-                                  data.customer['address'] == ""
-                                      ? ' -'
-                                      : data.customer['address'],
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black54,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  selectDate(CupertinoDatePickerMode mode) async {
-    DateTime? pickedDate = await showModalBottomSheet<DateTime>(
-      context: context,
-      builder: (context) {
-        return Container(
-          height: 250,
-          child: Column(
-            children: <Widget>[
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    CupertinoButton(
-                      child: Text('Cancel'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    CupertinoButton(
-                      child: Text('Done'),
-                      onPressed: () {
-                        print(tempPickedDate);
-                        Navigator.of(context).pop(tempPickedDate);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Divider(
-                height: 0,
-                thickness: 1,
-              ),
-              Expanded(
-                child: Container(
-                  child: CupertinoDatePicker(
-                    mode: mode,
-                    initialDateTime: tempPickedDate,
-                    maximumDate: tempPickedDate,
-                    onDateTimeChanged: (DateTime dateTime) {
-                      tempPickedDate = dateTime;
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
   }
 
   Widget checkingCheckoutSection() {
@@ -737,17 +457,16 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                                     child: Text(
                                       _dateTime ?? "loading...",
                                       maxLines: 2,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 20,
+                                        fontSize: 18,
                                       ),
                                     ),
                                   ),
                                 ),
                                 Container(
-                                  height:
-                                      MediaQuery.of(context).size.height / 22,
+                                  height: 55,
                                   margin: const EdgeInsets.only(right: 10),
                                   width: 45,
                                   decoration: BoxDecoration(
@@ -763,7 +482,6 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                                     icon: Icon(
                                       Icons.access_time,
                                       color: ColorsRes.black,
-                                      size: 40,
                                     ),
                                     onPressed: () {
                                       selectDate(CupertinoDatePickerMode.time);
@@ -774,9 +492,8 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                               bottom: 8.0,
-                              left: MediaQuery.of(context).size.width / 16,
                               top: 10,
                             ),
                             child: Row(
@@ -790,11 +507,9 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.topLeft,
                                     child: Container(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              20,
+                                      height: 40,
                                       width: MediaQuery.of(context).size.width /
-                                          2.5,
+                                          2.6,
                                       decoration: const BoxDecoration(
                                         gradient: LinearGradient(
                                             colors: [
@@ -810,7 +525,7 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                                       ),
                                       alignment: AlignmentDirectional.center,
                                       margin: EdgeInsets.only(
-                                        left: 1.0,
+                                        left: 20.0,
                                       ),
                                       padding: EdgeInsets.all(0.5),
                                       child: const Row(
@@ -843,9 +558,7 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.topRight,
                                     child: Container(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              20,
+                                      height: 40,
                                       width: MediaQuery.of(context).size.width /
                                           2.6,
                                       decoration: const BoxDecoration(
@@ -905,6 +618,262 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
     );
   }
 
+  Widget showStatus(status) {
+    if (status == 'CLOSE') {
+      // COMPLETE
+      return Icon(
+        Icons.radio_button_checked,
+        color: Colors.green,
+      );
+    }
+    if (status == 'OPEN') {
+      return Icon(
+        Icons.radio_button_checked,
+        color: Colors.purple,
+      );
+    }
+
+    if (status == 'INPROGRESS') {
+      return AnimatedBuilder(
+        animation: animation,
+        builder: (BuildContext context, Widget? child) {
+          return Icon(
+            Icons.radio_button_checked,
+            color: animation.value,
+          );
+        },
+      );
+    }
+    if (status == 'DELAY') {
+      return Icon(
+        Icons.radio_button_checked,
+        color: Colors.amber[700],
+      );
+    }
+
+    return Icon(
+      Icons.radio_button_off,
+      color: ColorsRes.greyColor,
+    );
+  }
+
+  Widget showWorkAddress(data) {
+    return SlideAnimation(
+      position: 1,
+      itemCount: _taskListCount,
+      slideDirection: SlideDirection.fromLeft,
+      animationController: _animationController,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ManageScreen(
+                taskData: data,
+                markUpdateTask: widget.markUpdateTask,
+              ),
+            ),
+          );
+        },
+        child: Container(
+          decoration: DesignConfig.buttonShadowColor(
+              data.status != 'CLOSE' ? Colors.purple[50]! : Colors.green[50]!,
+              10),
+          margin: EdgeInsets.only(
+              top: 1,
+              bottom: 2,
+              left: MediaQuery.of(context).size.width / 20,
+              right: MediaQuery.of(context).size.width / 20),
+          child: Container(
+            decoration: data.status != 'CLOSE'
+                ? DesignConfig.boxDecorationBorderButtonColor(
+                    Colors.purple[100]!, 10)
+                : DesignConfig.boxDecorationBorderButtonColor(
+                    Colors.green[100]!, 10),
+            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    showStatus(data.status),
+                    SizedBox(width: 10.0),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Text(
+                            '#' + data.csr_id.toString(),
+                            style: TextStyle(
+                                fontSize: 17,
+                                color: ColorsRes.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: Text(
+                              data.customer['name'].toUpperCase(),
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontSize: 14, color: ColorsRes.purpalColor),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        apiService.showToast('call now');
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        height: 28.0,
+                        width: 28.0,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.greenAccent[700]!.withOpacity(0.70)),
+                        child: Padding(
+                          padding: EdgeInsets.all(2),
+                          child: Icon(
+                            Icons.phone,
+                            size: 15,
+                            color: Colors.brown[900],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 5),
+                Row(
+                  children: [
+                    SizedBox(width: 30.0),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  data.description,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Container(
+                                height: 28.0,
+                                width: 28.0,
+                                decoration: DesignConfig.complexityIcon(
+                                    data.complexity),
+                                child: Padding(
+                                  padding: EdgeInsets.all(2),
+                                  child: Center(
+                                    child: Text(
+                                      data.complexity,
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 5.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Flexible(
+                              //   child: Text(
+                              //     "",
+                              //     style: TextStyle(
+                              //       fontSize: 14,
+                              //       color: Colors.black54,
+                              //     ),
+                              //   ),
+                              // ),
+                              Expanded(
+                                child: Text(
+                                  data.customer['address'] == ""
+                                      ? ' -'
+                                      : data.customer['address'],
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  selectDate(CupertinoDatePickerMode mode) async {
+    DateTime? pickedDate = await showModalBottomSheet<DateTime>(
+      context: context,
+      builder: (context) {
+        return Container(
+          height: 250,
+          child: Column(
+            children: <Widget>[
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    CupertinoButton(
+                      child: Text('Cancel'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    CupertinoButton(
+                      child: Text('Done'),
+                      onPressed: () {
+                        print(tempPickedDate);
+                        Navigator.of(context).pop(tempPickedDate);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(
+                height: 0,
+                thickness: 1,
+              ),
+              Expanded(
+                child: CupertinoDatePicker(
+                  mode: mode,
+                  initialDateTime: tempPickedDate,
+                  maximumDate: tempPickedDate,
+                  onDateTimeChanged: (DateTime dateTime) {
+                    tempPickedDate = dateTime;
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   projectCard(from) {
     //  checkinCheckout('checkout');
 
@@ -912,7 +881,7 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
       elevation: 0,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(50.0),
           topRight: Radius.circular(50.0),

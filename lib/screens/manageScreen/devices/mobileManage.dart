@@ -1,11 +1,17 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart' as loc;
+import 'package:qfix_nitmo_new/Constant/SmartKitColor.dart';
 import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
 import 'package:qfix_nitmo_new/helper/DesignConfig.dart';
@@ -14,16 +20,18 @@ import 'package:qfix_nitmo_new/screens/homeScreen/homeScreen.dart';
 import 'package:qfix_nitmo_new/screens/partsScreen/partsScreen.dart';
 import 'package:qfix_nitmo_new/screens/siteScreen/siteScreen.dart';
 import 'package:qfix_nitmo_new/screens/trackingScreen/trackingScreen.dart';
+import 'package:qfix_nitmo_new/screens/updateScreen/updateScreen.dart';
+import 'package:qfix_nitmo_new/screens/workScreen/devices/mobileWork.dart';
 import 'package:qfix_nitmo_new/screens/workScreen/workScreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:location/location.dart';
-
-
-
+import 'package:geolocator/geolocator.dart' as geo;
+import 'package:signature/signature.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class MobileManage extends StatefulWidget {
-  MobileManage({Key? key, required this.taskData}) : super(key: key);
-  int? id;
+  MobileManage({Key? key, required this.taskData, required this.markUpdateTask})
+      : super(key: key);
+  final markUpdateTask;
   final taskData;
   @override
   State<MobileManage> createState() => _MobileManageState();
@@ -39,24 +47,29 @@ class _MobileManageState extends State<MobileManage> {
   bool updateStatus = false;
   String? _currentAddress;
   Position? _currentPosition;
+  bool isPendingEnabled = false;
+  int? id;
 
   @override
   void initState() {
     super.initState();
-
     fragments = [
       DetailScreen(taskData: widget.taskData, markUpdateTask: markUpdateTask),
       SiteScreen(markUpdateTask: markUpdateTask),
-      WorkScreen(markUpdateTask: markUpdateTask),
+      WorkScreen(
+        markUpdateTask: markUpdateTask,
+        taskData: widget.taskData,
+      ),
       PartsScreen(
         taskData: widget.taskData,
         markUpdateTask: markUpdateTask,
       ),
       TrackingDetails(csrId: widget.taskData.csr_id),
+      UpdateScreen(taskData: widget.taskData, markUpdateTask: markUpdateTask),
     ];
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-   // locationAccessPermissions();
+    locationAccessPermissions();
   }
 
   void updateTabSelection(int index, String buttonText) {
@@ -74,16 +87,16 @@ class _MobileManageState extends State<MobileManage> {
     }
   }
 
-  // locationAccessPermissions() async {
-  //   final hasPermission = await _handleLocationPermission();
-  //   if (!hasPermission) return;
-  //   await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-  //       .then((Position position) {
-  //     setState(() => _currentPosition = position);
-  //   }).catchError((e) {
-  //     debugPrint(e);
-  //   });
-  // }
+  locationAccessPermissions() async {
+    final hasPermission = await _handleLocationPermission();
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => _currentPosition = position);
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
 
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
@@ -119,7 +132,7 @@ class _MobileManageState extends State<MobileManage> {
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied ||
         permission == LocationPermission.deniedForever) {
-    //  locationAccessPermissions();
+      locationAccessPermissions();
       return true;
     } else {
       int timestamp = DateTime.now().millisecondsSinceEpoch;
@@ -144,27 +157,44 @@ class _MobileManageState extends State<MobileManage> {
   }
 
   Future<bool> _onWillPop() async {
-    return (await showDialog(
+    // Show confirmation dialog
+    final shouldNavigate = await showDialog<bool>(
           context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text(AppLocalizations.of(context)!.areyousure),
-            content: new Text(AppLocalizations.of(context)!.goTaskScreen),
+          builder: (context) => AlertDialog(
+            title: Text(AppLocalizations.of(context)!.areyousure),
+            content: Text(AppLocalizations.of(context)!.detailsScreen),
             actions: <Widget>[
               TextButton(
                 onPressed: () =>
-                    Navigator.pop(context), // Navigator.of(context).pop(false),
-                child: new Text(AppLocalizations.of(context)!.no),
+                    Navigator.pop(context, false), // User chose not to leave
+                child: Text(AppLocalizations.of(context)!.no),
               ),
               TextButton(
-                // onPressed: () => Navigator.of(context).pop(true),
-                onPressed: () =>
-                    Navigator.pushNamed(context, HomeScreen.routeName),
-                child: new Text(AppLocalizations.of(context)!.yes),
+                onPressed: () {
+                  Navigator.pop(context, true);
+                  if (selectedIndex == 0) {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HomeScreen(
+                                  markUpdateTask: widget.markUpdateTask,
+                                )));
+                  } // User confirmed they want to leave
+                  else {
+                    setState(() {
+                      selectedIndex = 0;
+                      headerText = "Details";
+                    });
+                  }
+                },
+                child: Text(AppLocalizations.of(context)!.yes),
               ),
             ],
           ),
-        )) ??
+        ) ??
         false;
+
+    return shouldNavigate; // Return whether navigation should occur
   }
 
   String? complexity;
@@ -199,6 +229,44 @@ class _MobileManageState extends State<MobileManage> {
     }
   }
 
+  void _showDialog(titleText, type) {
+    if (type == 'reschedule') {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ActivityModel(
+              titleText: titleText,
+              type: type,
+              markUpdateTask: widget.markUpdateTask);
+        },
+      );
+    }
+    if (type == 'complete') {
+      showModalBottomSheet(
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
+        ),
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            // Content of the bottom sheet
+            height: MediaQuery.of(context).size.height /
+                1.3, // Set the desired height
+            child: ActivityModel(
+              titleText: titleText,
+              type: type,
+              markUpdateTask: markUpdateTask,
+            ),
+          );
+        },
+      );
+    }
+  }
+
   appTopBar() {
     complexity = widget.taskData.complexity;
     return AppBar(
@@ -228,7 +296,7 @@ class _MobileManageState extends State<MobileManage> {
                     child: Center(
                       child: Text(
                         complexity.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 14, fontWeight: FontWeight.w500),
                       ),
                     ),
@@ -239,7 +307,7 @@ class _MobileManageState extends State<MobileManage> {
       ],
       title: Text(
         'CSR #${widget.taskData.csr_id}',
-        style: TextStyle(
+        style: const TextStyle(
           color: ColorsRes.appBarText,
           letterSpacing: 4,
         ),
@@ -254,213 +322,240 @@ class _MobileManageState extends State<MobileManage> {
       onWillPop: _onWillPop,
       child: Scaffold(
         appBar: appTopBar(),
+        //  title: Text(headerText),
+
         resizeToAvoidBottomInset: false,
         extendBody: true,
         backgroundColor: Colors.transparent,
         body: PageView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             fragments[selectedIndex!],
           ],
         ),
-        bottomNavigationBar: updateStatus
-            ? Container(height: 0)
-            : BottomAppBar(
-                color: ColorsRes.backgroundColor,
-                child: Container(
-                  height: MediaQuery.of(context).size.width / 6,
-                  color: Colors.transparent,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10.0),
-                        topRight: Radius.circular(10.0),
-                      ),
-                      color: ColorsRes.backgroundColor,
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 15.0,
-                          offset: Offset(
-                            0.0,
-                            -8.8,
-                          ),
-                        )
-                      ],
-                    ),
-                    padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Column(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                updateTabSelection(0, "Details");
-                              },
-                              iconSize: 27.0,
-                              icon: selectedIndex == 0
-                                  ? Icon(
-                                      Icons.description_outlined,
-                                      color: ColorsRes.appBarBG,
-                                      size: 35,
-                                    )
-                                  : Icon(
-                                      Icons.description_outlined,
-                                      color: ColorsRes.grayColor,
-                                      size: 35,
-                                    ),
-                            ),
-                            Text(
-                              AppLocalizations.of(context)!.csr,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: selectedIndex == 0
-                                    ? ColorsRes.appBarBG
-                                    : ColorsRes.grayColor,
-                                fontSize:
-                                    MediaQuery.of(context).size.width / 32,
-                              ),
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                updateTabSelection(1, "Site");
-                              },
-                              iconSize: 27.0,
-                              icon: selectedIndex == 1
-                                  ? Icon(
-                                      // Icons.schedule,
-                                      Icons.business_outlined,
-                                      color: ColorsRes.appBarBG,
-                                      size: 35,
-                                    )
-                                  : Icon(
-                                      Icons.business_outlined,
-                                      color: ColorsRes.grayColor,
-                                      size: 35,
-                                    ),
-                            ),
-                            Text(
-                              AppLocalizations.of(context)!.site,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: selectedIndex == 1
-                                    ? ColorsRes.appBarBG
-                                    : ColorsRes.grayColor,
-                                fontSize:
-                                    MediaQuery.of(context).size.width / 32,
-                              ),
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                updateTabSelection(2, "Work");
-                              },
-                              iconSize: 27.0,
-                              icon: selectedIndex == 2
-                                  ? Icon(
-                                      Icons.handyman_outlined,
-                                      color: ColorsRes.appBarBG,
-                                      size: 35,
-                                    )
-                                  : Icon(
-                                      Icons.handyman_outlined,
-                                      color: ColorsRes.grayColor,
-                                      size: 35,
-                                    ),
-                            ),
-                            Text(
-                              AppLocalizations.of(context)!.work,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: selectedIndex == 2
-                                    ? ColorsRes.appBarBG
-                                    : ColorsRes.grayColor,
-                                fontSize:
-                                    MediaQuery.of(context).size.width / 32,
-                              ),
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                updateTabSelection(3, "Parts");
-                              },
-                              iconSize: 27.0,
-                              icon: selectedIndex == 3
-                                  ? Icon(
-                                      // Icons.pending_actions,
-                                      Icons.build_outlined,
-                                      color: ColorsRes.appBarBG,
-                                      size: 35,
-                                    )
-                                  : Icon(
-                                      Icons.build_outlined,
-                                      color: ColorsRes.grayColor,
-                                      size: 35,
-                                    ),
-                            ),
-                            Text(
-                              AppLocalizations.of(context)!.parts,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: selectedIndex == 3
-                                    ? ColorsRes.appBarBG
-                                    : ColorsRes.grayColor,
-                                fontSize:
-                                    MediaQuery.of(context).size.width / 32,
-                              ),
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                updateTabSelection(4, "Time Line");
-                              },
-                              iconSize: 27.0,
-                              icon: selectedIndex == 4
-                                  ? Icon(
-                                      // Icons.pending_actions,
-                                      Icons.access_time_rounded,
-                                      color: ColorsRes.appBarBG,
-                                      size: 35,
-                                    )
-                                  : Icon(
-                                      Icons.access_time_rounded,
-                                      color: ColorsRes.grayColor,
-                                      size: 35,
-                                    ),
-                            ),
-                            Text(
-                              AppLocalizations.of(context)!.timeline,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: selectedIndex == 4
-                                    ? ColorsRes.appBarBG
-                                    : ColorsRes.grayColor,
-                                fontSize:
-                                    MediaQuery.of(context).size.width / 32,
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+
+        floatingActionButton: SpeedDial(
+          activeChild: CircleAvatar(
+            radius: 28,
+            child: ClipOval(
+              child: Image.asset(
+                'assets/img/clouse.png', // Open FAB image
+                height: 40,
+                width: 40,
+                fit: BoxFit.cover,
               ),
+            ),
+          ),
+          curve: Curves.bounceIn,
+          overlayColor: Colors.black,
+          overlayOpacity: 0.5,
+          tooltip: 'Speed Dial',
+          heroTag: 'speed-dial-hero-tag',
+          backgroundColor: Colors.amber,
+          foregroundColor: Colors.white,
+          direction: SpeedDialDirection.up,
+          elevation: 8.0,
+          shape: CircleBorder(),
+          children: [
+            SpeedDialChild(
+                child: const Icon(Icons.pending_actions_outlined),
+                backgroundColor: const Color.fromARGB(255, 0, 255, 200),
+                // Change color dynamically
+                label: AppLocalizations.of(context)!.site,
+                labelBackgroundColor: Color.fromARGB(255, 0, 255, 200),
+                onTap: () async {
+                  setState(() {
+                    btnDisable = true; // Disable the Start button
+                  });
+                  var submit =
+                      await markUpdateTask('site', 'on-the-way', false);
+                  setState(() {
+                    btnDisable = submit;
+                    isPendingEnabled = submit;
+                  });
+                }),
+            SpeedDialChild(
+              child: Icon(
+                btnDisable ? Icons.check : Icons.handyman_outlined,
+                color: Colors.white,
+              ),
+              backgroundColor: btnDisable ? Colors.green : Colors.amber,
+              label: btnDisable
+                  ? AppLocalizations.of(context)!.finish
+                  : AppLocalizations.of(context)!.start,
+              labelBackgroundColor: btnDisable ? Colors.green : Colors.amber,
+              onTap: btnDisable
+                  ? () async {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Confirm"),
+                            content: Text(
+                              AppLocalizations.of(context)!.askfinish,
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text(
+                                  AppLocalizations.of(context)!.no,
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                },
+                              ),
+                              TextButton(
+                                child: Text(
+                                  AppLocalizations.of(context)!.yes,
+                                ),
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                  _showDialog(
+                                      AppLocalizations.of(context)!
+                                          .markAsComplete,
+                                      'complete');
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  : () async {
+                      // Start work confirmation dialog
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Confirm"),
+                            content: Text(
+                              AppLocalizations.of(context)!.askstart,
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text(
+                                  AppLocalizations.of(context)!.no,
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                },
+                              ),
+                              TextButton(
+                                child: Text(
+                                  AppLocalizations.of(context)!.yes,
+                                ),
+                                onPressed: () async {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                  setState(() {
+                                    btnDisable =
+                                        true; // Disable the Start button
+                                  });
+                                  var submit = await markUpdateTask(
+                                      'work', 'start-work', false);
+                                  setState(() {
+                                    btnDisable =
+                                        submit; // Keep Start disabled on success
+                                    isPendingEnabled =
+                                        submit; // Enable Pending button on success
+                                  });
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+            ),
+            SpeedDialChild(
+              child: const Icon(Icons.pending_actions_outlined),
+              backgroundColor: btnDisable
+                  ? Colors.orange
+                  : Colors.grey, // Change color dynamically
+              label: AppLocalizations.of(context)!.update,
+              labelBackgroundColor: Colors.orange,
+              onTap: btnDisable
+                  ? () {
+                      setState(() {
+                        selectedIndex = 2;
+                        headerText = AppLocalizations.of(context)!.update;
+                      });
+                    }
+                  : () {
+                      Fluttertoast.showToast(
+                        msg: AppLocalizations.of(context)!.startworkfirst,
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: Colors.orange,
+                        textColor: Colors.black,
+                      );
+                    }, // Show toast if not started
+            ),
+            SpeedDialChild(
+              child: const Icon(Icons.build_outlined),
+              backgroundColor: btnDisable
+                  ? const Color.fromARGB(255, 0, 132, 255)
+                  : Colors.grey,
+              label: AppLocalizations.of(context)!.parts,
+              labelBackgroundColor: Color.fromARGB(255, 0, 132, 255),
+              onTap: btnDisable
+                  ? () {
+                      setState(() {
+                        selectedIndex = 3;
+                        headerText = AppLocalizations.of(context)!.parts;
+                      });
+                    }
+                  : () {
+                      Fluttertoast.showToast(
+                        msg: AppLocalizations.of(context)!.startworkfirst,
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: const Color.fromARGB(255, 0, 132, 255),
+                        textColor: Colors.black,
+                      );
+                    }, // Show toast if not started
+            ),
+            SpeedDialChild(
+              child: const Icon(Icons.access_time_rounded),
+              backgroundColor: btnDisable
+                  ? const Color.fromARGB(255, 215, 130, 226)
+                  : const Color.fromARGB(255, 158, 158, 158),
+              label: AppLocalizations.of(context)!.timeline,
+              labelBackgroundColor: Color.fromARGB(255, 215, 130, 226),
+              onTap: btnDisable
+                  ? () {
+                      setState(() {
+                        selectedIndex = 4;
+                        headerText = AppLocalizations.of(context)!.timeline;
+                      });
+                    }
+                  : () {
+                      Fluttertoast.showToast(
+                        msg: AppLocalizations.of(context)!.startworkfirst,
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor:
+                            const Color.fromARGB(255, 215, 130, 226),
+                        textColor: Colors.black,
+                      );
+                    }, // Show toast if not started
+            ),
+          ],
+          // Set the default and active children for the FAB
+          child: CircleAvatar(
+            backgroundColor: Colors.amber,
+            radius: 28,
+            child: ClipOval(
+              child: Image.asset(
+                'assets/img/technician.png', // Closed FAB image
+                height: 40,
+                width: 40,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

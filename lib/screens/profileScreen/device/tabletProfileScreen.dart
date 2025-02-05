@@ -24,7 +24,7 @@ class TabletProfileScreen extends StatefulWidget {
 
 class _TabletProfileScreenState extends State<TabletProfileScreen>
     with SingleTickerProviderStateMixin {
-  AnimationController? _animationController;
+   AnimationController? _animationController;
   final LocalStorage storage = LocalStorage('qfix');
 
   String myId = "";
@@ -57,13 +57,12 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            size: 30,
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
         shadowColor: Colors.transparent,
         title: Text(
-          StringsRes.profileText.toUpperCase(),
+         AppLocalizations.of(context)!.settings,
           style: TextStyle(
             letterSpacing: 4,
           ),
@@ -148,10 +147,9 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                     child: Text(
                       myId,
                       style: TextStyle(
-                        fontSize: 16,
-                        color: ColorsRes.purpalColor,
-                        fontWeight: FontWeight.normal,
-                      ),
+                          fontSize: 14,
+                          color: ColorsRes.purpalColor,
+                          fontWeight: FontWeight.normal),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -182,17 +180,14 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                             right: MediaQuery.of(context).size.width / 15),
                         title: Row(
                           children: [
-                            Icon(
-                              Icons.person,
-                              size: 35,
-                            ),
+                            Icon(Icons.person),
                             SizedBox(width: 18.0),
                             Text(
                               storage.getItem('calling_name'),
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 color: ColorsRes.textColor,
-                                fontSize: 18,
+                                fontSize: 19,
                                 fontWeight: FontWeight.normal,
                               ),
                             ),
@@ -213,17 +208,14 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                             right: MediaQuery.of(context).size.width / 15),
                         title: Row(
                           children: [
-                            Icon(
-                              Icons.phone,
-                              size: 35,
-                            ),
+                            Icon(Icons.phone),
                             SizedBox(width: 18.0),
                             Text(
                               storage.getItem('contact'),
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 color: ColorsRes.textColor,
-                                fontSize: 18,
+                                fontSize: 19,
                                 fontWeight: FontWeight.normal,
                               ),
                             ),
@@ -243,17 +235,14 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                             right: MediaQuery.of(context).size.width / 15),
                         title: Row(
                           children: [
-                            Icon(
-                              Icons.badge,
-                              size: 35,
-                            ),
+                            Icon(Icons.badge),
                             SizedBox(width: 18.0),
                             Text(
                               storage.getItem('designation'),
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 color: ColorsRes.textColor,
-                                fontSize: 18,
+                                fontSize: 19,
                                 fontWeight: FontWeight.normal,
                               ),
                             ),
@@ -279,17 +268,14 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                             right: MediaQuery.of(context).size.width / 15),
                         title: Row(
                           children: [
-                            Icon(
-                              Icons.power_settings_new,
-                              size: 35,
-                            ),
+                            Icon(Icons.power_settings_new),
                             SizedBox(width: 18.0),
                             Text(
                               AppLocalizations.of(context)!.logout,
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 color: ColorsRes.textColor,
-                                fontSize: 18,
+                                fontSize: 19,
                                 fontWeight: FontWeight.normal,
                               ),
                             ),
@@ -300,8 +286,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                             context: context,
                             builder: (context) => new AlertDialog(
                               title: new Text(
-                                AppLocalizations.of(context)!.areyousure,
-                              ),
+                                  AppLocalizations.of(context)!.areyousure),
                               content: new Text(AppLocalizations.of(context)!
                                   .doyouwantlogout),
                               actions: <Widget>[

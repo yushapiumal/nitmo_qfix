@@ -19,6 +19,7 @@ import 'package:qfix_nitmo_new/screens/qrScanScreen/qrScreen.dart';
 import 'package:qfix_nitmo_new/screens/siteScreen/siteScreen.dart';
 import 'package:qfix_nitmo_new/screens/splashScreen/splashScreen.dart';
 import 'package:qfix_nitmo_new/screens/trackingScreen/trackingScreen.dart';
+import 'package:qfix_nitmo_new/screens/updateScreen/updateScreen.dart';
 import 'package:qfix_nitmo_new/screens/workScreen/workScreen.dart';
 
 
@@ -27,13 +28,13 @@ final Map<String, WidgetBuilder> routes = {
   SplashScreen.routeName: (context) => SplashScreen(),
   LandingScreen.routeName: (context) => LandingScreen(),
   LoginScreen.routeName: (context) => LoginScreen(),
-  HomeScreen.routeName: (context) => HomeScreen(),
+  HomeScreen.routeName: (context) =>   HomeScreen(markUpdateTask: false, ),
   ProfileScreen.routeName: (context) => ProfileScreen(),
-  ManageScreen.routeName: (context) => ManageScreen(taskData: []),
+  ManageScreen.routeName: (context) =>  ManageScreen(taskData: [],markUpdateTask: false,),
   DetailScreen.routeName: (context) =>
       DetailScreen(taskData: [], markUpdateTask: false),
   SiteScreen.routeName: (context) => SiteScreen(markUpdateTask: false),
-  WorkScreen.routeName: (context) => WorkScreen(markUpdateTask: false),
+  WorkScreen.routeName: (context) => WorkScreen(markUpdateTask: false, taskData: [],),
   PartsScreen.routeName: (context) =>
       PartsScreen(taskData: [], markUpdateTask: false),
   TrackingDetails.routeName: (context) => TrackingDetails(csrId: null),
@@ -47,4 +48,5 @@ final Map<String, WidgetBuilder> routes = {
   NotificationScreen.routeName: (context) => NotificationScreen(),
   AboutScreen.routeName: (context) => AboutScreen(),
   AttendanceScreen.routeName: (context) => AttendanceScreen(),
+  UpdateScreen.routeName: (context) => UpdateScreen(markUpdateTask: false, taskData: [],),
 };

@@ -62,7 +62,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
         ),
         shadowColor: Colors.transparent,
         title: Text(
-          StringsRes.profileText.toUpperCase(),
+         AppLocalizations.of(context)!.settings,
           style: TextStyle(
             letterSpacing: 4,
           ),

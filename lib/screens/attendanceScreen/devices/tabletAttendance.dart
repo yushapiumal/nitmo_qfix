@@ -1,4 +1,3 @@
-import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -7,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:qfix_nitmo_new/Constant/Slideanimation.dart';
 import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
+import 'package:expandable/expandable.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TabletAttendance extends StatefulWidget {
   const TabletAttendance({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class TabletAttendance extends StatefulWidget {
 
 class _TabletAttendanceState extends State<TabletAttendance>
     with SingleTickerProviderStateMixin {
-  AnimationController? _animationController;
+ AnimationController? _animationController;
   APIService apiService = APIService();
   List attendanceList = [];
   int attendanceCount = 0;
@@ -56,7 +57,6 @@ class _TabletAttendanceState extends State<TabletAttendance>
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back,
-              size: 30,
             ),
             onPressed: () {
               Navigator.of(context).pop();
@@ -64,8 +64,8 @@ class _TabletAttendanceState extends State<TabletAttendance>
           ),
           shadowColor: Colors.transparent,
           title: Text(
-            "Attendance".toUpperCase(),
-            style: TextStyle(
+        AppLocalizations.of(context)!.attendance,
+            style: const TextStyle(
               letterSpacing: 4,
             ),
           ),
@@ -158,8 +158,8 @@ class _TabletAttendanceState extends State<TabletAttendance>
                   children: [
                     Container(
                       margin: EdgeInsets.only(left: 20),
-                      width: MediaQuery.of(context).size.width / 10,
-                      height: MediaQuery.of(context).size.width / 10,
+                      width: 60,
+                      height: 60,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Colors.white,
@@ -185,9 +185,9 @@ class _TabletAttendanceState extends State<TabletAttendance>
                                 Text(
                                   daySplit(attendanceList[index]['date'], true),
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       fontWeight: FontWeight.w800,
-                                      fontSize: 30,
+                                      fontSize: 25,
                                       color: Colors.red),
                                 ),
                               ],
@@ -201,9 +201,9 @@ class _TabletAttendanceState extends State<TabletAttendance>
                                             false)
                                         .toUpperCase(),
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 18,
+                                        fontSize: 17,
                                         color: Colors.black))
                               ],
                             ),
@@ -217,8 +217,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
                   children: [
                     Container(
                       padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width / 20,
-                      ),
+                          left: MediaQuery.of(context).size.width / 20),
                       child: Column(
                         children: [
                           Row(
@@ -228,8 +227,8 @@ class _TabletAttendanceState extends State<TabletAttendance>
                                 width: MediaQuery.of(context).size.width / 3,
                                 child: Text(
                                   attendanceList[index]['sname'],
-                                  style: TextStyle(
-                                    fontSize: 18,
+                                  style: const TextStyle(
+                                    fontSize: 16,
                                     color: Color(0xff676767),
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -242,11 +241,9 @@ class _TabletAttendanceState extends State<TabletAttendance>
                                   text: TextSpan(
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: 'SID ' +
-                                            attendanceList[index]['sid']
-                                                .toString(),
-                                        style: TextStyle(
-                                            fontSize: 18,
+                                        text: 'SID ${attendanceList[index]['sid']}',
+                                        style: const TextStyle(
+                                            fontSize: 14,
                                             color: Colors.amber,
                                             fontWeight: FontWeight.w600),
                                       ),
@@ -260,54 +257,55 @@ class _TabletAttendanceState extends State<TabletAttendance>
                             height: MediaQuery.of(context).size.height / 45,
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width / 15,
-                                child: Text(
-                                  "IN : ",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: ColorsRes.grayColor,
-                                      fontWeight: FontWeight.w400),
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width /8,
+                                  child:  Text(
+                                  AppLocalizations.of(context)!.intext,
+                                    style: const TextStyle(
+                                        fontSize:10,
+                                        color: ColorsRes.grayColor,
+                                        fontWeight: FontWeight.w600),
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 5.5,
-                                child: Text(
-                                  attendanceList[index]['in'] == false
-                                      ? '-'
-                                      : attendanceList[index]['in'],
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: ColorsRes.black,
-                                      fontWeight: FontWeight.w700),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width /8,
+                                  child: Text(
+                                    attendanceList[index]['in'] == false
+                                        ? '-'
+                                        : attendanceList[index]['in'],
+                                    style: const TextStyle(
+                                        fontSize: 10,
+                                        color: ColorsRes.black,
+                                        fontWeight: FontWeight.w700),
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 10,
-                                child: Text(
-                                  "OUT : ",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: ColorsRes.grayColor,
-                                      fontWeight: FontWeight.w400),
+                                Container(
+                                  width: MediaQuery.of(context).size.width /8,
+                                  child: Text(
+                                  AppLocalizations.of(context)!.out,
+                                    style: const TextStyle(
+                                        fontSize:10,
+                                        color: ColorsRes.grayColor,
+                                        fontWeight: FontWeight.w600),
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 5.5,
-                                child: Text(
-                                  attendanceList[index]['out'] == false
-                                      ? '-'
-                                      : attendanceList[index]['out'],
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: ColorsRes.black,
-                                      fontWeight: FontWeight.w700),
+                                Container(
+                               width:
+                                      MediaQuery.of(context).size.width /8,
+                                  child: Text(
+                                    attendanceList[index]['out'] == false
+                                        ? '-'
+                                        : attendanceList[index]['out'],
+                                    style: const TextStyle(
+                                        fontSize: 10,
+                                        color: ColorsRes.black,
+                                        fontWeight: FontWeight.w700),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
+                              ]),
                         ],
                       ),
                     ),
@@ -319,10 +317,10 @@ class _TabletAttendanceState extends State<TabletAttendance>
               margin: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * .05,
                   right: MediaQuery.of(context).size.width * .05,
-                  top: 7),
-              child: const Divider(
+                  top: 5),
+              child: Divider(
                 color: Color(0xff26707070),
-                thickness: 3,
+                thickness: 2,
               ),
             ),
             ScrollOnExpand(
@@ -333,14 +331,10 @@ class _TabletAttendanceState extends State<TabletAttendance>
                   headerAlignment: ExpandablePanelHeaderAlignment.center,
                   tapBodyToCollapse: true,
                 ),
-                header: Padding(
-                  padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width / 18, top: 0),
-                  child: const Text(
-                    "View Projects",
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
+                header:  Padding(
+                  padding: EdgeInsets.only(left: 10, top: 0),
+                  child: Text(
+                      AppLocalizations.of(context)!.viewProjects
                   ),
                 ),
                 collapsed: SizedBox(),
@@ -348,18 +342,10 @@ class _TabletAttendanceState extends State<TabletAttendance>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(
-                        bottom: 10,
-                        left: MediaQuery.of(context).size.width / 18,
-                      ),
+                      padding: EdgeInsets.only(bottom: 10, left: 10),
                       child: attendanceList[index]['project'] == false ||
                               attendanceList[index]['task'] == false
-                          ? Text(
-                              'no projects or tasks found',
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            )
+                          ? Text(   AppLocalizations.of(context)!.noProjectsOrTasksFound)
                           : Container(
                               width: MediaQuery.of(context).size.width * 0.7,
                               decoration: BoxDecoration(
@@ -370,7 +356,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
                                     BorderRadius.all(Radius.circular(6)),
                               ),
                               child: Table(
-                                border: TableBorder.symmetric(
+                                border: const TableBorder.symmetric(
                                     inside: BorderSide(
                                         width: 1, color: Colors.black)),
                                 defaultVerticalAlignment:
@@ -383,40 +369,35 @@ class _TabletAttendanceState extends State<TabletAttendance>
                                             topLeft: Radius.circular(6),
                                             topRight: Radius.circular(6)),
                                       ),
-                                      children: const [
+                                      children:  [
                                         Text(
-                                          "Projects",
+                                          AppLocalizations.of(context)!.projects,
                                           textScaleFactor: 1,
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                          ),
                                         ),
                                         Text(
-                                          "Tasks",
+                                          AppLocalizations.of(context)!.tasks,
                                           textScaleFactor: 1,
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                          ),
                                         ),
                                       ]),
-                                  const TableRow(children: [
+                                   TableRow(children: [
                                     Text(
-                                      'wrkd_hours_fmtd',
+                                     AppLocalizations.of(context)!.workedHoursFormatted,
+                                      // data.boilerPlate['wrkd_hours_fmtd'] == null
+                                      //     ? " - "
+                                      //     : data.boilerPlate['wrkd_hours_fmtd']
+                                      //         .toString(),
                                       textScaleFactor: 1,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                      ),
                                     ),
                                     Text(
                                       'late',
+                                      // data.boilerPlate['late'] == null
+                                      //     ? " - "
+                                      //     : data.boilerPlate['late'].toString(),
                                       textScaleFactor: 1,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                      ),
                                     ),
                                   ]),
                                 ],

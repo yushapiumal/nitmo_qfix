@@ -129,7 +129,7 @@ class _MobilePartsState extends State<MobileParts>
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(50),
                 topRight: Radius.circular(50),
                 bottomLeft: Radius.circular(50),
@@ -144,209 +144,21 @@ class _MobilePartsState extends State<MobileParts>
                 ),
               ],
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                GestureDetector(
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    child: Icon(
-                      Icons.sticky_note_2_outlined,
-                      color: Colors.black,
-                      size: 30,
-                    ),
-                    // margin: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.white54,
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                  ),
-                  onTap: () {
-                    showModalBottomSheet<void>(
-                      context: context,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0),
-                        ),
-                      ),
-                      builder: (BuildContext context) {
-                        return SizedBox(
-                          height: MediaQuery.of(context).size.height / 1.5,
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(
-                                  top: 10,
-                                ),
-                                child: Text(
-                                  'Parts List',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              (existPartsList.length > 0)
-                                  ? Container(
-                                      padding: EdgeInsets.all(15),
-                                      child: Column(
-                                        children:
-                                            existPartsList.expand((partItem) {
-                                          return [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "\u2022",
-                                                  style:
-                                                      TextStyle(fontSize: 16),
-                                                ), //bullet text
-                                                SizedBox(
-                                                  width: 10,
-                                                ), //space between bullet and text
-                                                Expanded(
-                                                  child: Text(
-                                                    partItem['part'],
-                                                    style:
-                                                        TextStyle(fontSize: 16),
-                                                  ), //text
-                                                ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      4,
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    "qty. ${partItem['qty']}",
-                                                    style:
-                                                        TextStyle(fontSize: 16),
-                                                  ), //text
-                                                ),
-                                              ],
-                                            ),
-                                          ];
-                                        }).toList(),
-                                      ),
-                                    )
-                                  : Container(
-                                      margin: EdgeInsets.only(
-                                        top: 10,
-                                      ),
-                                      child: Text(
-                                        'No updated parts list found',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
+           child:const Icon(
+             Icons.select_all,
+                color: Colors.black,
+      
+             
             ),
           ),
         ],
       ),
     );
-    // return Row(
-    //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-    //   crossAxisAlignment: CrossAxisAlignment.center,
-    //   children: [
-    //     Container(
-    //       margin: EdgeInsets.only(
-    //         top: 30,
-    //         left: 30,
-    //         right: 30,
-    //       ),
-    //       width: MediaQuery.of(context).size.width / 1.5,
-    //       padding: EdgeInsets.symmetric(horizontal: 10.0),
-    //       decoration: BoxDecoration(
-    //         borderRadius: BorderRadius.circular(12),
-    //         border: Border.all(
-    //           color: ColorsRes.warmGreyColor,
-    //           style: BorderStyle.solid,
-    //           width: 0.80,
-    //         ),
-    //       ),
-    //       child: DropdownButtonHideUnderline(
-    //         child: DropdownButton(
-    //           hint: Text('Please select product'),
-    //           items: contractList.map((con) {
-    //             return DropdownMenuItem(
-    //               value: con['serial'],
-    //               child: Text(con['family'] + ' / ' + con['serial']),
-    //             );
-    //           }).toList(),
-    //           onChanged: (value) {
-    //             setState(() {
-    //               coverageDropdownValue = value.toString();
-    //               itemSelected = true;
-    //               _textValidate = false;
-    //             });
-    //           },
-    //           isExpanded: true,
-    //           value: itemSelected ? coverageDropdownValue.toString() : null,
-    //         ),
-    //       ),
-    //     ),
-    //     RawMaterialButton(
-    //       onPressed: () {},
-    //       elevation: 10,
-    //       fillColor: Colors.black45.withOpacity(0.2),
-    //       child: Icon(
-    //         Icons.sticky_note_2_outlined,
-    //       ),
-    //       // padding: EdgeInsets.all(15.0),
-    //       shape: CircleBorder(),
-    //     ),
-    //   ],
-    // );
-    // // return Container(
-    // //   margin: EdgeInsets.only(
-    // //     top: 30,
-    // //   ),
-    // //   width: 330,
-    // //   padding: EdgeInsets.symmetric(horizontal: 10.0),
-    // //   decoration: BoxDecoration(
-    // //     borderRadius: BorderRadius.circular(12),
-    // //     border: Border.all(
-    // //       color: ColorsRes.warmGreyColor,
-    // //       style: BorderStyle.solid,
-    // //       width: 0.80,
-    // //     ),
-    // //   ),
-    // //   child: DropdownButtonHideUnderline(
-    // //     child: DropdownButton(
-    // //       hint: Text('Please select product'),
-    // //       items: contractList.map((con) {
-    // //         return DropdownMenuItem(
-    // //           value: con['serial'],
-    // //           child: Text(con['family'] + ' / ' + con['serial']),
-    // //         );
-    // //       }).toList(),
-    // //       onChanged: (value) {
-    // //         setState(() {
-    // //           coverageDropdownValue = value.toString();
-    // //           itemSelected = true;
-    // //           _textValidate = false;
-    // //         });
-    // //       },
-    // //       isExpanded: false,
-    // //       value: itemSelected ? coverageDropdownValue.toString() : null,
-    // //     ),
-    // //   ),
-    // // );
+
   }
 
   cellHeight() {
-    return TableRow(
+    return const TableRow(
       children: [
         TableCell(
           child: SizedBox(
@@ -378,7 +190,7 @@ class _MobilePartsState extends State<MobileParts>
           return Container(
             padding: EdgeInsets.only(left: 20, right: 5),
             child: Table(
-              columnWidths: {
+              columnWidths: const {
                 0: FlexColumnWidth(1.5),
                 1: FlexColumnWidth(0.5),
                 2: FlexColumnWidth(4),
@@ -386,7 +198,7 @@ class _MobilePartsState extends State<MobileParts>
               children: [
                 TableRow(
                   children: [
-                    Text(
+                    const Text(
                       "Family",
                       textAlign: TextAlign.center,
                     ),
@@ -562,7 +374,7 @@ class _MobilePartsState extends State<MobileParts>
                             1: FlexColumnWidth(0.7),
                             2: FlexColumnWidth(0.2),
                           }, children: [
-                            TableRow(
+                            const TableRow(
                               children: [
                                 TableCell(
                                   child: Text(
@@ -610,11 +422,6 @@ class _MobilePartsState extends State<MobileParts>
                                                     child: Container(
                                                       width: 24,
                                                       height: 24,
-                                                      child: Icon(
-                                                        Icons.remove,
-                                                        color: Colors.red,
-                                                        size: 20,
-                                                      ),
                                                       margin:
                                                           EdgeInsets.all(15),
                                                       decoration: BoxDecoration(
@@ -622,6 +429,11 @@ class _MobilePartsState extends State<MobileParts>
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(10),
+                                                      ),
+                                                      child: const Icon(
+                                                        Icons.remove,
+                                                        color: Colors.red,
+                                                        size: 20,
                                                       ),
                                                     ),
                                                     onTap: () {
@@ -641,11 +453,6 @@ class _MobilePartsState extends State<MobileParts>
                                                     child: Container(
                                                       width: 24,
                                                       height: 24,
-                                                      child: Icon(
-                                                        Icons.add,
-                                                        color: Colors.green,
-                                                        size: 20,
-                                                      ),
                                                       margin:
                                                           EdgeInsets.all(15),
                                                       decoration: BoxDecoration(
@@ -653,6 +460,11 @@ class _MobilePartsState extends State<MobileParts>
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(10),
+                                                      ),
+                                                      child: const Icon(
+                                                        Icons.add,
+                                                        color: Colors.green,
+                                                        size: 20,
                                                       ),
                                                     ),
                                                     onTap: () {
@@ -668,20 +480,20 @@ class _MobilePartsState extends State<MobileParts>
                                           TableCell(
                                             child: GestureDetector(
                                               child: Container(
-                                                margin: EdgeInsets.only(
+                                                margin: const EdgeInsets.only(
                                                   top: 10,
                                                 ),
                                                 width: 30,
                                                 height: 30,
-                                                child: Icon(
-                                                  Icons.delete,
-                                                  color: Colors.red,
-                                                  size: 20,
-                                                ),
                                                 decoration: BoxDecoration(
                                                   color: Colors.red[100],
                                                   borderRadius:
                                                       BorderRadius.circular(10),
+                                                ),
+                                                child: const Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                  size: 20,
                                                 ),
                                               ),
                                               onTap: () {
@@ -722,24 +534,6 @@ class _MobilePartsState extends State<MobileParts>
                   ),
                   width: 300,
                   child: CupertinoButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            CupertinoIcons.settings_solid,
-                            color: Colors.black,
-                          ),
-                          SizedBox(width: 5),
-                          Text(
-                            AppLocalizations.of(context)!.orderBtnName,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: fontSize,
-                            ),
-                          ),
-                        ],
-                      ),
                       onPressed: btnDisable
                           ? null
                           : () async {
@@ -768,7 +562,25 @@ class _MobilePartsState extends State<MobileParts>
                                 }
                               }
                             },
-                      color: ColorsRes.secondaryButton),
+                      color: ColorsRes.secondaryButton,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            CupertinoIcons.settings_solid,
+                            color: Colors.black,
+                          ),
+                          SizedBox(width: 5),
+                          Text(
+                            AppLocalizations.of(context)!.orderBtnName,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: fontSize,
+                            ),
+                          ),
+                        ],
+                      )),
                 )
               ],
             ),

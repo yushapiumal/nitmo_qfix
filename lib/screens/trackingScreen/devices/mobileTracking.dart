@@ -11,6 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 
+
 class MobileTracking extends StatefulWidget {
   const MobileTracking({Key? key, required this.csrId}) : super(key: key);
   final csrId;
@@ -146,7 +147,7 @@ class _MobileTrackingState extends State<MobileTracking>
               padding:
                   EdgeInsets.only(top: MediaQuery.of(context).size.height / 3),
               child: Center(
-                child: Text(AppLocalizations.of(context)!.notimeLinetxt),
+                child: Text(AppLocalizations.of(context)!.orderBtnName),
               ),
             ),
           )

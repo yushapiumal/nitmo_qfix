@@ -9,6 +9,7 @@ import 'package:qfix_nitmo_new/Constant/Slideanimation.dart';
 import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
 import 'package:qfix_nitmo_new/widgets/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class MobileNewCsr extends StatefulWidget {
@@ -180,7 +181,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
           ),
           shadowColor: Colors.transparent,
           title: Text(
-            "Add New CSR".toUpperCase(),
+              AppLocalizations.of(context)!.addnewCsr,
             style: TextStyle(
               letterSpacing: 4,
             ),
@@ -217,6 +218,10 @@ class _MobileNewCsrState extends State<MobileNewCsr>
   submitButton() {
     if (pageIndex == 0 || finalBtn) {
       return CupertinoButton(
+        color: ColorsRes.secondaryButton,
+        onPressed: () {
+          btnDisable ? false : submitForm();
+        },
         child: RichText(
           text: TextSpan(
             children: [
@@ -228,8 +233,8 @@ class _MobileNewCsrState extends State<MobileNewCsr>
                 ),
               ),
               TextSpan(
-                text: btnDisable ? "Wait..." : "Add New CSR",
-                style: TextStyle(
+                text: btnDisable ?    AppLocalizations.of(context)!.checking :   AppLocalizations.of(context)!.addnewCsr,
+                style: const TextStyle(
                   fontSize: 17,
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -238,36 +243,11 @@ class _MobileNewCsrState extends State<MobileNewCsr>
             ],
           ),
         ),
-        color: ColorsRes.secondaryButton,
-        onPressed: () {
-          btnDisable ? false : submitForm();
-        },
       );
     }
 
     if (pageIndex == 1) {
       return CupertinoButton(
-        child: RichText(
-          text: TextSpan(
-            children: [
-              WidgetSpan(
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 20,
-                  color: Colors.black,
-                ),
-              ),
-              TextSpan(
-                text: "Next",
-                style: TextStyle(
-                  fontSize: 17,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
         color: ColorsRes.secondaryButton,
         onPressed: () {
           if (customerDropdownValue == '0' &&
@@ -278,13 +258,8 @@ class _MobileNewCsrState extends State<MobileNewCsr>
             });
           }
         },
-      );
-    }
-
-    if (pageIndex == 2) {
-      return CupertinoButton(
         child: RichText(
-          text: TextSpan(
+          text: const TextSpan(
             children: [
               WidgetSpan(
                 child: Icon(
@@ -304,6 +279,11 @@ class _MobileNewCsrState extends State<MobileNewCsr>
             ],
           ),
         ),
+      );
+    }
+
+    if (pageIndex == 2) {
+      return CupertinoButton(
         color: ColorsRes.secondaryButton,
         onPressed: () {
           if (customerProjectDropdownValue == 'new' &&
@@ -328,6 +308,27 @@ class _MobileNewCsrState extends State<MobileNewCsr>
             }
           }
         },
+        child: RichText(
+          text: const TextSpan(
+            children: [
+              WidgetSpan(
+                child: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                  color: Colors.black,
+                ),
+              ),
+              TextSpan(
+                text: "Next",
+                style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
       );
     }
   }
@@ -404,8 +405,8 @@ class _MobileNewCsrState extends State<MobileNewCsr>
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton(
-                hint: Text(
-                  'Please select project',
+                hint:  Text(
+           AppLocalizations.of(context)!.selectProjectPlease,
                   style: TextStyle(color: ColorsRes.warmGreyColor),
                 ),
                 items: customerProjectList.map((con) {
@@ -495,8 +496,8 @@ class _MobileNewCsrState extends State<MobileNewCsr>
         animationController: _animationController,
         child: textField(
           serviceAreaController,
-          'Service Area',
-          'Please enter service area',
+             AppLocalizations.of(context)!.serviceArea,
+         AppLocalizations.of(context)!.enterServiceAreaPlease,
           TextInputType.text,
           false,
           formKey,
@@ -577,8 +578,8 @@ class _MobileNewCsrState extends State<MobileNewCsr>
                 animationController: _animationController,
                 child: textField(
                   customerNameController,
-                  'New Customer Name',
-                  'Please enter customer name',
+                AppLocalizations.of(context)!.customerName,
+                 AppLocalizations.of(context)!.enterCustomerNamePlease,
                   TextInputType.text,
                   false,
                   formKey,
@@ -597,8 +598,9 @@ class _MobileNewCsrState extends State<MobileNewCsr>
                 animationController: _animationController,
                 child: textField(
                   contactPersonController,
-                  'Contact Person Name',
-                  'Please enter contact person name',
+                AppLocalizations.of(context)!.contactPersionName,
+                 AppLocalizations.of(context)!. enterContactPersonNamePlease,
+               
                   TextInputType.text,
                   false,
                   formKey,
@@ -617,8 +619,8 @@ class _MobileNewCsrState extends State<MobileNewCsr>
                 animationController: _animationController,
                 child: textField(
                   contactNumberController,
-                  'Contact Number',
-                  'Please enter contact number',
+                AppLocalizations.of(context)!.contactNumber,
+                   AppLocalizations.of(context)!.enterContactNumberPlease,
                   TextInputType.phone,
                   FilteringTextInputFormatter.allow(RegExp("[0-9]")),
                   formKey,
@@ -637,8 +639,8 @@ class _MobileNewCsrState extends State<MobileNewCsr>
                 animationController: _animationController,
                 child: textField(
                   addressController,
-                  'Customer Address/Location',
-                  'Please enter address/location',
+                AppLocalizations.of(context)!.customerAddress,
+                  AppLocalizations.of(context)!.selectCustomerAddressPlease,
                   TextInputType.text,
                   false,
                   formKey,
@@ -678,7 +680,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
           child: DropdownButtonHideUnderline(
             child: DropdownButton(
               hint: Text(
-                'Please select customer',
+                  AppLocalizations.of(context)!.selectCustomer,
                 style: TextStyle(color: ColorsRes.greyColor),
               ),
               items: customerList.map((con) {
@@ -735,8 +737,9 @@ class _MobileNewCsrState extends State<MobileNewCsr>
         animationController: _animationController,
         child: textField(
           issueController,
-          'Issue/Request',
-          'Please enter be descriptive',
+             AppLocalizations.of(context)!.issueOrRequest,
+                AppLocalizations.of(context)!.beDescriptivePlease,
+        
           TextInputType.text,
           false,
           formKey,
@@ -758,8 +761,9 @@ class _MobileNewCsrState extends State<MobileNewCsr>
         animationController: _animationController,
         child: textField(
           solutionController,
-          'Solution',
-          'Please enter solution',
+             AppLocalizations.of(context)!.solution,
+               AppLocalizations.of(context)!.solutionError,
+        
           TextInputType.text,
           false,
           formKey,
@@ -793,7 +797,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
           child: DropdownButtonHideUnderline(
             child: DropdownButton(
               hint: Text(
-                'Please select service type',
+                   AppLocalizations.of(context)!.selectServiceType,
                 style: TextStyle(color: ColorsRes.warmGreyColor),
               ),
               items: serviceTypeList.map((con) {
@@ -844,7 +848,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
           child: DropdownButtonHideUnderline(
             child: DropdownButton(
               hint: Text(
-                'Please select owner (primary contact)',
+                  AppLocalizations.of(context)!.selectOwner,
                 style: TextStyle(color: ColorsRes.warmGreyColor),
               ),
               items: ownerList.map((con) {
@@ -893,7 +897,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
           child: DropdownButtonHideUnderline(
             child: DropdownButton(
               hint: Text(
-                'Please select primary technician',
+                   AppLocalizations.of(context)!.selectTechnician,
                 style: TextStyle(color: ColorsRes.warmGreyColor),
               ),
               items: assigneeList.map((con) {
@@ -944,7 +948,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
           child: DropdownButtonHideUnderline(
             child: DropdownButton(
               hint: Text(
-                'Please select complexity',
+                   AppLocalizations.of(context)!.selectComplexity,
                 style: TextStyle(color: ColorsRes.warmGreyColor),
               ),
               items: complexityList.map((con) {
@@ -1023,8 +1027,8 @@ class _MobileNewCsrState extends State<MobileNewCsr>
         animationController: _animationController,
         child: textField(
           projectSerialController,
-          'Project Serial',
-          'Please enter project serial',
+            AppLocalizations.of(context)!.projectSerial,
+           AppLocalizations.of(context)!.enterProjectSerialPlease,
           TextInputType.text,
           false,
           formKey,
@@ -1046,8 +1050,9 @@ class _MobileNewCsrState extends State<MobileNewCsr>
         animationController: _animationController,
         child: textField(
           projectTaskController,
-          'Project/Task',
-          'Please enter project/task',
+             AppLocalizations.of(context)!.projectOrTask,
+              AppLocalizations.of(context)!.taskEror,
+          
           TextInputType.text,
           false,
           formKey,
@@ -1069,8 +1074,8 @@ class _MobileNewCsrState extends State<MobileNewCsr>
         animationController: _animationController,
         child: textField(
           projectDetailController,
-          'Project Description',
-          'Please enter project detail',
+            AppLocalizations.of(context)!.projectDescription,
+         AppLocalizations.of(context)!.descriptionError,
           TextInputType.text,
           false,
           formKey,
@@ -1087,7 +1092,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
                 EdgeInsets.only(left: MediaQuery.of(context).size.width / 8),
             alignment: Alignment.centerLeft,
             child: Text(
-              'Please select customer',
+               AppLocalizations.of(context)!.selectCustomer,
               style: TextStyle(
                 color: Colors.red[700],
                 fontSize: 12,
@@ -1104,7 +1109,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
                 EdgeInsets.only(left: MediaQuery.of(context).size.width / 8),
             alignment: Alignment.centerLeft,
             child: Text(
-              'Please select service type',
+               AppLocalizations.of(context)!.selectServiceType,
               style: TextStyle(
                 color: Colors.red[700],
                 fontSize: 12,
@@ -1121,7 +1126,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
                 EdgeInsets.only(left: MediaQuery.of(context).size.width / 8),
             alignment: Alignment.centerLeft,
             child: Text(
-              'Please select owner',
+              AppLocalizations.of(context)!.selectOwner,
               style: TextStyle(
                 color: Colors.red[700],
                 fontSize: 12,
@@ -1138,7 +1143,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
                 EdgeInsets.only(left: MediaQuery.of(context).size.width / 8),
             alignment: Alignment.centerLeft,
             child: Text(
-              'Please select technician',
+              AppLocalizations.of(context)!.selectTechnician,
               style: TextStyle(
                 color: Colors.red[700],
                 fontSize: 12,
@@ -1155,7 +1160,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
                 EdgeInsets.only(left: MediaQuery.of(context).size.width / 8),
             alignment: Alignment.centerLeft,
             child: Text(
-              'Please select complexity',
+             AppLocalizations.of(context)!.selectComplexity,
               style: TextStyle(
                 color: Colors.red[700],
                 fontSize: 12,

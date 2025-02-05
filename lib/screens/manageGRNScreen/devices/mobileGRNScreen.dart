@@ -4,12 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:qfix_nitmo_new/Constant/Slideanimation.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
 import 'package:qfix_nitmo_new/helper/QRScanner.dart';
 import 'package:qfix_nitmo_new/helper/StringsRes.dart';
 import 'package:qfix_nitmo_new/screens/manageStoreScreen/checkStoreScreen.dart';
 import 'package:qfix_nitmo_new/widgets/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class MobileGRNScreen extends StatefulWidget {
@@ -28,7 +30,7 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
   AnimationController? _animationController;
   bool _validateGRN = false;
   bool _validatePRN = false;
-  String headerTitle = "New Goods Receive Note";
+  String headerTitle = "NEW GRN";
   bool showQRScan = false;
   @override
   void initState() {
@@ -47,7 +49,7 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
 
   formReset() {
     setState(() {
-      headerTitle = "New Goods Receive Note";
+      headerTitle = "NEW GRN";
       showQRScan = false;
       grnCodeController.clear();
       prnCodeController.clear();
@@ -112,13 +114,13 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                           top: 14,
                         ),
                         child: Center(
                           child: Text(
-                            'Please Enter GRN Code and PRN Code',
-                            style: TextStyle(
+                           AppLocalizations.of(context)!.grnAndPrn,
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                             ),
@@ -165,10 +167,10 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
 
   Widget showValidation1() {
     if (_validateGRN) {
-      return Column(
+      return  Column(
         children: [
           Text(
-            'Please enter correct GRN Code',
+              AppLocalizations.of(context)!.grnError,
             style: TextStyle(color: Colors.red, fontSize: 16),
           ),
           SizedBox(
@@ -183,10 +185,10 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
 
   Widget showValidation2() {
     if (_validatePRN) {
-      return Column(
+      return  Column(
         children: [
           Text(
-            'Please enter correct PRN Code',
+            AppLocalizations.of(context)!.prnError,
             style: TextStyle(color: Colors.red, fontSize: 16),
           ),
           SizedBox(
@@ -214,7 +216,7 @@ Widget showGRNField() {
         fontSize: 16,
         fontWeight: FontWeight.normal,
       ),
-      labelStyle: TextStyle(
+      labelStyle: const TextStyle(
         color: ColorsRes.greyColor,
         fontSize: 16,
         fontWeight: FontWeight.normal,
@@ -236,7 +238,8 @@ Widget showGRNField() {
           width: 1,
         ),
       ),
-      hintText: StringsRes.grnCodeTxt,
+       hintText: AppLocalizations.of(context)!.grn,
+      
     ),
   );
 }
@@ -279,7 +282,7 @@ Widget showPRNField() {
           width: 1,
         ),
       ),
-      hintText: StringsRes.prnCodeTxt,
+        hintText: AppLocalizations.of(context)!.prn,
     ),
   );
 }

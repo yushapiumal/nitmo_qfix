@@ -316,9 +316,11 @@ class APIService {
     }
   }
 
-  Future markUpdateTask(csrId, detail) async {
-    String url = await api.apiSet() + 'csr/' + csrId + '/fix';
+  Future<bool> markUpdateTask(  csrId,  detail) async {
+  String url = await api.apiSet() + 'csr/' + csrId + '/fix';
+  print("detail===================================>$detail");
 
+  try {
     final response = await http.post(
       Uri.parse(url),
       headers: {
@@ -332,19 +334,62 @@ class APIService {
     if (response.statusCode == 200) {
       var values = json.decode(response.body);
 
-      if (values['status']) {
+      if (values['status'] != null && values['status']) {
         showToast(values['message']);
-        return values['status'];
+        return true; // Return true for successful status
       } else {
         showToast(values['message']);
-        return values['status'];
+        return false; // Return false for unsuccessful status
       }
     } else {
-      print('error 400');
-      showToast('error 400');
-      return false;
+      print('error ${response.statusCode}');
+      showToast('error ${response.statusCode}');
+      return false; // Return false on error
+    }
+  } catch (e) {
+    print("Exception occurred: $e");
+    showToast('An error occurred');
+    return false; // Return false on exception
+  }
+}
+
+  
+ Future<Map<String, dynamic>> sendReason({required String reason}) async {
+    try {
+      String url =
+          'https://capmobile.azurewebsites.net/api/v1/Pickup/pickup-request';
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        
+        },
+        body: jsonEncode({
+          "reason":Widget
+        }),
+      );
+
+      final values = json.decode(response.body);
+
+      if (values['status'] == 'success') {
+        return {
+          "status": "success",
+          "message": values['message'].toString(),
+        };
+      } else {
+        return {
+          "status": "error",
+          "message": values['message'] ?? 'Unknown error occurred',
+        };
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception();
     }
   }
+
 
   Future addNewItem(itemCode, detail) async {
     String url = await api.apiSet() + 'bincard/' + itemCode;
@@ -456,6 +501,7 @@ class APIService {
     }
   }
 
+
   Future getAttendance() async {
     try {
       String url = await api.apiSet() + 'getattendance';
@@ -493,4 +539,6 @@ class APIService {
         backgroundColor: Color.fromARGB(255, 36, 36, 36),
         textColor: Colors.white);
   }
+
+
 }

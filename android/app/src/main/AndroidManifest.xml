@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.qfix_nitmo_new">
+    package="io.digitable.qfix">
 
       <application
         android:label="QFix"

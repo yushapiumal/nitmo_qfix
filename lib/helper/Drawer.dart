@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/screens/aboutScreen/aboutScreen.dart';
 import 'package:qfix_nitmo_new/screens/addNewCsrScreen/addNewCsrScreen.dart';
+import 'package:qfix_nitmo_new/screens/addNewItemScreen/addNewItemScreen.dart';
 import 'package:qfix_nitmo_new/screens/attendanceScreen/attendanceScreen.dart';
 import 'package:qfix_nitmo_new/screens/landingScreen/landingScreen.dart';
 import 'package:qfix_nitmo_new/screens/manageStoreScreen/checkStoreScreen.dart';
@@ -92,11 +93,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
             children: [
               UserAccountsDrawerHeader(
                 accountName: Text(
-                  "Name : $myName",
+                  "${AppLocalizations.of(context)!.name} : $myName",
                   style: const TextStyle(fontSize: 18, color: Colors.black),
                 ),
                 accountEmail: Text(
-                  "S.ID : $myId",
+                 "${AppLocalizations.of(context)!.sid} : $myId",
                   style: const TextStyle(
                       fontSize: 18,
                       color: Colors.black,
@@ -172,22 +173,36 @@ class _CustomDrawerState extends State<CustomDrawer> {
               //         apiService.showToast(AppLocalizations.of(context)!.permissionError);
               //       }
               //     }),
-              ListTile(
+              // ListTile(
+              //     leading: const Icon(Icons.store, color: Colors.black),
+              //     title: Text(AppLocalizations.of(context)!.inventoryControl),
+              //     onTap: () {
+              //       if (checkStoreAccess) {
+              //         Navigator.popAndPushNamed(
+              //             context, CheckStoreScreen.routeName);
+              //       } else {
+              //         apiService.showToast(
+              //             AppLocalizations.of(context)!.permissionError);
+              //       }
+              //     }),
+                  ListTile(
                   leading: const Icon(Icons.store, color: Colors.black),
-                  title: Text(AppLocalizations.of(context)!.inventoryControl),
+                  title: Text(AppLocalizations.of(context)!.newItemMenu),
                   onTap: () {
                     if (checkStoreAccess) {
                       Navigator.popAndPushNamed(
-                          context, CheckStoreScreen.routeName);
+                          context, AddNewItemScreen.routeName);
                     } else {
                       apiService.showToast(
                           AppLocalizations.of(context)!.permissionError);
                     }
                   }),
+
+
               ListTile(
                   leading:
                       const Icon(Icons.access_time_outlined, color: Colors.black),
-                  title: Text(AppLocalizations.of(context)!.attendance),
+                  title: Text(AppLocalizations.of(context)!.attendanceMenu),
                   onTap: () {
                     if (attendance) {
                       Navigator.popAndPushNamed(
@@ -306,27 +321,27 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     Navigator.popAndPushNamed(
                         context, AddNewCSRScreen.routeName);
                   }),
-              ListTile(
-                  leading: const Icon(
-                    Icons.store,
-                    color: Colors.black,
-                    size: 35,
-                  ),
-                  title: Text(
-                    AppLocalizations.of(context)!.inventoryControl,
-                    style: const TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                  onTap: () {
-                    if (checkStoreAccess) {
-                      Navigator.popAndPushNamed(
-                          context, CheckStoreScreen.routeName);
-                    } else {
-                      apiService.showToast(
-                          AppLocalizations.of(context)!.permissionError);
-                    }
-                  }),
+              // ListTile(
+              //     leading: const Icon(
+              //       Icons.store,
+              //       color: Colors.black,
+              //       size: 35,
+              //     ),
+              //     title: Text(
+              //       AppLocalizations.of(context)!.inventoryControl,
+              //       style: const TextStyle(
+              //         fontSize: 18,
+              //       ),
+              //     ),
+              //     onTap: () {
+              //       if (checkStoreAccess) {
+              //         Navigator.popAndPushNamed(
+              //             context, CheckStoreScreen.routeName);
+              //       } else {
+              //         apiService.showToast(
+              //             AppLocalizations.of(context)!.permissionError);
+              //       }
+              //     }),
               ListTile(
                   leading: const Icon(
                     Icons.access_time_outlined,
@@ -334,7 +349,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     size: 35,
                   ),
                   title: Text(
-                    AppLocalizations.of(context)!.attendance,
+                    AppLocalizations.of(context)!.attendanceMenu,
                     style: const TextStyle(
                       fontSize: 18,
                     ),
@@ -342,7 +357,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   onTap: () {
                     if (attendance) {
                       Navigator.popAndPushNamed(
-                          context," AttendanceScreen.routeName");
+                          context,AttendanceScreen.routeName);
                     } else {
                       apiService.showToast(
                           AppLocalizations.of(context)!.permissionError);

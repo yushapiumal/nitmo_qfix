@@ -7,6 +7,7 @@ import 'package:qfix_nitmo_new/Constant/Slideanimation.dart';
 import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
 import 'package:expandable/expandable.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class MobileAttendance extends StatefulWidget {
@@ -64,8 +65,8 @@ class _MobileAttendanceState extends State<MobileAttendance>
           ),
           shadowColor: Colors.transparent,
           title: Text(
-            "Attendance".toUpperCase(),
-            style: TextStyle(
+        AppLocalizations.of(context)!.attendance,
+            style: const TextStyle(
               letterSpacing: 4,
             ),
           ),
@@ -158,6 +159,20 @@ class _MobileAttendanceState extends State<MobileAttendance>
                   children: [
                     Container(
                       margin: EdgeInsets.only(left: 20),
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.amber.withOpacity(0.30),
+                            blurRadius: 8,
+                            spreadRadius: 6,
+                            offset: const Offset(0, 0),
+                          ),
+                        ],
+                      ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: Column(
@@ -187,7 +202,7 @@ class _MobileAttendanceState extends State<MobileAttendance>
                                             false)
                                         .toUpperCase(),
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 17,
                                         color: Colors.black))
@@ -195,20 +210,6 @@ class _MobileAttendanceState extends State<MobileAttendance>
                             ),
                           ],
                         ),
-                      ),
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.amber.withOpacity(0.30),
-                            blurRadius: 8,
-                            spreadRadius: 6,
-                            offset: const Offset(0, 0),
-                          ),
-                        ],
                       ),
                     )
                   ],
@@ -227,7 +228,7 @@ class _MobileAttendanceState extends State<MobileAttendance>
                                 width: MediaQuery.of(context).size.width / 3,
                                 child: Text(
                                   attendanceList[index]['sname'],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     color: Color(0xff676767),
                                     fontWeight: FontWeight.bold,
@@ -241,10 +242,8 @@ class _MobileAttendanceState extends State<MobileAttendance>
                                   text: TextSpan(
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: 'SID ' +
-                                            attendanceList[index]['sid']
-                                                .toString(),
-                                        style: TextStyle(
+                                        text: 'SID ${attendanceList[index]['sid']}',
+                                        style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.amber,
                                             fontWeight: FontWeight.w600),
@@ -262,47 +261,47 @@ class _MobileAttendanceState extends State<MobileAttendance>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  width: MediaQuery.of(context).size.width / 15,
-                                  child: Text(
-                                    "IN : ",
-                                    style: TextStyle(
-                                        fontSize: 14,
+                                  width: MediaQuery.of(context).size.width /8,
+                                  child:  Text(
+                                  AppLocalizations.of(context)!.intext,
+                                    style: const TextStyle(
+                                        fontSize:10,
                                         color: ColorsRes.grayColor,
-                                        fontWeight: FontWeight.w400),
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 Container(
                                   width:
-                                      MediaQuery.of(context).size.width / 5.5,
+                                      MediaQuery.of(context).size.width /8,
                                   child: Text(
                                     attendanceList[index]['in'] == false
                                         ? '-'
                                         : attendanceList[index]['in'],
-                                    style: TextStyle(
-                                        fontSize: 14,
+                                    style: const TextStyle(
+                                        fontSize: 10,
                                         color: ColorsRes.black,
                                         fontWeight: FontWeight.w700),
                                   ),
                                 ),
                                 Container(
-                                  width: MediaQuery.of(context).size.width / 10,
+                                  width: MediaQuery.of(context).size.width /8,
                                   child: Text(
-                                    "OUT : ",
-                                    style: TextStyle(
-                                        fontSize: 14,
+                                  AppLocalizations.of(context)!.out,
+                                    style: const TextStyle(
+                                        fontSize:10,
                                         color: ColorsRes.grayColor,
-                                        fontWeight: FontWeight.w400),
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 5.5,
+                               width:
+                                      MediaQuery.of(context).size.width /8,
                                   child: Text(
                                     attendanceList[index]['out'] == false
                                         ? '-'
                                         : attendanceList[index]['out'],
-                                    style: TextStyle(
-                                        fontSize: 15,
+                                    style: const TextStyle(
+                                        fontSize: 10,
                                         color: ColorsRes.black,
                                         fontWeight: FontWeight.w700),
                                   ),
@@ -329,14 +328,14 @@ class _MobileAttendanceState extends State<MobileAttendance>
               scrollOnExpand: true,
               scrollOnCollapse: false,
               child: ExpandablePanel(
-                theme: ExpandableThemeData(
+                theme: const ExpandableThemeData(
                   headerAlignment: ExpandablePanelHeaderAlignment.center,
                   tapBodyToCollapse: true,
                 ),
-                header: Padding(
+                header:  Padding(
                   padding: EdgeInsets.only(left: 10, top: 0),
                   child: Text(
-                    "View Projects",
+                      AppLocalizations.of(context)!.viewProjects
                   ),
                 ),
                 collapsed: SizedBox(),
@@ -347,7 +346,7 @@ class _MobileAttendanceState extends State<MobileAttendance>
                       padding: EdgeInsets.only(bottom: 10, left: 10),
                       child: attendanceList[index]['project'] == false ||
                               attendanceList[index]['task'] == false
-                          ? Text('no projects or tasks found')
+                          ? Text(   AppLocalizations.of(context)!.noProjectsOrTasksFound)
                           : Container(
                               width: MediaQuery.of(context).size.width * 0.7,
                               decoration: BoxDecoration(
@@ -358,7 +357,7 @@ class _MobileAttendanceState extends State<MobileAttendance>
                                     BorderRadius.all(Radius.circular(6)),
                               ),
                               child: Table(
-                                border: TableBorder.symmetric(
+                                border: const TableBorder.symmetric(
                                     inside: BorderSide(
                                         width: 1, color: Colors.black)),
                                 defaultVerticalAlignment:
@@ -371,21 +370,21 @@ class _MobileAttendanceState extends State<MobileAttendance>
                                             topLeft: Radius.circular(6),
                                             topRight: Radius.circular(6)),
                                       ),
-                                      children: [
+                                      children:  [
                                         Text(
-                                          "Projects",
+                                          AppLocalizations.of(context)!.projects,
                                           textScaleFactor: 1,
                                           textAlign: TextAlign.center,
                                         ),
                                         Text(
-                                          "Tasks",
+                                          AppLocalizations.of(context)!.tasks,
                                           textScaleFactor: 1,
                                           textAlign: TextAlign.center,
                                         ),
                                       ]),
-                                  TableRow(children: [
+                                   TableRow(children: [
                                     Text(
-                                      'wrkd_hours_fmtd',
+                                     AppLocalizations.of(context)!.workedHoursFormatted,
                                       // data.boilerPlate['wrkd_hours_fmtd'] == null
                                       //     ? " - "
                                       //     : data.boilerPlate['wrkd_hours_fmtd']

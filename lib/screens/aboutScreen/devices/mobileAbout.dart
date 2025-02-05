@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 import 'package:qfix_nitmo_new/Constant/Slideanimation.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class MobileAbout extends StatefulWidget {
@@ -50,7 +51,7 @@ class _MobileAboutState extends State<MobileAbout>
           ),
           shadowColor: Colors.transparent,
           title: Text(
-            'About'.toUpperCase(),
+          AppLocalizations.of(context)!.about,
             style: TextStyle(
               letterSpacing: 4,
             ),

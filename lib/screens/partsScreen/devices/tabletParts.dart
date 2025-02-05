@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:qfix_nitmo_new/widgets/widgets.dart';
 
 
 
@@ -18,7 +20,7 @@ class TabletParts extends StatefulWidget {
 
 class _TabletPartsState extends State<TabletParts>
     with TickerProviderStateMixin {
-  AnimationController? _animationController;
+   AnimationController? _animationController;
   final formKey = GlobalKey<FormState>();
   LocalStorage storage = LocalStorage('qfix');
   var contractList = [];
@@ -26,22 +28,42 @@ class _TabletPartsState extends State<TabletParts>
   bool itemSelected = false;
   TextEditingController newPartsListController = TextEditingController();
   bool _textValidate = false;
+
   bool btnDisable = false;
+  APIService apiService = APIService();
+  int counter = 0;
+  List existPartsList = [];
+  bool isLongPressedIncrease = false;
+  bool isLongPressedDecrease = false;
+  List partList = [];
 
   @override
   void initState() {
     super.initState();
+
     _animationController = AnimationController(
         vsync: this, duration: Duration(milliseconds: 2000));
 
     for (var element in widget.taskData.contract['coverage']) {
       contractList.add(element);
     }
+    setState(() {
+      existPartsList = widget.taskData.parts;
+    });
+    var other = {
+      'family': 'Other',
+      'model': false,
+      'desc': false,
+      'serial': 'other',
+      'make': false
+    };
+    contractList.add(other);
   }
 
   @override
   void dispose() {
     _animationController!.dispose();
+
     super.dispose();
   }
 
@@ -59,49 +81,82 @@ class _TabletPartsState extends State<TabletParts>
 
   Widget selectItem() {
     return Container(
-      margin: EdgeInsets.only(
-        top: MediaQuery.of(context).size.width / 20,
-        left: MediaQuery.of(context).size.width / 10,
-        right: MediaQuery.of(context).size.width / 10,
+      padding: EdgeInsets.only(
+        left: 30,
+        right: 30,
       ),
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(horizontal: 10.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: ColorsRes.warmGreyColor,
-          style: BorderStyle.solid,
-          width: 1.5,
-        ),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton(
-          hint: Text('Please select product'),
-          items: contractList.map((con) {
-            return DropdownMenuItem(
-              value: con['serial'],
-              child: Text(
-                con['family'] + ' / ' + con['serial'],
-                style: TextStyle(fontSize: 18),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            margin: EdgeInsets.only(
+              top: 10,
+            ),
+            width: MediaQuery.of(context).size.width / 1.5,
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: ColorsRes.warmGreyColor,
+                style: BorderStyle.solid,
+                width: 0.80,
               ),
-            );
-          }).toList(),
-          onChanged: (value) {
-            setState(() {
-              coverageDropdownValue = value.toString();
-              itemSelected = true;
-              _textValidate = false;
-            });
-          },
-          isExpanded: false,
-          value: itemSelected ? coverageDropdownValue.toString() : null,
-        ),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton(
+                hint: Text('Please select product'),
+                items: contractList.map((con) {
+                  return DropdownMenuItem(
+                    value: con['serial'],
+                    child: Text(con['family'] + ' / ' + con['serial']),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    coverageDropdownValue = value.toString();
+                    itemSelected = true;
+                    _textValidate = false;
+                  });
+                },
+                isExpanded: true,
+                value: itemSelected ? coverageDropdownValue.toString() : null,
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(50),
+                topRight: Radius.circular(50),
+                bottomLeft: Radius.circular(50),
+                bottomRight: Radius.circular(50),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.8),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
+           child:const Icon(
+             Icons.select_all,
+                color: Colors.black,
+      
+             
+            ),
+          ),
+        ],
       ),
     );
+
   }
 
   cellHeight() {
-    return TableRow(
+    return const TableRow(
       children: [
         TableCell(
           child: SizedBox(
@@ -126,15 +181,14 @@ class _TabletPartsState extends State<TabletParts>
     if (contractList.length > 0) {
       for (var element in contractList) {
         if (element['serial'] == coverageDropdownValue.toString()) {
+          if (element['serial'] == 'other') {
+            return Text(AppLocalizations.of(context)!.partsFiled);
+          }
+
           return Container(
-            padding: EdgeInsets.only(
-              left: MediaQuery.of(context).size.width / 10,
-              right: MediaQuery.of(context).size.width / 10,
-              top: MediaQuery.of(context).size.width / 15,
-              bottom: MediaQuery.of(context).size.width / 15,
-            ),
+            padding: EdgeInsets.only(left: 20, right: 5),
             child: Table(
-              columnWidths: {
+              columnWidths: const {
                 0: FlexColumnWidth(1.5),
                 1: FlexColumnWidth(0.5),
                 2: FlexColumnWidth(4),
@@ -142,26 +196,17 @@ class _TabletPartsState extends State<TabletParts>
               children: [
                 TableRow(
                   children: [
-                    Text(
+                    const Text(
                       "Family",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
                     ),
                     Text(
                       ":",
                       textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
                     ),
                     Text(
                       element['family'],
                       textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
                     ),
                   ],
                 ),
@@ -171,23 +216,14 @@ class _TabletPartsState extends State<TabletParts>
                     Text(
                       "Model",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
                     ),
                     Text(
                       ":",
                       textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
                     ),
                     Text(
                       element['model'],
                       textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
                     ),
                   ],
                 ),
@@ -197,23 +233,14 @@ class _TabletPartsState extends State<TabletParts>
                     Text(
                       "Serial",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
                     ),
                     Text(
                       ":",
                       textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
                     ),
                     Text(
                       element['serial'],
                       textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
                     ),
                   ],
                 ),
@@ -223,23 +250,14 @@ class _TabletPartsState extends State<TabletParts>
                     Text(
                       "Make",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
                     ),
                     Text(
                       ":",
                       textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
                     ),
                     Text(
                       element['make'],
                       textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
                     ),
                   ],
                 ),
@@ -249,23 +267,14 @@ class _TabletPartsState extends State<TabletParts>
                     Text(
                       "Detail",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
                     ),
                     Text(
                       ":",
                       textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
                     ),
                     Text(
                       element['desc'],
                       textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
                     ),
                   ],
                 ),
@@ -280,10 +289,16 @@ class _TabletPartsState extends State<TabletParts>
   }
 
   showInputField() {
+    var fontSize = MediaQuery.of(context).size.width / 25;
+
+    if (storage.getItem('lang') == 'si') {
+      fontSize = MediaQuery.of(context).size.width / 30;
+    }
+
     return Container(
       padding: EdgeInsets.only(
-        left: MediaQuery.of(context).size.width / 12,
-        right: MediaQuery.of(context).size.width / 12,
+        left: 30,
+        right: 30,
       ),
       child: Column(
         children: [
@@ -291,100 +306,244 @@ class _TabletPartsState extends State<TabletParts>
             key: formKey,
             child: Column(
               children: [
-                TextFormField(
-                  validator: (value) {
-                    if (value!.isNotEmpty) {
-                      return null;
-                    } else {
-                      return AppLocalizations.of(context)!.partsFiledError;
-                    }
-                  },
-                  scrollPadding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).viewInsets.bottom * 4),
-                  maxLines: 4,
-                  onChanged: (_) {
-                    setState(() {
-                      _textValidate = false;
-                    });
-                  },
-                  controller: newPartsListController,
-                  keyboardType: TextInputType.name,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 15.0, top: 20),
-                    errorStyle: TextStyle(
-                      fontSize: 18,
-                    ),
-                    hintStyle: TextStyle(
-                      color: ColorsRes.purpalColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                    ),
-                    labelStyle: TextStyle(
-                        color: ColorsRes.greyColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal),
-                    filled: false,
-                    focusColor: ColorsRes.warmGreyColor,
-                    focusedBorder: OutlineInputBorder(
-                      gapPadding: 2.0,
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: BorderSide(
-                        color: ColorsRes.warmGreyColor,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width / 1.5,
+                      child: textField(
+                        newPartsListController,
+                        AppLocalizations.of(context)!.partsFiled,
+                        AppLocalizations.of(context)!.partsFiledError,
+                        TextInputType.text,
+                        false,
+                        formKey,
+                        1,
                       ),
                     ),
-                    border: OutlineInputBorder(
-                      gapPadding: 0.3,
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: BorderSide(
-                        color: ColorsRes.warmGreyColor,
-                        width: 1,
+                    Container(
+                      // width: MediaQuery.of(context).size.width / 5,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GestureDetector(
+                            child: Container(
+                              width: 30,
+                              height: 30,
+                              child: Icon(
+                                Icons.check,
+                                color: Colors.green,
+                                size: 20,
+                              ),
+                              // margin: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.green[100],
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onTap: () {
+                              if (newPartsListController.text.isEmpty) {
+                                apiService.showToast('Please add item');
+                              } else {
+                                setState(() {
+                                  partList.add({
+                                    'part': newPartsListController.text,
+                                    'qty': 1
+                                  });
+                                  newPartsListController.clear();
+                                });
+                              }
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                    labelText: AppLocalizations.of(context)!.partsFiled,
-                    hintText: AppLocalizations.of(context)!.partsFiledError,
-                  ),
+                  ],
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 90,
                 ),
+                partList.length > 0
+                    ? Container(
+                        height: MediaQuery.of(context).size.height / 4,
+                        child: SingleChildScrollView(
+                          child: Table(columnWidths: {
+                            0: FlexColumnWidth(0.8),
+                            1: FlexColumnWidth(0.7),
+                            2: FlexColumnWidth(0.2),
+                          }, children: [
+                            const TableRow(
+                              children: [
+                                TableCell(
+                                  child: Text(
+                                    'Parts',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                TableCell(
+                                  child: Text(
+                                    'Qty',
+                                    textAlign: TextAlign.center,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                TableCell(
+                                  child: Text(
+                                    '',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            cellHeight(),
+                            ...partList
+                                .expand((item) => [
+                                      TableRow(
+                                        children: [
+                                          TableCell(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(5),
+                                              child: Text(
+                                                item['part'],
+                                                style: TextStyle(fontSize: 14),
+                                              ),
+                                            ),
+                                          ),
+                                          TableCell(
+                                            child: Container(
+                                              child: Row(
+                                                children: [
+                                                  GestureDetector(
+                                                    child: Container(
+                                                      width: 24,
+                                                      height: 24,
+                                                      margin:
+                                                          EdgeInsets.all(15),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.grey[200],
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                      ),
+                                                      child: const Icon(
+                                                        Icons.remove,
+                                                        color: Colors.red,
+                                                        size: 20,
+                                                      ),
+                                                    ),
+                                                    onTap: () {
+                                                      setState(() {
+                                                        if (item['qty'] > 1) {
+                                                          item['qty']--;
+                                                        }
+                                                      });
+                                                    },
+                                                  ),
+                                                  Text(
+                                                    "${item['qty']}",
+                                                    style:
+                                                        TextStyle(fontSize: 14),
+                                                  ),
+                                                  GestureDetector(
+                                                    child: Container(
+                                                      width: 24,
+                                                      height: 24,
+                                                      margin:
+                                                          EdgeInsets.all(15),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.grey[200],
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                      ),
+                                                      child: const Icon(
+                                                        Icons.add,
+                                                        color: Colors.green,
+                                                        size: 20,
+                                                      ),
+                                                    ),
+                                                    onTap: () {
+                                                      setState(() {
+                                                        item['qty']++;
+                                                      });
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          TableCell(
+                                            child: GestureDetector(
+                                              child: Container(
+                                                margin: const EdgeInsets.only(
+                                                  top: 10,
+                                                ),
+                                                width: 30,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.red[100],
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                child: const Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                  size: 20,
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                print('click remove');
+                                                setState(() {
+                                                  partList.remove(item);
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      // Add a space row with 10 pixels height
+                                      TableRow(
+                                        children: [
+                                          TableCell(
+                                            child: Container(height: 10),
+                                          ),
+                                          TableCell(
+                                            child: Container(height: 10),
+                                          ),
+                                          TableCell(
+                                            child: Container(height: 10),
+                                          ),
+                                        ],
+                                      ),
+                                    ])
+                                .toList(),
+                          ]),
+                        ),
+                      )
+                    : SizedBox(),
                 Container(
                   margin: EdgeInsets.only(
                     left: MediaQuery.of(context).size.width / 30,
                     right: MediaQuery.of(context).size.width / 30,
                     top: MediaQuery.of(context).size.width / 30,
                   ),
-                  width: 400,
+                  width: 300,
                   child: CupertinoButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            CupertinoIcons.settings_solid,
-                            color: Colors.black,
-                            size: 35,
-                          ),
-                          SizedBox(width: 5),
-                          Text(
-                            AppLocalizations.of(context)!.orderBtnName,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
                       onPressed: btnDisable
                           ? null
                           : () async {
-                              if (formKey.currentState!.validate() &&
-                                  newPartsListController.text.isNotEmpty) {
+                              if (partList.length == 0) {
+                                apiService.showToast('Please add parts list');
+                              } else {
                                 setState(() {
                                   btnDisable = true;
                                 });
                                 var data = {
                                   'serial': coverageDropdownValue,
-                                  'parts': newPartsListController.text
+                                  'parts': partList
                                 };
                                 var submit = await widget.markUpdateTask(
                                     'parts',
@@ -401,7 +560,25 @@ class _TabletPartsState extends State<TabletParts>
                                 }
                               }
                             },
-                      color: ColorsRes.secondaryButton),
+                      color: ColorsRes.secondaryButton,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            CupertinoIcons.settings_solid,
+                            color: Colors.black,
+                          ),
+                          SizedBox(width: 5),
+                          Text(
+                            AppLocalizations.of(context)!.orderBtnName,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: fontSize,
+                            ),
+                          ),
+                        ],
+                      )),
                 )
               ],
             ),
@@ -451,6 +628,15 @@ class _TabletPartsState extends State<TabletParts>
           ),
         ),
       ),
+      // floatingActionButton: FloatingActionButton.small(
+      //   backgroundColor: Colors.black45,
+      //   elevation: 10,
+      //   onPressed: () {},
+      //   child: Icon(
+      //     Icons.sticky_note_2_outlined,
+      //   ),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }
 }

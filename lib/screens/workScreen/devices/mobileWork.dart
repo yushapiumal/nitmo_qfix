@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'dart:ui';
+import 'package:qfix_nitmo_new/screens/updateScreen/updateScreen.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +14,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qfix_nitmo_new/screens/workScreen/devices/reviews_slider.dart';
 import 'package:signature/signature.dart';
 
-
-
-
 class MobileWork extends StatefulWidget {
-  const MobileWork({Key? key, required this.markUpdateTask}) : super(key: key);
+  const MobileWork({Key? key, 
+  required this.markUpdateTask,
+  required this.taskData
+  }) : super(key: key);
   final markUpdateTask;
+  final taskData;
   @override
   State<MobileWork> createState() => _MobileWorkState();
 }
@@ -52,10 +56,10 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
             children: [
               SizedBox(height: MediaQuery.of(context).size.height / 99),
               // helpingText(),
-              buttonStart(),
+            //  buttonStart(),
               buttonDelay(),
               buttonReschedule(),
-              buttonComplete(),
+             // buttonComplete(),
               btnDisable
                   ? Container(
                       child: Padding(
@@ -91,7 +95,7 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
     if (type == 'complete') {
       showModalBottomSheet(
         isScrollControlled: true,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20.0),
             topRight: Radius.circular(20.0),
@@ -106,7 +110,7 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
             child: ActivityModel(
               titleText: titleText,
               type: type,
-              markUpdateTask: widget.markUpdateTask,
+              markUpdateTask:widget.markUpdateTask,
             ),
           );
         },
@@ -118,7 +122,7 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20, top: 20),
       width: 600,
-      child: Text(
+      child: const Text(
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
         style: TextStyle(fontSize: 16),
         textAlign: TextAlign.center,
@@ -127,82 +131,83 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
   }
 
   Widget buttonStart() {
-    return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-      width: 600,
-      child: CupertinoButton(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                CupertinoIcons.play,
-                color: Colors.black,
-              ),
-              SizedBox(width: 5),
-              Text(
-                AppLocalizations.of(context)!.startWork,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          onPressed: btnDisable
-              ? null
-              : () async {
-                  setState(() {
-                    btnDisable = true;
-                  });
-                  var submit =
-                      await widget.markUpdateTask('work', 'start-work', false);
-                  if (submit || !submit) {
-                    setState(() {
-                      btnDisable = false;
-                    });
-                  }
-                },
-          color: ColorsRes.secondaryButton),
-    );
-  }
+  return Container(
+    margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+    width: 600,
+    child: CupertinoButton(
+      onPressed: btnDisable
+          ? null
+          : () async {
+              print("result++++++++++++++++++++>${widget.markUpdateTask}");
+              setState(() {
+                btnDisable = true;
+              });
+          
+              var submit = await widget.markUpdateTask('work', 'start-work',false);
 
+           
+              if (submit != null) {
+                setState(() {
+                  btnDisable = false; 
+                });
+              } else {
+             
+                setState(() {
+                  btnDisable = false; 
+                });
+              }
+            },
+      color: ColorsRes.secondaryButton,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            CupertinoIcons.play,
+            color: Colors.black,
+          ),
+          const SizedBox(width: 5),
+          Text(
+            AppLocalizations.of(context)!.startWork,
+            style: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+} 
   Widget buttonDelay() {
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20, top: 20),
       width: 600,
       child: CupertinoButton(
+          onPressed: btnDisable
+              ? null
+              : () async {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateScreen( markUpdateTask:widget.markUpdateTask, taskData:widget.taskData,)));
+              
+                 
+                },
+          color: ColorsRes.secondaryButton,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 CupertinoIcons.hourglass,
                 color: Colors.black,
               ),
               SizedBox(width: 5),
               Text(
                 AppLocalizations.of(context)!.markAsDelay,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
-          ),
-          onPressed: btnDisable
-              ? null
-              : () async {
-                  setState(() {
-                    btnDisable = true;
-                  });
-                  var submit = await widget.markUpdateTask(
-                      'work', 'mark-as-delay', false);
-                  if (submit || !submit) {
-                    setState(() {
-                      btnDisable = false;
-                    });
-                  }
-                },
-          color: ColorsRes.secondaryButton),
+          )),
     );
   }
 
@@ -211,62 +216,62 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
       margin: EdgeInsets.only(left: 20, right: 20, top: 20),
       width: 600,
       child: CupertinoButton(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                CupertinoIcons.checkmark_seal,
-                color: Colors.black,
-              ),
-              SizedBox(width: 5),
-              Text(
-                AppLocalizations.of(context)!.markAsComplete,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
           onPressed: btnDisable
               ? null
               : () {
                   _showDialog(
                       AppLocalizations.of(context)!.markAsComplete, 'complete');
                 },
-          color: ColorsRes.secondaryButton),
-    );
-  }
-
-  Widget buttonReschedule() {
-    return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-      width: 600,
-      child: CupertinoButton(
+          color: ColorsRes.secondaryButton,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                CupertinoIcons.calendar,
+              const Icon(
+                CupertinoIcons.checkmark_seal,
                 color: Colors.black,
               ),
               SizedBox(width: 5),
               Text(
-                AppLocalizations.of(context)!.reschedule,
-                style: TextStyle(
+                AppLocalizations.of(context)!.markAsComplete,
+                style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
-          ),
+          )),
+    );
+  }
+
+  Widget buttonReschedule() {
+    return Container(
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+      width: 600,
+      child: CupertinoButton(
           onPressed: btnDisable
               ? null
               : () {
                   _showDialog(
                       AppLocalizations.of(context)!.reschedule, 'reschedule');
                 },
-          color: ColorsRes.secondaryButton),
+          color: ColorsRes.secondaryButton,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                CupertinoIcons.calendar,
+                color: Colors.black,
+              ),
+              const SizedBox(width: 5),
+              Text(
+                AppLocalizations.of(context)!.reschedule,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],     
+          )),
     );
   }
 }
@@ -297,7 +302,7 @@ class _ActivityModelState extends State<ActivityModel> {
   String? rescheduleTime;
   TextEditingController completeDescription = TextEditingController();
   TextEditingController customerName = TextEditingController();
-  //CalendarController _calendarController = CalendarController();
+  CalendarController _calendarController = CalendarController();
   bool _textValidate = false;
   bool _customerNameTextValidate = false;
   bool btnDisable = false;
@@ -346,7 +351,7 @@ class _ActivityModelState extends State<ActivityModel> {
                             fontSize: 16,
                             fontWeight: FontWeight.normal,
                           ),
-                          labelStyle: TextStyle(
+                          labelStyle: const TextStyle(
                               color: ColorsRes.greyColor,
                               fontSize: 16,
                               fontWeight: FontWeight.normal),
@@ -355,14 +360,14 @@ class _ActivityModelState extends State<ActivityModel> {
                           focusedBorder: OutlineInputBorder(
                             gapPadding: 2.0,
                             borderRadius: BorderRadius.circular(24),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: ColorsRes.warmGreyColor,
                             ),
                           ),
                           border: OutlineInputBorder(
                             gapPadding: 0.3,
                             borderRadius: BorderRadius.circular(24),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: ColorsRes.warmGreyColor,
                               width: 1,
                             ),
@@ -408,7 +413,7 @@ class _ActivityModelState extends State<ActivityModel> {
                             fontSize: 16,
                             fontWeight: FontWeight.normal,
                           ),
-                          labelStyle: TextStyle(
+                          labelStyle: const TextStyle(
                               color: ColorsRes.greyColor,
                               fontSize: 16,
                               fontWeight: FontWeight.normal),
@@ -543,13 +548,15 @@ class _ActivityModelState extends State<ActivityModel> {
                                     if (selectedValue1 == 2) {
                                       statusTxt = "Job Done";
                                     }
+                                    
                                     var data = {
                                       'customerName': customerName.text,
                                       'completeNote': completeDescription.text,
                                       'signature': signatureSVG,
                                       'status': statusTxt
                                     };
-
+                                  
+                                       print("data=============================================>$data");
                                     var submit = await widget.markUpdateTask(
                                       'work',
                                       'complete',
@@ -590,56 +597,56 @@ class _ActivityModelState extends State<ActivityModel> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Padding(
-                      //   padding: const EdgeInsets.only(top: 5),
-                      //   child: TimePickerSpinner(
-                      //     is24HourMode: false,
-                      //     normalTextStyle:
-                      //         TextStyle(fontSize: 14, color: Color(0xffb3b8bd)),
-                      //     highlightedTextStyle:
-                      //         TextStyle(fontSize: 19, color: Colors.black),
-                      //     spacing: 50,
-                      //     itemHeight: 50,
-                      //     isForce2Digits: true,
-                      //     onTimeChange: (time) {
-                      //       String formattedDate =
-                      //         //  DateFormat('kk:mm').format(time);
-                      //       // setState(() {
-                      //       //   rescheduleTime = formattedDate;
-                      //       // });
-                      //     },
-                      //   ),
-                      // ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: TimePickerSpinner(
+                          is24HourMode: false,
+                          normalTextStyle:
+                              TextStyle(fontSize: 14, color: Color(0xffb3b8bd)),
+                          highlightedTextStyle:
+                              TextStyle(fontSize: 19, color: Colors.black),
+                          spacing: 50,
+                          itemHeight: 50,
+                          isForce2Digits: true,
+                          onTimeChange: (time) {
+                            String formattedDate =
+                               DateFormat('kk:mm').format(time);
+                            setState(() {
+                              rescheduleTime = formattedDate;
+                            });
+                          },
+                        ),
+                      ),
                       Divider(),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(top: 5),
-                      //   child: Container(
-                      //     width: 229,
-                      //     height: 300,
-                      //     child: SfCalendar(
-                      //       controller: _calendarController,
-                      //       minDate: minDate,
-                      //       view: CalendarView.month,
-                      //       showNavigationArrow: true,
-                      //       todayHighlightColor: Colors.grey,
-                      //       headerStyle: CalendarHeaderStyle(
-                      //           textAlign: TextAlign.center,
-                      //           textStyle: TextStyle(
-                      //               color: Colors.black,
-                      //               fontSize: 13,
-                      //               fontWeight: FontWeight.bold)),
-                      //       monthViewSettings: MonthViewSettings(
-                      //         appointmentDisplayMode:
-                      //             MonthAppointmentDisplayMode.appointment,
-                      //         agendaStyle:
-                      //             AgendaStyle(backgroundColor: Colors.grey),
-                      //         monthCellStyle: MonthCellStyle(
-                      //           todayBackgroundColor: Colors.grey,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Container(
+                          width: 229,
+                          height: 300,
+                          child: SfCalendar(
+                            controller: _calendarController,
+                            minDate: minDate,
+                            view: CalendarView.month,
+                            showNavigationArrow: true,
+                            todayHighlightColor: Colors.grey,
+                            headerStyle: const CalendarHeaderStyle(
+                                textAlign: TextAlign.center,
+                                textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold)),
+                            monthViewSettings: const MonthViewSettings(
+                              appointmentDisplayMode:
+                                  MonthAppointmentDisplayMode.appointment,
+                              agendaStyle:
+                                  AgendaStyle(backgroundColor: Colors.grey),
+                              monthCellStyle: MonthCellStyle(
+                                todayBackgroundColor: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -672,11 +679,6 @@ class _ActivityModelState extends State<ActivityModel> {
                       )
                     : SizedBox(),
                 TextButton(
-                  child: Text(
-                    btnDisable
-                        ? AppLocalizations.of(context)!.checking
-                        : AppLocalizations.of(context)!.submit,
-                  ),
                   onPressed: btnDisable
                       ? null
                       : () async {
@@ -714,15 +716,15 @@ class _ActivityModelState extends State<ActivityModel> {
                             setState(() {
                               btnDisable = true;
                             });
-                            // var data = {
-                            //   'rescheduleTime': rescheduleTime,
-                            //   'rescheduleDate':
-                            //      // _calendarController.selectedDate.toString()
-                            // };
+                            var data = {
+                              'rescheduleTime': rescheduleTime,
+                              'rescheduleDate':
+                                  _calendarController.selectedDate.toString()
+                            };
                             var submit = await widget.markUpdateTask(
                               'work',
                               'reschedule',
-                              //data,
+                              data,
                             );
 
                             if (submit || !submit) {
@@ -733,6 +735,11 @@ class _ActivityModelState extends State<ActivityModel> {
                             }
                           }
                         },
+                  child: Text(
+                    btnDisable
+                        ? AppLocalizations.of(context)!.checking
+                        : AppLocalizations.of(context)!.submit,
+                  ),
                 ),
               ],
             ),

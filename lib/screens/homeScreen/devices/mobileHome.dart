@@ -11,6 +11,7 @@ import 'package:localstorage/localstorage.dart';
 
 import 'package:octo_image/octo_image.dart';
 import 'package:qfix_nitmo_new/Constant/Slideanimation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/CheckingCheckoutBottom.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
@@ -22,8 +23,11 @@ import 'package:qfix_nitmo_new/model/TaskModel.dart';
 import 'package:qfix_nitmo_new/screens/manageScreen/manageScreen.dart';
 
 class MobileHome extends StatefulWidget {
-  const MobileHome({Key? key}) : super(key: key);
+  const MobileHome({Key? key, required this.markUpdateTask }) : super(key: key);
+  final bool markUpdateTask;
+  
 
+  
   @override
   State<MobileHome> createState() => _MobileHomeState();
 }
@@ -207,22 +211,22 @@ class _MobileHomeState extends State<MobileHome> with TickerProviderStateMixin {
         centerTitle: true,
         title: Text(
           appName,
-          style: TextStyle(
+          style: const TextStyle(
             letterSpacing: 4,
           ),
         ),
         shadowColor: Colors.transparent,
-        actions: [
+        actions: const [
           NotificationAction(),
         ],
       ),
-      drawer: CustomDrawer(),
+      drawer: const CustomDrawer(),
       backgroundColor: ColorsRes.backgroundColor,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: NestedScrollView(
           controller: _scrollBottomBarController,
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           clipBehavior: Clip.none,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
@@ -230,7 +234,7 @@ class _MobileHomeState extends State<MobileHome> with TickerProviderStateMixin {
                 backgroundColor: ColorsRes.backgroundColor,
                 shadowColor: Colors.transparent,
                 automaticallyImplyLeading: false,
-                toolbarHeight: 0,
+                toolbarHeight:0 ,
                 titleSpacing: 0,
                 pinned: true,
                 bottom: TabBar(
@@ -251,8 +255,8 @@ class _MobileHomeState extends State<MobileHome> with TickerProviderStateMixin {
                       padding: const EdgeInsets.only(
                           bottom: 6.0, top: 6.0, left: 10.0, right: 10.0),
                       child: Text(
-                        'ALL',
-                        style: TextStyle(
+                     AppLocalizations.of(context)!.all,
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: Colors.black54,
@@ -262,9 +266,9 @@ class _MobileHomeState extends State<MobileHome> with TickerProviderStateMixin {
                     Container(
                       padding: const EdgeInsets.only(
                           bottom: 6.0, top: 6.0, left: 10.0, right: 10.0),
-                      child: const Text(
-                        'OPEN',
-                        style: TextStyle(
+                      child:  Text(
+                      AppLocalizations.of(context)!.open,
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: Colors.black54,
@@ -274,9 +278,9 @@ class _MobileHomeState extends State<MobileHome> with TickerProviderStateMixin {
                     Container(
                       padding: const EdgeInsets.only(
                           bottom: 6.0, top: 6.0, left: 10.0, right: 10.0),
-                      child: const Text(
-                        'PRIORITY',
-                        style: TextStyle(
+                      child:  Text(
+                        AppLocalizations.of(context)!.priority,
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: Colors.black54,
@@ -286,9 +290,9 @@ class _MobileHomeState extends State<MobileHome> with TickerProviderStateMixin {
                     Container(
                       padding: const EdgeInsets.only(
                           bottom: 6.0, top: 6.0, left: 10.0, right: 10.0),
-                      child: const Text(
-                        'MINE',
-                        style: TextStyle(
+                      child:  Text(
+                        AppLocalizations.of(context)!.mine,
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: Colors.black54,
@@ -346,7 +350,7 @@ class _MobileHomeState extends State<MobileHome> with TickerProviderStateMixin {
   Widget taskData(filter) {
     return _taskListCount == 0
         ? Container(
-            child: Padding(
+            child: const Padding(
               padding: EdgeInsets.symmetric(vertical: 5),
               child: Center(
                 child: Text('No CSR found'),
@@ -455,7 +459,7 @@ class _MobileHomeState extends State<MobileHome> with TickerProviderStateMixin {
                                     child: Text(
                                       _dateTime ?? "loading...",
                                       maxLines: 2,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
@@ -508,7 +512,7 @@ class _MobileHomeState extends State<MobileHome> with TickerProviderStateMixin {
                                       height: 40,
                                       width: MediaQuery.of(context).size.width /
                                           2.6,
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                         gradient: LinearGradient(
                                             colors: [
                                               Colors.blue,
@@ -526,7 +530,7 @@ class _MobileHomeState extends State<MobileHome> with TickerProviderStateMixin {
                                         left: 20.0,
                                       ),
                                       padding: EdgeInsets.all(0.5),
-                                      child: Row(
+                                      child: const Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
@@ -559,7 +563,7 @@ class _MobileHomeState extends State<MobileHome> with TickerProviderStateMixin {
                                       height: 40,
                                       width: MediaQuery.of(context).size.width /
                                           2.6,
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                         gradient: LinearGradient(
                                             colors: [
                                               Colors.orange,
@@ -577,7 +581,7 @@ class _MobileHomeState extends State<MobileHome> with TickerProviderStateMixin {
                                         left: 5.0,
                                       ),
                                       padding: EdgeInsets.all(0.5),
-                                      child: Row(
+                                      child: const Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
@@ -667,7 +671,8 @@ class _MobileHomeState extends State<MobileHome> with TickerProviderStateMixin {
             context,
             MaterialPageRoute(
               builder: (context) => ManageScreen(
-                taskData: data,
+                taskData: data, 
+                markUpdateTask:widget.markUpdateTask,
               ),
             ),
           );
@@ -755,7 +760,7 @@ class _MobileHomeState extends State<MobileHome> with TickerProviderStateMixin {
                               Expanded(
                                 child: Text(
                                   data.description,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 14,
                                     color: Colors.black54,
                                   ),
@@ -850,20 +855,18 @@ class _MobileHomeState extends State<MobileHome> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-              Divider(
+              const Divider(
                 height: 0,
                 thickness: 1,
               ),
               Expanded(
-                child: Container(
-                  child: CupertinoDatePicker(
-                    mode: mode,
-                    initialDateTime: tempPickedDate,
-                    maximumDate: tempPickedDate,
-                    onDateTimeChanged: (DateTime dateTime) {
-                      tempPickedDate = dateTime;
-                    },
-                  ),
+                child: CupertinoDatePicker(
+                  mode: mode,
+                  initialDateTime: tempPickedDate,
+                  maximumDate: tempPickedDate,
+                  onDateTimeChanged: (DateTime dateTime) {
+                    tempPickedDate = dateTime;
+                  },
                 ),
               ),
             ],
@@ -880,7 +883,7 @@ class _MobileHomeState extends State<MobileHome> with TickerProviderStateMixin {
       elevation: 0,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(50.0),
           topRight: Radius.circular(50.0),

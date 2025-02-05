@@ -118,9 +118,9 @@ class _TabletDetailsState extends State<TabletDetails>
       text = 'High Complexity';
     }
     return Text(
-      'This is a $text Task',
+      '$text task',
       style: TextStyle(
-        fontSize: 20,
+        fontSize: 18,
         color: Colors.white,
         fontWeight: FontWeight.w400,
       ),
@@ -148,14 +148,14 @@ class _TabletDetailsState extends State<TabletDetails>
       animationController: _animationController,
       child: Container(
           padding: EdgeInsets.only(
-            top: 5,
+            // top: 5,
             left: MediaQuery.of(context).size.width / 26,
             right: MediaQuery.of(context).size.width / 26,
             bottom: 3,
           ),
           child: Container(
             height: MediaQuery.of(context).size.height / 20,
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.of(context).size.width/4,
             decoration: BoxDecoration(
               color: customColor(widget.taskData.complexity),
               borderRadius: const BorderRadius.all(Radius.circular(15)),
@@ -173,190 +173,6 @@ class _TabletDetailsState extends State<TabletDetails>
               child: showComplexity(widget.taskData.complexity),
             ),
           )),
-    );
-  }
-
-  Widget detailCard(textContent) {
-    var text = "There are no solution has mentioned";
-
-    if (!textContent.isEmpty) {
-      text = textContent;
-    }
-    return SlideAnimation(
-      position: 1,
-      itemCount: 8,
-      slideDirection: SlideDirection.fromLeft,
-      animationController: _animationController,
-      child: Container(
-        padding: EdgeInsets.only(
-          top: 20,
-          left: MediaQuery.of(context).size.width / 26,
-          right: MediaQuery.of(context).size.width / 26,
-          bottom: 15,
-        ),
-        child: Stack(
-          children: [
-            Container(
-              constraints: BoxConstraints(
-                  minHeight: 0,
-                  maxHeight: MediaQuery.of(context).size.height / 5),
-              // height: MediaQuery.of(context).size.height / 4,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: ColorsRes.white,
-                borderRadius: const BorderRadius.all(Radius.circular(15)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromARGB(41, 0, 0, 0),
-                    offset: new Offset(2, 5),
-                    blurRadius: 10.0,
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
-              child: Container(
-                // height: MediaQuery.of(context).size.height,
-                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        //for horizontal scrolling
-                        scrollDirection: Axis.vertical,
-                        child: Text(
-                          text,
-                          // textContent,
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: ColorsRes.purpalColor,
-                            // fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  sectionTitle(titleText) {
-    return SlideAnimation(
-      position: 5,
-      itemCount: 8,
-      slideDirection: SlideDirection.fromBottom,
-      animationController: _animationController,
-      child: Container(
-        padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.width / 25,
-        ),
-        child: Text(
-          titleText,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget detailBox() {
-    return Container(
-      color: ColorsRes.appBG,
-      child: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
-        child: Column(
-          children: [
-            sectionTitle(AppLocalizations.of(context)!.issueTask),
-            detailCard(widget.taskData.description),
-            sectionTitle(AppLocalizations.of(context)!.solution),
-            tabSection(),
-            complexityCard(),
-            technicianSolutionBtn(),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 6,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget tabSection() {
-    return SlideAnimation(
-      position: 1,
-      itemCount: 8,
-      slideDirection: SlideDirection.fromLeft,
-      animationController: _animationController,
-      child: DefaultTabController(
-        length: 2,
-        child: Column(
-          mainAxisSize: MainAxisSize.min, // Adjust the mainAxisSize property
-
-          children: [
-            Container(
-              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-              width: 600,
-              child: TabBar(
-                indicator:
-                    DesignConfig.buttonShadowColor(ColorsRes.tabsColor, 20.0),
-                labelStyle:
-                    const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                indicatorColor: Colors.transparent,
-                tabs: [
-                  Container(
-                    padding: const EdgeInsets.only(
-                        bottom: 6.0, top: 6.0, left: 8.0, right: 8.0),
-                    child: Text(
-                      AppLocalizations.of(context)!.csr,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(
-                        bottom: 6.0, top: 6.0, left: 8.0, right: 8.0),
-                    child: Text(
-                      AppLocalizations.of(context)!.technicians,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Flexible(
-              child: Container(
-                height: MediaQuery.of(context).size.height / 4,
-                child: TabBarView(
-                  children: [
-                    detailCard(widget.taskData.solution),
-                    technicianSolutionCard(widget.taskData.technicianSolution),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -446,11 +262,11 @@ class _TabletDetailsState extends State<TabletDetails>
     );
   }
 
-  Widget technicianSolutionBtn() {
-    var fontSize = MediaQuery.of(context).size.width / 25;
+  Widget detailCard(textContent) {
+    var text = "There are no solution has mentioned";
 
-    if (storage.getItem('lang') == 'si') {
-      fontSize = MediaQuery.of(context).size.width / 30;
+    if (!textContent.isEmpty) {
+      text = textContent;
     }
     return SlideAnimation(
       position: 1,
@@ -458,57 +274,241 @@ class _TabletDetailsState extends State<TabletDetails>
       slideDirection: SlideDirection.fromLeft,
       animationController: _animationController,
       child: Container(
-        margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-        width: 600,
-        child: CupertinoButton(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
+        padding: EdgeInsets.only(
+          top: 20,
+          left: MediaQuery.of(context).size.width / 26,
+          right: MediaQuery.of(context).size.width / 26,
+          bottom: 15,
+        ),
+        child: Stack(
+          children: [
+            Container(
+              constraints: BoxConstraints(
+                  minHeight: 0,
+                  maxHeight: MediaQuery.of(context).size.height / 5),
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: ColorsRes.white,
+                borderRadius: const BorderRadius.all(Radius.circular(15)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(41, 0, 0, 0),
+                    offset: new Offset(2, 5),
+                    blurRadius: 10.0,
+                    spreadRadius: 0,
+                  )
+                ],
+              ),
+              child: Container(
+                // height: MediaQuery.of(context).size.height,
+                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.note_alt_outlined,
-                          color: Colors.black,
-                          size: 24.0,
-                        ),
-                        SizedBox(width: 15),
-                        Text(
-                          AppLocalizations.of(context)!.technicians +
-                              " " +
-                              AppLocalizations.of(context)!.solution,
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        //for horizontal scrolling
+                        scrollDirection: Axis.vertical,
+                        child: Text(
+                          // textContent,
+                          text,
                           style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: fontSize,
+                            fontSize: 18,
+                            color: ColorsRes.purpalColor,
+                            // fontWeight: FontWeight.bold,
                           ),
+                          textAlign: TextAlign.left,
                         ),
-                      ],
+                      ),
                     )
                   ],
                 ),
-              ],
+              ),
             ),
-            onPressed: () {
-              showModalBottomSheet(
-                isScrollControlled: true,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20.0),
-                    topRight: Radius.circular(20.0),
-                  ),
-                ),
-                context: context,
-                builder: (BuildContext context) {
-                  return BottomSheet(markUpdateTask: widget.markUpdateTask);
-                },
-              );
-            },
-            color: ColorsRes.secondaryButton),
+          ],
+        ),
       ),
     );
   }
+
+  sectionTitle(titleText) {
+    return SlideAnimation(
+      position: 5,
+      itemCount: 8,
+      slideDirection: SlideDirection.fromBottom,
+      animationController: _animationController,
+      child: Container(
+        padding: EdgeInsets.only(
+          top: 10,
+        ),
+        child: Text(
+          titleText,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget detailBox() {
+    return Container(
+      color: ColorsRes.appBG,
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            sectionTitle(AppLocalizations.of(context)!.issueTask),
+            detailCard(widget.taskData.description),
+            sectionTitle(AppLocalizations.of(context)!.solution),
+            tabSection(),
+          //  complexityCard(),
+           // technicianSolutionBtn(),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 6,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget tabSection() {
+    return SlideAnimation(
+      position: 1,
+      itemCount: 8,
+      slideDirection: SlideDirection.fromLeft,
+      animationController: _animationController,
+      child: DefaultTabController(
+        length: 2,
+        child: Column(
+          mainAxisSize: MainAxisSize.min, // Adjust the mainAxisSize property
+
+          children: [
+            Container(
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+              width: 600,
+              child: TabBar(
+                indicator:
+                    DesignConfig.buttonShadowColor(ColorsRes.tabsColor, 20.0),
+                labelStyle:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                indicatorColor: Colors.transparent,
+                tabs: [
+                  Container(
+                    padding: const EdgeInsets.only(
+                        bottom: 6.0, top: 6.0, left: 8.0, right: 8.0),
+                    child: Text(
+                      AppLocalizations.of(context)!.csr,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                        bottom: 6.0, top: 6.0, left: 8.0, right: 8.0),
+                    child: Text(
+                      AppLocalizations.of(context)!.technicians,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Flexible(
+              child: Container(
+                height: MediaQuery.of(context).size.height / 4,
+                child: TabBarView(
+                  children: [
+                    detailCard(widget.taskData.solution),
+                    technicianSolutionCard(widget.taskData.technicianSolution),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Widget technicianSolutionBtn() {
+  //   var fontSize = MediaQuery.of(context).size.width / 25;
+
+  //   if (storage.getItem('lang') == 'si') {
+  //     fontSize = MediaQuery.of(context).size.width / 30;
+  //   }
+
+  //   return SlideAnimation(
+  //     position: 1,
+  //     itemCount: 8,
+  //     slideDirection: SlideDirection.fromLeft,
+  //     animationController: _animationController,
+  //     child: Container(
+  //       margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+  //       width: 600,
+  //       child: CupertinoButton(
+  //           onPressed: () {
+  //             showModalBottomSheet(
+  //               isScrollControlled: true,
+  //               shape: const RoundedRectangleBorder(
+  //                 borderRadius: BorderRadius.only(
+  //                   topLeft: Radius.circular(20.0),
+  //                   topRight: Radius.circular(20.0),
+  //                 ),
+  //               ),
+  //               context: context,
+  //               builder: (BuildContext context) {
+  //                 return BottomSheet(markUpdateTask: widget.markUpdateTask);
+  //               },
+  //             );
+  //           },
+  //           color: ColorsRes.secondaryButton,
+  //           child: Row(
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             children: [
+  //               Column(
+  //                 children: [
+  //                   Row(
+  //                     children: [
+  //                       const Icon(
+  //                         Icons.note_alt_outlined,
+  //                         color: Colors.black,
+  //                         size: 24.0,
+  //                       ),
+  //                       SizedBox(width: 15),
+  //                       Text(
+  //                         AppLocalizations.of(context)!.technicians +
+  //                             " " +
+  //                             AppLocalizations.of(context)!.solution,
+  //                         style: TextStyle(
+  //                           color: Colors.black,
+  //                           fontWeight: FontWeight.bold,
+  //                           fontSize: fontSize,
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   )
+  //                 ],
+  //               ),
+  //             ],
+  //           )),
+  //     ),
+  //   );
+  // }
 
   Widget bottomCard() {
     return SlideAnimation(
@@ -517,8 +517,8 @@ class _TabletDetailsState extends State<TabletDetails>
       slideDirection: SlideDirection.fromBottom,
       animationController: _animationController,
       child: DraggableScrollableSheet(
-        initialChildSize: 0.19,
-        minChildSize: 0.15,
+        initialChildSize:0.3,
+        minChildSize: 0.3,
         maxChildSize: 0.9,
         builder: (BuildContext context, ScrollController scrollController) {
           return ListView.builder(
@@ -547,19 +547,26 @@ class _TabletDetailsState extends State<TabletDetails>
                         height: 8,
                         decoration: BoxDecoration(
                           color: Colors.grey[500],
-                          borderRadius: BorderRadius.all(
+                          borderRadius: const BorderRadius.all(
                             Radius.circular(5),
                           ),
                         ),
                       ),
-                    ),
-                    devider(AppLocalizations.of(context)!.customer),
+                    ),Row(  
+                      children: [
+                      Expanded(child:  
+                       devider(AppLocalizations.of(context)!.customer),),
+                     complexityCard()
+
+                        ]
+                        ),
+                  
                     customerSection(),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     devider(AppLocalizations.of(context)!.assignedTo),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     assingedToSection(),
@@ -599,19 +606,15 @@ class _TabletDetailsState extends State<TabletDetails>
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     color: ColorsRes.textColor,
-                    fontSize: 19,
+                    fontSize: 18,
                     fontWeight: FontWeight.normal,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
-        Divider(
-          color: ColorsRes.greyColor,
-          indent: MediaQuery.of(context).size.width / 18,
-          endIndent: MediaQuery.of(context).size.width / 18,
-        ),
+      
         ListTile(
           dense: true,
           contentPadding: EdgeInsets.only(
@@ -635,11 +638,7 @@ class _TabletDetailsState extends State<TabletDetails>
             ],
           ),
         ),
-        Divider(
-          color: ColorsRes.greyColor,
-          indent: MediaQuery.of(context).size.width / 18,
-          endIndent: MediaQuery.of(context).size.width / 18,
-        ),
+      
         ListTile(
           dense: true,
           contentPadding: EdgeInsets.only(
@@ -669,11 +668,7 @@ class _TabletDetailsState extends State<TabletDetails>
                 : APIService().showToast('No contact number');
           },
         ),
-        Divider(
-          color: ColorsRes.greyColor,
-          indent: MediaQuery.of(context).size.width / 18,
-          endIndent: MediaQuery.of(context).size.width / 18,
-        ),
+     
         ListTile(
           dense: true,
           contentPadding: EdgeInsets.only(
@@ -702,11 +697,7 @@ class _TabletDetailsState extends State<TabletDetails>
                 : APIService().showToast('No contact number');
           },
         ),
-        Divider(
-          color: ColorsRes.greyColor,
-          indent: MediaQuery.of(context).size.width / 18,
-          endIndent: MediaQuery.of(context).size.width / 18,
-        ),
+       
         ListTile(
           dense: true,
           contentPadding: EdgeInsets.only(
@@ -727,6 +718,11 @@ class _TabletDetailsState extends State<TabletDetails>
               ),
             ],
           ),
+        ),
+          Divider(
+          color: ColorsRes.greyColor,
+          indent: MediaQuery.of(context).size.width / 18,
+          endIndent: MediaQuery.of(context).size.width / 18,
         ),
       ],
     );
@@ -758,11 +754,7 @@ class _TabletDetailsState extends State<TabletDetails>
             ],
           ),
         ),
-        Divider(
-          color: ColorsRes.greyColor,
-          indent: MediaQuery.of(context).size.width / 18,
-          endIndent: MediaQuery.of(context).size.width / 18,
-        ),
+      
         ListTile(
           dense: true,
           contentPadding: EdgeInsets.only(
@@ -786,11 +778,7 @@ class _TabletDetailsState extends State<TabletDetails>
             ],
           ),
         ),
-        Divider(
-          color: ColorsRes.greyColor,
-          indent: MediaQuery.of(context).size.width / 18,
-          endIndent: MediaQuery.of(context).size.width / 18,
-        ),
+     
         ListTile(
           dense: true,
           contentPadding: EdgeInsets.only(
@@ -818,6 +806,10 @@ class _TabletDetailsState extends State<TabletDetails>
                   )
                 : APIService().showToast('No contact number');
           },
+        ),   Divider(
+          color: ColorsRes.greyColor,
+          indent: MediaQuery.of(context).size.width / 18,
+          endIndent: MediaQuery.of(context).size.width / 18,
         ),
       ],
     );
@@ -849,11 +841,7 @@ class _TabletDetailsState extends State<TabletDetails>
             ],
           ),
         ),
-        Divider(
-          color: ColorsRes.greyColor,
-          indent: MediaQuery.of(context).size.width / 18,
-          endIndent: MediaQuery.of(context).size.width / 18,
-        ),
+     
         ListTile(
           dense: true,
           contentPadding: EdgeInsets.only(
@@ -877,11 +865,7 @@ class _TabletDetailsState extends State<TabletDetails>
             ],
           ),
         ),
-        Divider(
-          color: ColorsRes.greyColor,
-          indent: MediaQuery.of(context).size.width / 18,
-          endIndent: MediaQuery.of(context).size.width / 18,
-        ),
+     
         ListTile(
           dense: true,
           contentPadding: EdgeInsets.only(
@@ -915,138 +899,138 @@ class _TabletDetailsState extends State<TabletDetails>
   }
 }
 
-class BottomSheet extends StatefulWidget {
-  const BottomSheet({Key? key, required this.markUpdateTask}) : super(key: key);
-  final markUpdateTask;
+// class BottomSheet extends StatefulWidget {
+//   const BottomSheet({Key? key, required this.markUpdateTask}) : super(key: key);
+//   final markUpdateTask;
 
-  @override
-  State<BottomSheet> createState() => _BottomSheetState();
-}
+//   @override
+//   State<BottomSheet> createState() => _BottomSheetState();
+// }
 
-class _BottomSheetState extends State<BottomSheet> {
-  bool btnDisable = false;
-  TextEditingController technicianSolution = TextEditingController();
-  bool _textValidate = false;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.width / 15,
-          left: MediaQuery.of(context).size.width / 15,
-          right: MediaQuery.of(context).size.width / 15,
-          bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Container(
-        height: MediaQuery.of(context).size.height / 3.5,
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 5),
-              child: TextField(
-                scrollPadding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom * 4),
-                maxLines: 6,
-                onChanged: (_) {
-                  setState(() {
-                    _textValidate = false;
-                  });
-                },
-                controller: technicianSolution,
-                keyboardType: TextInputType.name,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 15.0, top: 20),
-                  hintStyle: TextStyle(
-                    color: ColorsRes.purpalColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                  ),
-                  labelStyle: TextStyle(
-                      color: ColorsRes.greyColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal),
-                  filled: false,
-                  focusColor: ColorsRes.warmGreyColor,
-                  focusedBorder: OutlineInputBorder(
-                    gapPadding: 2.0,
-                    borderRadius: BorderRadius.circular(24),
-                    borderSide: BorderSide(
-                      color: ColorsRes.warmGreyColor,
-                    ),
-                  ),
-                  border: OutlineInputBorder(
-                    gapPadding: 0.3,
-                    borderRadius: BorderRadius.circular(24),
-                    borderSide: BorderSide(
-                      color: ColorsRes.warmGreyColor,
-                      width: 1,
-                    ),
-                  ),
-                  labelText: AppLocalizations.of(context)!.solution,
-                  hintText: AppLocalizations.of(context)!.solutionError,
-                ),
-              ),
-            ),
-            _textValidate
-                ? Text(
-                    AppLocalizations.of(context)!.solutionError,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.red, fontSize: 12),
-                  )
-                : SizedBox(),
-            SizedBox(
-              height: MediaQuery.of(context).size.width / 70,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                  child: Text(AppLocalizations.of(context)!.cancel),
-                  onPressed: btnDisable
-                      ? null
-                      : () {
-                          setState(() {
-                            technicianSolution.clear();
-                          });
-                          Navigator.of(context).pop();
-                        },
-                ),
-                TextButton(
-                  child: Text(
-                    btnDisable
-                        ? AppLocalizations.of(context)!.checking
-                        : AppLocalizations.of(context)!.submit,
-                  ),
-                  onPressed: btnDisable
-                      ? null
-                      : () async {
-                          if (technicianSolution.text.isEmpty) {
-                            setState(() {
-                              _textValidate = true;
-                            });
-                          } else {
-                            setState(() {
-                              btnDisable = true;
-                            });
+// class _BottomSheetState extends State<BottomSheet> {
+//   bool btnDisable = false;
+//   TextEditingController technicianSolution = TextEditingController();
+//   bool _textValidate = false;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: EdgeInsets.only(
+//           top: MediaQuery.of(context).size.width / 15,
+//           left: MediaQuery.of(context).size.width / 15,
+//           right: MediaQuery.of(context).size.width / 15,
+//           bottom: MediaQuery.of(context).viewInsets.bottom),
+//       child: Container(
+//         height: MediaQuery.of(context).size.height / 3.5,
+//         child: Column(
+//           children: [
+//             Padding(
+//               padding: EdgeInsets.only(top: 5),
+//               child: TextField(
+//                 scrollPadding: EdgeInsets.only(
+//                     bottom: MediaQuery.of(context).viewInsets.bottom * 4),
+//                 maxLines: 6,
+//                 onChanged: (_) {
+//                   setState(() {
+//                     _textValidate = false;
+//                   });
+//                 },
+//                 controller: technicianSolution,
+//                 keyboardType: TextInputType.name,
+//                 decoration: InputDecoration(
+//                   contentPadding: EdgeInsets.only(left: 15.0, top: 20),
+//                   hintStyle: TextStyle(
+//                     color: ColorsRes.purpalColor,
+//                     fontSize: 16,
+//                     fontWeight: FontWeight.normal,
+//                   ),
+//                   labelStyle: const TextStyle(
+//                       color: ColorsRes.greyColor,
+//                       fontSize: 16,
+//                       fontWeight: FontWeight.normal),
+//                   filled: false,
+//                   focusColor: ColorsRes.warmGreyColor,
+//                   focusedBorder: OutlineInputBorder(
+//                     gapPadding: 2.0,
+//                     borderRadius: BorderRadius.circular(24),
+//                     borderSide: const BorderSide(
+//                       color: ColorsRes.warmGreyColor,
+//                     ),
+//                   ),
+//                   border: OutlineInputBorder(
+//                     gapPadding: 0.3,
+//                     borderRadius: BorderRadius.circular(24),
+//                     borderSide: const BorderSide(
+//                       color: ColorsRes.warmGreyColor,
+//                       width: 1,
+//                     ),
+//                   ),
+//                   labelText: AppLocalizations.of(context)!.solution,
+//                   hintText: AppLocalizations.of(context)!.solutionError,
+//                 ),
+//               ),
+//             ),
+//             _textValidate
+//                 ? Text(
+//                     AppLocalizations.of(context)!.solutionError,
+//                     textAlign: TextAlign.center,
+//                     style: TextStyle(color: Colors.red, fontSize: 12),
+//                   )
+//                 : SizedBox(),
+//             SizedBox(
+//               height: MediaQuery.of(context).size.width / 70,
+//             ),
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               children: [
+//                 TextButton(
+//                   onPressed: btnDisable
+//                       ? null
+//                       : () {
+//                           setState(() {
+//                             technicianSolution.clear();
+//                           });
+//                           Navigator.of(context).pop();
+//                         },
+//                   child: Text(AppLocalizations.of(context)!.cancel),
+//                 ),
+//                 TextButton(
+//                   onPressed: btnDisable
+//                       ? null
+//                       : () async {
+//                           if (technicianSolution.text.isEmpty) {
+//                             setState(() {
+//                               _textValidate = true;
+//                             });
+//                           } else {
+//                             setState(() {
+//                               btnDisable = true;
+//                             });
 
-                            var submit = await widget.markUpdateTask(
-                              'site',
-                              'solution',
-                              technicianSolution.text,
-                            );
+//                             var submit = await widget.markUpdateTask(
+//                               'site',
+//                               'solution',
+//                               technicianSolution.text,
+//                             );
 
-                            if (submit || !submit) {
-                              setState(() {
-                                btnDisable = false;
-                              });
-                              Navigator.of(context).pop();
-                            }
-                          }
-                        },
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//                             if (submit || !submit) {
+//                               setState(() {
+//                                 btnDisable = false;
+//                               });
+//                               Navigator.of(context).pop();
+//                             }
+//                           }
+//                         },
+//                   child: Text(
+//                     btnDisable
+//                         ? AppLocalizations.of(context)!.checking
+//                         : AppLocalizations.of(context)!.submit,
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
