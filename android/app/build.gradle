@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.qfix_nitmo_new"
+    namespace = "io.digitable.qfix"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 

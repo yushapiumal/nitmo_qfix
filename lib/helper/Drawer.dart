@@ -7,6 +7,8 @@ import 'package:qfix_nitmo_new/screens/addNewCsrScreen/addNewCsrScreen.dart';
 import 'package:qfix_nitmo_new/screens/addNewItemScreen/addNewItemScreen.dart';
 import 'package:qfix_nitmo_new/screens/attendanceScreen/attendanceScreen.dart';
 import 'package:qfix_nitmo_new/screens/landingScreen/landingScreen.dart';
+import 'package:qfix_nitmo_new/screens/manageGINScreen/manageGINScreen.dart';
+import 'package:qfix_nitmo_new/screens/manageGRNScreen/manageGRNScreen.dart';
 import 'package:qfix_nitmo_new/screens/manageStoreScreen/checkStoreScreen.dart';
 import 'package:qfix_nitmo_new/screens/profileScreen/profileScreen.dart';
 import 'package:qfix_nitmo_new/ui/responsiveLayout.dart';
@@ -149,42 +151,42 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     Navigator.popAndPushNamed(
                         context, AddNewCSRScreen.routeName);
                   }),
-              // ListTile(
-              //     leading: Icon(Icons.description_outlined, color: Colors.black),
-              //     title: Text("New GIN"),
-              //     // Groot Issue Note
-              //     onTap: () {
-              //       if (ginAccess) {
-              //         Navigator.popAndPushNamed(
-              //             context, ManageGINScreen.routeName);
-              //       } else {
-              //         apiService.showToast(AppLocalizations.of(context)!.permissionError);
-              //       }
-              //     }),
-              // ListTile(
-              //     leading: Icon(Icons.edit_note_rounded, color: Colors.black),
-              //     title: Text("New GRN"),
-              //     // Groot receive Note
-              //     onTap: () {
-              //       if (grnAccess) {
-              //         Navigator.popAndPushNamed(
-              //             context, ManageGRNScreen.routeName);
-              //       } else {
-              //         apiService.showToast(AppLocalizations.of(context)!.permissionError);
-              //       }
-              //     }),
-              // ListTile(
-              //     leading: const Icon(Icons.store, color: Colors.black),
-              //     title: Text(AppLocalizations.of(context)!.inventoryControl),
-              //     onTap: () {
-              //       if (checkStoreAccess) {
-              //         Navigator.popAndPushNamed(
-              //             context, CheckStoreScreen.routeName);
-              //       } else {
-              //         apiService.showToast(
-              //             AppLocalizations.of(context)!.permissionError);
-              //       }
-              //     }),
+              ListTile(
+                  leading: const Icon(Icons.description_outlined, color: Colors.black),
+                  title: const Text("New GIN"),
+                  // Groot Issue Note
+                  onTap: () {
+                    if (ginAccess) {
+                      Navigator.popAndPushNamed(
+                          context, ManageGINScreen.routeName);
+                    } else {
+                      apiService.showToast(AppLocalizations.of(context)!.permissionError);
+                    }
+                  }),
+              ListTile(
+                  leading: const Icon(Icons.edit_note_rounded, color: Colors.black),
+                  title: const Text("New GRN"),
+                  // Groot receive Note
+                  onTap: () {
+                    if (grnAccess) {
+                      Navigator.popAndPushNamed(
+                          context, ManageGRNScreen.routeName);
+                    } else {
+                      apiService.showToast(AppLocalizations.of(context)!.permissionError);
+                    }
+                  }),
+              ListTile(
+                  leading: const Icon(Icons.store, color: Colors.black),
+                  title: Text(AppLocalizations.of(context)!.inventoryControl),
+                  onTap: () {
+                    if (checkStoreAccess) {
+                      Navigator.popAndPushNamed(
+                          context, CheckStoreScreen.routeName);
+                    } else {
+                      apiService.showToast(
+                          AppLocalizations.of(context)!.permissionError);
+                    }
+                  }),
                   ListTile(
                   leading: const Icon(Icons.store, color: Colors.black),
                   title: Text(AppLocalizations.of(context)!.newItemMenu),

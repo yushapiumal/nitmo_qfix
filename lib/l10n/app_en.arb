@@ -271,7 +271,7 @@
     "description": "Alret reschedule"
   },
 
-  "clear" : "Clear",
+  "clear" : "CLEAR",
   "@clear":{
     "description": "clear lbl"
   },

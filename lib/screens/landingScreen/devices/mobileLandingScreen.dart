@@ -295,24 +295,24 @@ class _MobileLandingScreenState extends State<MobileLandingScreen>
               ),
             ),
           ),
-          GestureDetector(
-            child: ElevatedButton(
-              child: Text(
-                'தமிழ்',
-                style: TextStyle(color: Colors.black),
-              ),
-              onPressed: () {
-                provider.setLocale(Locale('ta'));
-                storage.setItem('lang', 'ta');
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: (selectedLang == 'ta') ? Colors.amber[100] : Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20), // <-- Radius
-                ),
-              ),
-            ),
-          ),
+          // GestureDetector(
+          //   child: ElevatedButton(
+          //     child: Text(
+          //       'தமிழ்',
+          //       style: TextStyle(color: Colors.black),
+          //     ),
+          //     onPressed: () {
+          //       provider.setLocale(Locale('ta'));
+          //       storage.setItem('lang', 'ta');
+          //     },
+          //     style: ElevatedButton.styleFrom(
+          //       backgroundColor: (selectedLang == 'ta') ? Colors.amber[100] : Colors.white,
+          //       shape: RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.circular(20), // <-- Radius
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

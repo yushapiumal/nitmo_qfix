@@ -361,20 +361,13 @@ class _MobileManageState extends State<MobileManage> {
                 child: const Icon(Icons.pending_actions_outlined),
                 backgroundColor: const Color.fromARGB(255, 0, 255, 200),
                 // Change color dynamically
-                label: AppLocalizations.of(context)!.site,
+                label: AppLocalizations.of(context)!.onTheWay,
                 labelBackgroundColor: Color.fromARGB(255, 0, 255, 200),
-                onTap: () async {
-                  setState(() {
-                    btnDisable = true; // Disable the Start button
-                  });
-                  var submit =
-                      await markUpdateTask('site', 'on-the-way', false);
-                  setState(() {
-                    btnDisable = submit;
-                    isPendingEnabled = submit;
-                  });
+                onTap: ()  async{
+                       await markUpdateTask('site', 'on-the-way', false);
+                 
                 }),
-            SpeedDialChild(
+                SpeedDialChild(
               child: Icon(
                 btnDisable ? Icons.check : Icons.handyman_outlined,
                 color: Colors.white,
@@ -468,6 +461,7 @@ class _MobileManageState extends State<MobileManage> {
                       );
                     },
             ),
+            
             SpeedDialChild(
               child: const Icon(Icons.pending_actions_outlined),
               backgroundColor: btnDisable

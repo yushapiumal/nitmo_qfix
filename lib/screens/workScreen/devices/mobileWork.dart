@@ -15,10 +15,9 @@ import 'package:qfix_nitmo_new/screens/workScreen/devices/reviews_slider.dart';
 import 'package:signature/signature.dart';
 
 class MobileWork extends StatefulWidget {
-  const MobileWork({Key? key, 
-  required this.markUpdateTask,
-  required this.taskData
-  }) : super(key: key);
+  const MobileWork(
+      {Key? key, required this.markUpdateTask, required this.taskData})
+      : super(key: key);
   final markUpdateTask;
   final taskData;
   @override
@@ -56,10 +55,10 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
             children: [
               SizedBox(height: MediaQuery.of(context).size.height / 99),
               // helpingText(),
-            //  buttonStart(),
+              //  buttonStart(),
               buttonDelay(),
               buttonReschedule(),
-             // buttonComplete(),
+              // buttonComplete(),
               btnDisable
                   ? Container(
                       child: Padding(
@@ -110,7 +109,7 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
             child: ActivityModel(
               titleText: titleText,
               type: type,
-              markUpdateTask:widget.markUpdateTask,
+              markUpdateTask: widget.markUpdateTask,
             ),
           );
         },
@@ -131,53 +130,53 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
   }
 
   Widget buttonStart() {
-  return Container(
-    margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
-    width: 600,
-    child: CupertinoButton(
-      onPressed: btnDisable
-          ? null
-          : () async {
-              print("result++++++++++++++++++++>${widget.markUpdateTask}");
-              setState(() {
-                btnDisable = true;
-              });
-          
-              var submit = await widget.markUpdateTask('work', 'start-work',false);
+    return Container(
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+      width: 600,
+      child: CupertinoButton(
+        onPressed: btnDisable
+            ? null
+            : () async {
+                print("result++++++++++++++++++++>${widget.markUpdateTask}");
+                setState(() {
+                  btnDisable = true;
+                });
 
-           
-              if (submit != null) {
-                setState(() {
-                  btnDisable = false; 
-                });
-              } else {
-             
-                setState(() {
-                  btnDisable = false; 
-                });
-              }
-            },
-      color: ColorsRes.secondaryButton,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(
-            CupertinoIcons.play,
-            color: Colors.black,
-          ),
-          const SizedBox(width: 5),
-          Text(
-            AppLocalizations.of(context)!.startWork,
-            style: const TextStyle(
+                var submit =
+                    await widget.markUpdateTask('work', 'start-work', false);
+
+                if (submit != null) {
+                  setState(() {
+                    btnDisable = false;
+                  });
+                } else {
+                  setState(() {
+                    btnDisable = false;
+                  });
+                }
+              },
+        color: ColorsRes.secondaryButton,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              CupertinoIcons.play,
               color: Colors.black,
-              fontWeight: FontWeight.bold,
             ),
-          ),
-        ],
+            const SizedBox(width: 5),
+            Text(
+              AppLocalizations.of(context)!.startWork,
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-} 
+    );
+  }
+
   Widget buttonDelay() {
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20, top: 20),
@@ -186,9 +185,13 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
           onPressed: btnDisable
               ? null
               : () async {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateScreen( markUpdateTask:widget.markUpdateTask, taskData:widget.taskData,)));
-              
-                 
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UpdateScreen(
+                                markUpdateTask: widget.markUpdateTask,
+                                taskData: widget.taskData,
+                              )));
                 },
           color: ColorsRes.secondaryButton,
           child: Row(
@@ -270,7 +273,7 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ],     
+            ],
           )),
     );
   }
@@ -476,7 +479,7 @@ class _ActivityModelState extends State<ActivityModel> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: Signature(
-                            height: 200,
+                            height: 150,
                             width: 400,
                             controller: _signatureController,
                             backgroundColor: Colors.transparent,
@@ -484,7 +487,7 @@ class _ActivityModelState extends State<ActivityModel> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Column(
@@ -499,89 +502,112 @@ class _ActivityModelState extends State<ActivityModel> {
                       height: MediaQuery.of(context).size.width / 70,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TextButton(
-                          child: Text(AppLocalizations.of(context)!.cancel),
-                          onPressed: btnDisable
-                              ? null
-                              : () {
-                                  setState(() {
-                                    _signatureController.clear();
-                                    completeDescription.clear();
-                                    _textValidate = false;
-                                  });
-
-                                  Navigator.of(context).pop();
-                                },
-                        ),
-                        TextButton(
-                          child: Text(AppLocalizations.of(context)!.clear),
-                          onPressed: btnDisable
-                              ? null
-                              : () {
-                                  setState(() {
-                                    _signatureController.clear();
-                                  });
-                                },
-                        ),
-                        TextButton(
-                          child: Text(btnDisable
-                              ? AppLocalizations.of(context)!.checking
-                              : AppLocalizations.of(context)!.submit),
-                          onPressed: btnDisable
-                              ? null
-                              : () async {
-                                  if (!customerName.text.isEmpty ||
-                                      !completeDescription.text.isEmpty) {
+                        Padding(
+                          padding: const EdgeInsets.only(right: 0.0),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red),
+                            onPressed: btnDisable
+                                ? null
+                                : () {
                                     setState(() {
-                                      btnDisable = true;
+                                      _signatureController.clear();
+                                      completeDescription.clear();
+                                      _textValidate = false;
                                     });
-                                    final signatureSVG =
-                                        await _signatureController.toRawSVG(
-                                            width: 50, height: 50);
 
-                                    var statusTxt = "No Solution";
-                                    if (selectedValue1 == 1) {
-                                      statusTxt = "Not Finished";
-                                    }
-                                    if (selectedValue1 == 2) {
-                                      statusTxt = "Job Done";
-                                    }
-                                    
-                                    var data = {
-                                      'customerName': customerName.text,
-                                      'completeNote': completeDescription.text,
-                                      'signature': signatureSVG,
-                                      'status': statusTxt
-                                    };
-                                  
-                                       print("data=============================================>$data");
-                                    var submit = await widget.markUpdateTask(
-                                      'work',
-                                      'complete',
-                                      jsonEncode(data),
-                                    );
-
-                                    if (submit || !submit) {
+                                    Navigator.of(context).pop();
+                                  },
+                            //  style: ButtonStyle(backgroundColor:Colors.),
+                            child: Text(AppLocalizations.of(context)!.cancel,
+                                style: TextStyle(fontSize: 12)),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 6.0, left: 6.0),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.orange),
+                            onPressed: btnDisable
+                                ? null
+                                : () {
+                                    setState(() {
+                                      _signatureController.clear();
+                                    });
+                                  },
+                            child: Text(AppLocalizations.of(context)!.clear,
+                                style: TextStyle(fontSize: 12)),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 0.0),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green),
+                            onPressed: btnDisable
+                                ? null
+                                : () async {
+                                    if (!customerName.text.isEmpty ||
+                                        !completeDescription.text.isEmpty) {
                                       setState(() {
-                                        btnDisable = false;
+                                        btnDisable = true;
                                       });
-                                      Navigator.of(context).pop();
-                                    }
-                                  }
+                                      final signatureSVG =
+                                          await _signatureController.toRawSVG(
+                                              width: 50, height: 50);
 
-                                  if (completeDescription.text.isEmpty) {
-                                    setState(() {
-                                      _textValidate = true;
-                                    });
-                                  }
-                                  if (customerName.text.isEmpty) {
-                                    setState(() {
-                                      _customerNameTextValidate = true;
-                                    });
-                                  }
-                                },
+                                      var statusTxt = "No Solution";
+                                      if (selectedValue1 == 1) {
+                                        statusTxt = "Not Finished";
+                                      }
+                                      if (selectedValue1 == 2) {
+                                        statusTxt = "Job Done";
+                                      }
+
+                                      var data = {
+                                        'customerName': customerName.text,
+                                        'completeNote':
+                                            completeDescription.text,
+                                        'signature': signatureSVG,
+                                        'status': statusTxt
+                                      };
+
+                                      print(
+                                          "data=============================================>$data");
+                                      var submit = await widget.markUpdateTask(
+                                        'work',
+                                        'complete',
+                                        jsonEncode(data),
+                                      );
+
+                                      if (submit || !submit) {
+                                        setState(() {
+                                          btnDisable = false;
+                                        });
+                                        Navigator.of(context).pop();
+                                      }
+                                    }
+
+                                    if (completeDescription.text.isEmpty) {
+                                      setState(() {
+                                        _textValidate = true;
+                                      });
+                                    }
+                                    if (customerName.text.isEmpty) {
+                                      setState(() {
+                                        _customerNameTextValidate = true;
+                                      });
+                                    }
+                                  },
+                            child: Text(
+                              btnDisable
+                                  ? AppLocalizations.of(context)!.checking
+                                  : AppLocalizations.of(context)!.submit,
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -610,7 +636,7 @@ class _ActivityModelState extends State<ActivityModel> {
                           isForce2Digits: true,
                           onTimeChange: (time) {
                             String formattedDate =
-                               DateFormat('kk:mm').format(time);
+                                DateFormat('kk:mm').format(time);
                             setState(() {
                               rescheduleTime = formattedDate;
                             });
@@ -677,7 +703,7 @@ class _ActivityModelState extends State<ActivityModel> {
                                 });
                               },
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
                 TextButton(
                   onPressed: btnDisable
                       ? null
