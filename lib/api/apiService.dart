@@ -171,6 +171,9 @@ class APIService {
 
   Future getBin(qrCode) async {
     String url = await api.apiSet() + 'bincard/' + qrCode;
+    print("qrcode==================$qrCode");
+
+
     final response = await http.get(
       Uri.parse(url),
       headers: {
@@ -180,10 +183,13 @@ class APIService {
       },
     );
     var values = json.decode(response.body);
+    print("value000000000000000000 $values");
     if (values['status']) {
+
+      print("bin bin");
       return values['data'];
     } else {
-      print('getBin else');
+     print("$qrCode");
       showToast(values['message']);
       return values['status'];
     }
@@ -452,6 +458,42 @@ class APIService {
     }
   }
 
+ 
+Future<List<TaskModel>> fetchGINorGRNData(String type) async {
+   // DateTime today = DateTime.now();
+   // String formattedDate = DateFormat('dd/MM/yyyy').format(today);
+    
+    // Update URL based on the type (GIN or GRN)
+    final response = await http.get(
+      Uri.parse('https://your-api-url.com/api/tasks?type=$type'),
+    );
+
+    try {
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseData = jsonDecode(response.body);
+        List<dynamic> tasksData = responseData['data'];
+
+        if (tasksData.isEmpty) {
+          print("No $type tasks available.");
+          return [];
+        }
+
+        List<TaskModel> tasks = tasksData.map((task) {
+          return TaskModel.fromJson(task);
+        }).toList();
+
+        return tasks;
+      } else {
+        print('Failed to load tasks');
+        return [];
+      }
+    } catch (e) {
+      print('Error: $e');
+      return [];
+    }
+  }
+
+
   Future getCsrTrack(csrId) async {
     try {
       String url = await api.apiSet() + 'csr-track/${csrId}';
@@ -541,4 +583,27 @@ class APIService {
   }
 
 
+}
+ class TaskModelG {
+  final String taskNo;
+  final String description;
+  final String type; // GIN or GRN
+  final List<String> items; // List of items associated with the task
+
+  TaskModelG({
+    required this.taskNo,
+    required this.description,
+    required this.type,
+    required this.items, // Added items parameter
+  });
+
+  // Factory constructor to create Task from JSON
+  factory TaskModelG.fromJson(Map<String, dynamic> json) {
+    return TaskModelG(
+      taskNo: json['taskNo'] ?? 'N/A',
+      description: json['description'] ?? 'N/A',
+      type: json['type'] ?? 'N/A',
+      items: (json['items'] as List<dynamic>?)?.map((item) => item as String).toList() ?? [], // Parse items from JSON
+    );
+  }
 }

@@ -195,7 +195,7 @@ class _TabletStoreScreenState extends State<TabletStoreScreen>
       ginTemplate: false,
       storeTemplate: true,
       grnTemplate: false,
-      grnCode: 0,
+      grnCode: "0",
       refNo: '',
       prnNo: '',
       formReset: formReset,

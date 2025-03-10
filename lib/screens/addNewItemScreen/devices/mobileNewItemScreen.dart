@@ -429,6 +429,8 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
         'description': itemDetailController.text,
       };
 
+    print("==========================${itemCodeController.text}");
+
       var addItem = await apiService.addNewItem(itemCodeController.text, data);
       if (addItem) {
         setState(() {

@@ -16,6 +16,7 @@ import 'route.dart';
 import 'screens/splashScreen/splashScreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -36,11 +37,10 @@ class NitmoAPP extends StatefulWidget {
 }
 
 class _NitmoAPPState extends State<NitmoAPP> {
-    final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-  late StreamSubscription subscription;
-  late StreamSubscription internetSubscription;
-  ConnectivityResult result = ConnectivityResult.none;
-  bool hasInternetConnection = false;
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  late StreamSubscription<List<ConnectivityResult>> subscription;
+  late StreamSubscription<InternetConnectionStatus> internetSubscription;
+  List<ConnectivityResult> result = [ConnectivityResult.none];
   bool hasConnection = false;
 
   @override
@@ -51,72 +51,71 @@ class _NitmoAPPState extends State<NitmoAPP> {
       setState(() => {});
     }
 
-    subscription = Connectivity().onConnectivityChanged.listen((result) {
-          setState(() {
-            this.result = result as ConnectivityResult;
-          });
-        });
+    subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((List<ConnectivityResult> connectivityResult) {
+      setState(() {
+        result = connectivityResult;
+      });
+    });
 
- internetSubscription = InternetConnectionChecker.createInstance()
-    .onStatusChange
-    .listen((event) {
-  final hasInternet = event == InternetConnectionStatus.connected;
-  setState(() {
-    hasConnection = hasInternet;
-  });
-  checkConnection();
-});
-
+    internetSubscription = InternetConnectionChecker.createInstance()
+        .onStatusChange
+        .listen((InternetConnectionStatus event) async {
+      final hasInternet = event == InternetConnectionStatus.connected;
+      setState(() {
+        hasConnection = hasInternet;
+      });
+      await checkConnection();
+    });
   }
 
   @override
   void dispose() {
-    super.dispose();
     subscription.cancel();
     internetSubscription.cancel();
+    super.dispose();
   }
 
-void checkConnection() async {
-  // Check internet connectivity
-  final hasConnection = await InternetConnectionChecker.createInstance().hasConnection;
+  Future<void> checkConnection() async {
+    hasConnection = await InternetConnectionChecker.createInstance().hasConnection;
+    result = await Connectivity().checkConnectivity();
+    final text = hasConnection ? 'Connected with' : 'No Internet';
+    final color = hasConnection ? Colors.green : Colors.red;
 
-  // Check network type (WiFi/Mobile/None)
-  final result = await Connectivity().checkConnectivity();
-
-  // Determine notification text and color
-  final text = hasConnection ? 'Connected with' : 'No Internet';
-  final color = hasConnection ? Colors.green : Colors.red;
-
-  // Show appropriate notification based on connectivity result
-  if (result == ConnectivityResult.mobile) {
-    showSimpleNotification(
-      Text(
-        '$text : Mobile Network',
-        style: const TextStyle(color: Colors.white, fontSize: 16),
-      ),
-      background: color,
-    );
-  } else if (result == ConnectivityResult.wifi) {
-    showSimpleNotification(
-      Text(
-        '$text : WiFi Network',
-        style: const TextStyle(color: Colors.white, fontSize: 16),
-      ),
-      background: color,
-    );
-  } else {
-    showSimpleNotification(
-      Text(
-        text,
-        style: const TextStyle(color: Colors.white, fontSize: 16),
-      ),
-      background: color,
-    );
+    print('hasConnection: $hasConnection');
+    print('result: $result');
+    print('text: $text');
+    print('color: $color');
+    if (result.contains(ConnectivityResult.mobile)) {
+      showSimpleNotification(
+        Text(
+          '$text : Mobile Network',
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        background: color,
+      );
+    } else if (result.contains(ConnectivityResult.wifi)) {
+      showSimpleNotification(
+        Text(
+          '$text : WiFi Network',
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        background: color,
+      );
+    } else {
+      showSimpleNotification(
+        Text(
+          text,
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        background: color,
+      );
+    }
   }
-}
 
   @override
-   Widget build(BuildContext context) => ChangeNotifierProvider(
+  Widget build(BuildContext context) => ChangeNotifierProvider(
         create: (context) => LocaleProvider(),
         builder: (context, child) {
           final provider = Provider.of<LocaleProvider>(context);
@@ -142,7 +141,7 @@ void checkConnection() async {
                 AppLocalizations.delegate,
                 GlobalMaterialLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
-               GlobalWidgetsLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
               ],
               debugShowCheckedModeBanner: false,
               initialRoute: SplashScreen.routeName,

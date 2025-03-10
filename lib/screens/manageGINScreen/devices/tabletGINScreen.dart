@@ -107,7 +107,7 @@ class _TabletGINScreenState extends State<TabletGINScreen>
                   animationController: _animationController,
                   child: Column(
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(
                           top: 14,
                         ),
@@ -147,7 +147,7 @@ class _TabletGINScreenState extends State<TabletGINScreen>
             ginTemplate: true,
             storeTemplate: false,
             grnTemplate: false,
-            grnCode: 0,
+            grnCode: "0",
             refNo: ginCodeController.text,
             prnNo: '',
             formReset: formReset,
@@ -156,7 +156,7 @@ class _TabletGINScreenState extends State<TabletGINScreen>
 
   Widget showValidation() {
     return _validateGIN
-        ? Column(
+        ? const Column(
             children: [
               Text(
                 'Please enter correct GIN Code',
@@ -221,7 +221,11 @@ Widget showGRNField() {
       ),
       width: 400,
       child: CupertinoButton(
-        child: Row(
+        onPressed: () {
+          formSubmit();
+        },
+        color: ColorsRes.secondaryButton,
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
@@ -240,10 +244,6 @@ Widget showGRNField() {
             ),
           ],
         ),
-        onPressed: () {
-          formSubmit();
-        },
-        color: ColorsRes.secondaryButton,
       ),
     );
   }

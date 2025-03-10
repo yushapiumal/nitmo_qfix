@@ -2,9 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/Bottom.dart';
@@ -12,10 +9,6 @@ import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
 import 'package:qfix_nitmo_new/helper/Slidable.dart';
 import 'package:qfix_nitmo_new/helper/Slide_action.dart';
 import 'package:qfix_nitmo_new/screens/manageGRNScreen/manageGRNScreen.dart';
-
-
-
-
 
 class QRScanner extends StatefulWidget {
   const QRScanner({
@@ -28,22 +21,27 @@ class QRScanner extends StatefulWidget {
     this.prnNo,
     this.formReset,
   }) : super(key: key);
-  final ginTemplate;
-  final storeTemplate;
-  final grnTemplate;
-  final grnCode;
-  final refNo;
-  final prnNo;
-  final formReset;
+
+  final bool ginTemplate;
+  final bool? storeTemplate;
+  final bool? grnTemplate;
+  final String? grnCode;
+  final String? refNo;
+  final String? prnNo;
+  final VoidCallback? formReset;
+
   @override
   State<QRScanner> createState() => _QRScannerState();
 }
 
 class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  APIService apiService = APIService();
+  final APIService apiService = APIService();
+  final MobileScannerController cameraController = MobileScannerController(
+    detectionSpeed: DetectionSpeed.normal,
+    facing: CameraFacing.back,
+    torchEnabled: false,
+  );
   Barcode? result;
-  MobileScannerController? controller;
   bool flashOn = false;
   bool flipCamera = false;
   bool pause = false;
@@ -56,30 +54,28 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
   bool loadingText = false;
   TextEditingController amountController = TextEditingController();
   final SlidableController slidableController = SlidableController();
-   MobileScannerController cameraController = MobileScannerController();
 
   @override
   void reassemble() {
     super.reassemble();
     if (Platform.isAndroid) {
-      cameraController.stop();  // Stop the camera if the app is reassembled
+      cameraController.stop();
     } else if (Platform.isIOS) {
-      cameraController.start(); // Start the camera if the app is reassembled
+      cameraController.start();
     }
   }
-
-  String describeEnum(Object enumEntry) {
-    if (enumEntry is Enum) {
-      return enumEntry.name;
-    }
-    final String description = enumEntry.toString();
-    final int indexOfDot = description.indexOf('.');
-    assert(
-      indexOfDot != -1 && indexOfDot < description.length - 1,
-      'The provided object "$enumEntry" is not an enum.',
-    );
-    return description.substring(indexOfDot + 1);
-  }
+  // String describeEnum(Object enumEntry) {
+  //   if (enumEntry is Enum) {
+  //     return enumEntry.name;
+  //   }
+  //   final String description = enumEntry.toString();
+  //   final int indexOfDot = description.indexOf('.');
+  //   assert(
+  //     indexOfDot != -1 && indexOfDot < description.length - 1,
+  //     'The provided object "$enumEntry" is not an enum.',
+  //   );
+  //   return description.substring(indexOfDot + 1);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -93,25 +89,25 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
               Row(
                 children: [
                   BottomAppBar(
-                    color: Colors.transparent,
+                    color:  Colors.transparent,
                     child: Container(
-                      color: Colors.transparent,
-                      width: MediaQuery.of(context).size.width,
+                      color:  Colors.transparent,
+                      width: MediaQuery.of(context).size.width/1.1,
                       child: Container(
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10.0),
-                              topRight: Radius.circular(10.0)),
-                          color: ColorsRes.backgroundColor,
+                            topLeft: Radius.circular(10.0),
+                            topRight: Radius.circular(10.0),
+                          ),
+                          color: Colors.black12
                         ),
                         child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           mainAxisSize: MainAxisSize.min,
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconButton(
                               onPressed: () async {
-                                await cameraController.toggleTorch()
-;
+                                await cameraController.toggleTorch();
                                 setState(() {
                                   flashOn = !flashOn;
                                 });
@@ -146,12 +142,10 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
-              const SizedBox(
-                height: 14,
-              ),
+              const SizedBox(height: 14),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -166,25 +160,23 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
                       ),
                     )
                   else
-                    const Center(
-                     // child: Text('Last scanned code : ${result!.code}'),
+                    Center(
+                      child: Text('Last scanned code: ${result!.rawValue}'),
                     ),
                 ],
               ),
-              loadingText ? Text('Loading...') : SizedBox(),
-              const SizedBox(
-                height: 5,
-              ),
-              widget.ginTemplate ? showGINTemplate() : SizedBox(),
-              widget.grnTemplate ? showGRNTemplate() : SizedBox(),
-              widget.storeTemplate ? showStoreTemplate() : SizedBox(),
-              const SizedBox(
-                height: 10,
-              ),
+              if (loadingText) const Text('Loading...'),
+              const SizedBox(height: 5),
+              widget.ginTemplate ? showGINTemplate() : const SizedBox(),
+              widget.grnTemplate ?? false
+                  ? showGRNTemplate()
+                  : const SizedBox(),
+              widget.storeTemplate ?? false
+                  ? showStoreTemplate()
+                  : const SizedBox(),
+              const SizedBox(height: 10),
               saveBTN(),
-              const SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 10),
             ],
           ),
         ),
@@ -192,8 +184,8 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
     );
   }
 
-  cameraPauseIcon() {
-    if (widget.storeTemplate) {
+  Widget cameraPauseIcon() {
+    if (widget.storeTemplate ?? false) {
       return IconButton(
         onPressed: () async {
           if (!pause) {
@@ -245,172 +237,147 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
     );
   }
 
-  saveBTN() {
+  Widget saveBTN() {
     if (widget.ginTemplate) {
-      return finalGINIssueList.length > 0
+      return finalGINIssueList.isNotEmpty
           ? SizedBox(
-              width: 200, // <-- Your width
-              height: 50, // <-- Your height
-              child: Container(
-                child: ElevatedButton(
-                  onPressed: () {
-                    saveBtnDisable ? false : submitGINote();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    // minimumSize: Size(355, 55),
-                    shape: StadiumBorder(), backgroundColor: Colors.black,
-                  ),
-                  child: Text(
-                    saveBtnDisable ? 'Wait...' : 'Save',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                        fontSize: 20),
+              width: 200,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: saveBtnDisable ? null : submitGINote,
+                style: ElevatedButton.styleFrom(
+                  shape: const StadiumBorder(),
+                  backgroundColor: Colors.black,
+                ),
+                child: Text(
+                  saveBtnDisable ? 'Wait...' : 'Save',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    fontSize: 20,
                   ),
                 ),
               ),
             )
-          : SizedBox();
+          : const SizedBox();
     }
-    if (widget.grnTemplate) {
+    if (widget.grnTemplate ?? false) {
       return finalGRNIssueList.isNotEmpty
           ? SizedBox(
-              width: 200, // <-- Your width
-              height: 50, // <-- Your height
-              child: Container(
-                child: ElevatedButton(
-                  onPressed: () {
-                    saveBtnDisable ? false : submitGRNote();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    // minimumSize: Size(355, 55),
-                    shape: StadiumBorder(), backgroundColor: Colors.black,
-                  ),
-                  child: Text(
-                    saveBtnDisable ? 'Wait...' : 'Save',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                        fontSize: 20),
+              width: 200,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: saveBtnDisable ? null : submitGRNote,
+                style: ElevatedButton.styleFrom(
+                  shape: const StadiumBorder(),
+                  backgroundColor: Colors.black,
+                ),
+                child: Text(
+                  saveBtnDisable ? 'Wait...' : 'Save',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    fontSize: 20,
                   ),
                 ),
               ),
             )
-          : SizedBox();
+          : const SizedBox();
     }
-    if (widget.storeTemplate) {
-      return SizedBox();
-    }
+    return const SizedBox();
   }
 
   Widget showGINTemplate() {
-    if (scanCodeList.length == 0) {
-      return SizedBox();
-    }
+    if (scanCodeList.isEmpty) return const SizedBox();
     return Expanded(
       child: ListView.builder(
         shrinkWrap: true,
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         itemCount: cartList.length,
-        physics: BouncingScrollPhysics(),
-        itemBuilder: (context, index) {
-          return listItem(index);
-        },
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index) => listItem(index),
       ),
     );
   }
 
   Widget showGRNTemplate() {
-    if (result == null) {
-      return SizedBox();
-    }
+    if (result == null) return const SizedBox();
     return Expanded(
       child: ListView.builder(
         shrinkWrap: true,
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         itemCount: cartList.length,
-        physics: BouncingScrollPhysics(),
-        itemBuilder: (context, index) {
-          return listItem(index);
-        },
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index) => listItem(index),
       ),
     );
   }
 
   Widget showStoreTemplate() {
-    if (result == null) {
-      return SizedBox();
-    }
-
-    return Container(
-      child: ListView.builder(
-        shrinkWrap: true,
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        itemCount: cartList.length,
-        physics: BouncingScrollPhysics(),
-        itemBuilder: (context, index) {
-          return showStoreData(index);
-        },
-      ),
+    if (result == null) return const SizedBox();
+    return ListView.builder(
+      shrinkWrap: true,
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      itemCount: cartList.length,
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (context, index) => showStoreData(index),
     );
   }
 
   Widget showStoreData(int index) {
-    return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsetsDirectional.only(top: 15, start: 10, end: 10),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding:
+              const EdgeInsetsDirectional.only(top: 15, start: 10, end: 10),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  'Added on ${cartList[index]['created_on']}',
+                  style: const TextStyle(
+                    color: ColorsRes.black,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsetsDirectional.only(
+                    start: 5, top: 5, bottom: 5),
+                child: GestureDetector(
                   child: Text(
-                    'Added on ${cartList[index]['created_on']}',
+                    cartList[index]['category'],
                     style: const TextStyle(
-                        color: ColorsRes.black,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14),
-                  ),
-                ),
-                Spacer(), // Defaults to a flex of one.
-                Padding(
-                  padding:
-                      EdgeInsetsDirectional.only(start: 5, top: 5, bottom: 5),
-                  child: GestureDetector(
-                    child: Text(
-                      cartList[index]['category'],
-                      style: const TextStyle(
-                        color: ColorsRes.yellowColor,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14,
-                      ),
+                      color: ColorsRes.yellowColor,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
                     ),
-                    onTap: () {},
                   ),
+                  onTap: () {},
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.40,
-            child: SingleChildScrollView(
-              child: itemData(index),
-            ),
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.40,
+          child: SingleChildScrollView(
+            child: itemData(index),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  itemData(int index) {
+  Widget itemData(int index) {
     return Column(
       children: [
-        SizedBox(
-          height: 20,
-        ),
+        const SizedBox(height: 20),
         Text(
           cartList[index]['description'],
           style: const TextStyle(
@@ -423,70 +390,40 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
         textBox(Icons.tag, 'BIN No', cartList[index]['bin_no']),
         textBox(Icons.location_pin, 'Location', cartList[index]['location']),
         textBox(Icons.check, 'Balance',
-            cartList[0]['balance'].toString() + ' ${cartList[index]['uom']}'),
-        textBox(
-            Icons.other_houses_outlined,
-            'Reorder',
-            cartList[index]['reorder_level'].toString() +
-                ' ${cartList[index]['uom']}'),
-        textBox(
-            Icons.minimize_outlined,
-            'Min',
-            cartList[index]['min_level'].toString() +
-                ' ${cartList[index]['uom']}'),
-        textBox(
-            Icons.published_with_changes_rounded,
-            'Max',
-            cartList[index]['max_level'].toString() +
-                ' ${cartList[index]['uom']}'),
-        SizedBox(
-          height: 40,
-        ),
+            '${cartList[index]['balance']} ${cartList[index]['uom']}'),
+        textBox(Icons.other_houses_outlined, 'Reorder',
+            '${cartList[index]['reorder_level']} ${cartList[index]['uom']}'),
+        textBox(Icons.minimize_outlined, 'Min',
+            '${cartList[index]['min_level']} ${cartList[index]['uom']}'),
+        textBox(Icons.published_with_changes_rounded, 'Max',
+            '${cartList[index]['max_level']} ${cartList[index]['uom']}'),
+        const SizedBox(height: 40),
       ],
     );
   }
 
-  textBox(icon, text, amount) {
-    return Container(
-      child: Padding(
-        padding: EdgeInsets.only(bottom: 0.0, left: 1),
-        child: ListTile(
-          // leading: Container(
-          //   height: 25,
-          //   width: 25,
-          //   alignment: Alignment.center,
-          //   decoration: DesignConfig.boxDecorationBorderButtonColor(
-          //       ColorsRes.yellowColor, 100),
-          //   child: Icon(
-          //     icon,
-          //     color: ColorsRes.yellowColor,
-          //     size: 18,
-          //   ),
-          // ),
-          title: Text(
-            text,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-                color: ColorsRes.black,
-                fontWeight: FontWeight.normal,
-                letterSpacing: 0.5,
-                fontSize: 16),
+  Widget textBox(IconData icon, String text, String amount) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 1),
+      child: ListTile(
+        title: Text(
+          text,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            color: ColorsRes.black,
+            fontWeight: FontWeight.normal,
+            letterSpacing: 0.5,
+            fontSize: 16,
           ),
-
-          // subtitle: Text(cartList[0]['bin_no'],
-          //     style: TextStyle(
-          //         fontSize: 10,
-          //         color: ColorsRes.greyColor.withOpacity(0.7),
-          //         fontWeight: FontWeight.normal)),
-          trailing: Text(
-            amount,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: ColorsRes.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
+        ),
+        trailing: Text(
+          amount,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            color: ColorsRes.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
       ),
@@ -520,20 +457,19 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
               });
               await cameraController.stop();
               removeFromList(cartList[index]["bin_no"]);
-              cartList.removeWhere((element) {
-                return element['bin_no'] == cartList[index]["bin_no"];
-              });
+              cartList.removeWhere(
+                  (element) => element['bin_no'] == cartList[index]["bin_no"]);
             }
             return false;
           },
         ),
-        delegate: SlidableBehindDelegate(),
+        delegate: const SlidableBehindDelegate(),
         actionExtentRatio: 0.25,
         actions: [
           IconSlideAction(
             fontSize: 14,
             caption: 'Add Amount',
-            color: Color.fromARGB(255, 1, 203, 85),
+            color: const Color.fromARGB(255, 1, 203, 85),
             icon: Icons.check_circle_outline_sharp,
             onTap: () async {
               setState(() {
@@ -548,23 +484,6 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
           ),
         ],
         secondaryActions: [
-          // IconSlideAction(
-          //   fontSize: 14,
-          //   caption: 'Replace',
-          //   color: Colors.grey.shade200,
-          //   icon: Icons.replay,
-          //   onTap: () async {
-          //     setState(() {
-          //       flashOn = false;
-          //       pause = true;
-          //       isCardOpen = true;
-          //       flipCamera = false;
-          //     });
-          //    cameraController.stop();
-          //     showBarCard(index, cartList[index]);
-          //   },
-          //   closeOnTap: false,
-          // ),
           IconSlideAction(
             fontSize: 14,
             caption: 'Remove',
@@ -579,9 +498,8 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
               });
               await cameraController.stop();
               removeFromList(cartList[index]["bin_no"]);
-              cartList.removeWhere((element) {
-                return element['bin_no'] == cartList[index]["bin_no"];
-              });
+              cartList.removeWhere(
+                  (element) => element['bin_no'] == cartList[index]["bin_no"]);
             },
           ),
         ],
@@ -594,14 +512,14 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(cartList[index]["item_name"]),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Text(cartList[index]["description"]),
                       ],
                     ),
@@ -610,14 +528,14 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
                 Flexible(
                   fit: FlexFit.tight,
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         showQuantity(index),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Text(
                           cartList[index]["created_on"],
                           maxLines: 1,
@@ -636,32 +554,22 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
     );
   }
 
-  showQuantity(index) {
+  Widget showQuantity(int index) {
     if (widget.ginTemplate) {
       if (finalGINIssueList[cartList[index]["bin_no"]] != null) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              finalGINIssueList[cartList[index]["bin_no"]]['amount']
-                      .toString() +
-                  ' ' +
-                  cartList[index]["uom"],
+              '${finalGINIssueList[cartList[index]["bin_no"]]['amount']} ${cartList[index]["uom"]}',
               maxLines: 1,
               softWrap: false,
               overflow: TextOverflow.fade,
-              style: TextStyle(color: Colors.red),
+              style: const TextStyle(color: Colors.red),
             ),
+            const Text(' / '),
             Text(
-              ' / ',
-              maxLines: 1,
-              softWrap: false,
-              overflow: TextOverflow.fade,
-            ),
-            Text(
-              cartList[index]["balance"].toString() +
-                  ' ' +
-                  cartList[index]["uom"],
+              '${cartList[index]["balance"]} ${cartList[index]["uom"]}',
               maxLines: 1,
               softWrap: false,
               overflow: TextOverflow.fade,
@@ -670,38 +578,27 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
         );
       }
       return Text(
-        cartList[index]["balance"].toString() + ' ' + cartList[index]["uom"],
+        '${cartList[index]["balance"]} ${cartList[index]["uom"]}',
         maxLines: 1,
         softWrap: false,
         overflow: TextOverflow.fade,
       );
     }
-
-    if (widget.grnTemplate) {
+    if (widget.grnTemplate ?? false) {
       if (finalGRNIssueList[cartList[index]["bin_no"]] != null) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              finalGRNIssueList[cartList[index]["bin_no"]]['amount']
-                      .toString() +
-                  ' ' +
-                  cartList[index]["uom"],
+              '${finalGRNIssueList[cartList[index]["bin_no"]]['amount']} ${cartList[index]["uom"]}',
               maxLines: 1,
               softWrap: false,
               overflow: TextOverflow.fade,
-              style: TextStyle(color: Colors.green),
+              style: const TextStyle(color: Colors.green),
             ),
-            const Text(
-              ' / ',
-              maxLines: 1,
-              softWrap: false,
-              overflow: TextOverflow.fade,
-            ),
+            const Text(' / '),
             Text(
-              cartList[index]["balance"].toString() +
-                  ' ' +
-                  cartList[index]["uom"],
+              '${cartList[index]["balance"]} ${cartList[index]["uom"]}',
               maxLines: 1,
               softWrap: false,
               overflow: TextOverflow.fade,
@@ -710,119 +607,100 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
         );
       }
       return Text(
-        cartList[index]["balance"].toString() + ' ' + cartList[index]["uom"],
+        '${cartList[index]["balance"]} ${cartList[index]["uom"]}',
         maxLines: 1,
         softWrap: false,
         overflow: TextOverflow.fade,
       );
     }
+    return const SizedBox();
   }
 
-  closeCard() async {
+  void closeCard() async {
     setState(() {
       flashOn = false;
       pause = false;
       isCardOpen = false;
       flipCamera = false;
-      // result = null;
     });
     await cameraController.start();
   }
 
   Map<String, dynamic> finalGINIssueList = {};
   Map<String, dynamic> finalGRNIssueList = {};
-  submitFromBottomCard(index, scanId, issueData) async {
+
+  void submitFromBottomCard(int index, String scanId, dynamic issueData) {
     if (widget.ginTemplate) {
       finalGINIssueList[scanId] = issueData;
     }
-    if (widget.grnTemplate) {
+    if (widget.grnTemplate ?? false) {
       finalGRNIssueList[scanId] = issueData;
     }
   }
 
-  removeFromList(binNo) {
+  void removeFromList(String binNo) {
     if (widget.ginTemplate) {
-      if (finalGINIssueList.length > 0) {
-        finalGINIssueList.removeWhere((key, value) => key == binNo);
-      }
+      finalGINIssueList.remove(binNo);
     }
-    if (widget.grnTemplate) {
-      if (finalGRNIssueList.length > 0) {
-        finalGRNIssueList.removeWhere((key, value) => key == binNo);
-      }
+    if (widget.grnTemplate ?? false) {
+      finalGRNIssueList.remove(binNo);
     }
-    scanCodeList.removeWhere((element) {
-      return element == binNo;
-    });
+    scanCodeList.remove(binNo);
   }
 
-  submitGINote() async {
+  Future<void> submitGINote() async {
     if (finalGINIssueList.length != cartList.length) {
       await apiService
-          .showToast('GIN is not complete. please complete the list');
-    } else {
-      setState(() {
-        saveBtnDisable = true;
-      });
-      var line_items = [];
-      finalGINIssueList.values.forEach((val) {
-        line_items
-            .add({'bin_number': val['scanId'], 'quantity': val['amount']});
-      });
-
-      var data = {
-        'ref_type': 'GIN',
-        'ref_number': widget.refNo,
-        'sid': '5555',
-        'line_items': jsonEncode(line_items)
-      };
-
-      var submit = await apiService.saveStoreLedger('issue', data);
-      if (submit) {
-        widget.formReset();
-      }
-      setState(() {
-        saveBtnDisable = false;
-      });
+          .showToast('GIN is not complete. Please complete the list');
+      return;
     }
+    setState(() => saveBtnDisable = true);
+    List line_items = finalGINIssueList.values
+        .map((val) => {'bin_number': val['scanId'], 'quantity': val['amount']})
+        .toList();
+
+    var data = {
+      'ref_type': 'GIN',
+      'ref_number': widget.refNo,
+      'sid': '5555',
+      'line_items': jsonEncode(line_items),
+    };
+
+    bool submit = await apiService.saveStoreLedger('issue', data);
+    if (submit) {
+      widget.formReset?.call();
+    }
+    setState(() => saveBtnDisable = false);
   }
 
-  submitGRNote() async {
+  Future<void> submitGRNote() async {
     if (finalGRNIssueList.length != cartList.length) {
       await apiService
-          .showToast('GRN is not complete. please complete the list');
-    } else {
-      setState(() {
-        saveBtnDisable = true;
-      });
-      List line_items = [];
-
-      finalGRNIssueList.values.forEach((val) {
-        line_items
-            .add({'bin_number': val['scanId'], 'quantity': val['amount']});
-      });
-
-      var data = {
-        'ref_type': 'GRN',
-        'ref_number': widget.refNo,
-        'prn_number': widget.prnNo,
-        'sid': '5555',
-        'line_items': jsonEncode(line_items)
-      };
-
-      var submit = await apiService.saveStoreLedger('receive', data);
-
-      if (submit) {
-        widget.formReset();
-         Navigator.pushNamed(context, ManageGRNScreen.routeName);
-      }
-      setState(() {
-        saveBtnDisable = false;
-      });
+          .showToast('GRN is not complete. Please complete the list');
+      return;
     }
+    setState(() => saveBtnDisable = true);
+    List line_items = finalGRNIssueList.values
+        .map((val) => {'bin_number': val['scanId'], 'quantity': val['amount']})
+        .toList();
+
+    var data = {
+      'ref_type': 'GRN',
+      'ref_number': widget.refNo,
+      'prn_number': widget.prnNo,
+      'sid': '5555',
+      'line_items': jsonEncode(line_items),
+    };
+
+    bool submit = await apiService.saveStoreLedger('receive', data);
+    if (submit) {
+      widget.formReset?.call();
+      Navigator.pushNamed(context, ManageGRNScreen.routeName);
+    }
+    setState(() => saveBtnDisable = false);
   }
 
-  Future showBarCard(index, item) {
+  Future<void> showBarCard(int index, dynamic item) {
     return showModalBottomSheet(
       elevation: 0,
       isScrollControlled: true,
@@ -838,7 +716,7 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
         closeCard: closeCard,
         submitFromBottomCard: submitFromBottomCard,
         gin: widget.ginTemplate,
-        grn: widget.grnTemplate,
+        grn: widget.grnTemplate ?? false,
         item: item,
         grnCode: widget.grnCode,
         index: index,
@@ -847,130 +725,99 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
   }
 
 Widget _buildQrView(BuildContext context) {
-    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
-    var scanArea = (MediaQuery.of(context).size.width < 400 ||
-            MediaQuery.of(context).size.height < 400)
-        ? 200.0
-        : 300.0;
-    // To ensure the Scanner view is properly sizes after rotation
-    // we need to listen for Flutter SizeChanged notification and update controller
-       return Scaffold(
-      body: Stack(
-        children: [
-          // MobileScanner widget with a controller for scanning QR codes
-          MobileScanner(
-            controller: cameraController,
-            onDetect: (BarcodeCapture barcodeCapture) {
-              setState(() {
-                result = barcodeCapture.barcodes.first.rawValue as Barcode?; // Correct way to access rawValue
-                pause = true;
-                loadingText = true;
-              });
-              if (result != null) {
-                manageScannedQR();
-                cameraController.stop(); // Equivalent of pauseCamera
-                setState(() {
-                  loadingText = false;
-                });
-              }
-            },
-          ),
-          // Custom overlay for scan area
-          Center(
-            child: Container(
-              width: scanArea,
-              height: scanArea,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.red, width: 10),
-                borderRadius: BorderRadius.circular(10),
-              ),
+    var scanArea = (MediaQuery.of(context).size.width < 300 ||
+            MediaQuery.of(context).size.height < 300)
+        ? 150.0
+        : 150.0;
+
+    return Stack(
+      children: [
+        MobileScanner(
+          controller: cameraController,
+          onDetect: (BarcodeCapture barcodeCapture) {
+            setState(() {
+              result = barcodeCapture
+                  .barcodes.first; // Correctly assign Barcode object
+              pause = true;
+              loadingText = true;
+            });
+            if (result != null) {
+              manageScannedQR();
+            }
+          },
+          fit: BoxFit.cover,
+        ),
+        Center(
+          child: Container(
+            width: scanArea,
+            height: scanArea,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black, width: 10),
+              borderRadius: BorderRadius.circular(10),
             ),
           ),
-          // Display loading text if applicable
-          if (loadingText)
-            Center(
-              child: CircularProgressIndicator(),
-            ),
-        ],
-      ),
+        ),
+        if (loadingText) const Center(child: CircularProgressIndicator()),
+      ],
     );
   }
-  manageScannedQR() async {
-    var checkArray;
-    if (result != null) {
-      if (scanCodeList.length == 0) {
-       // scanCodeList.add(result!.code);
-      } else {
-        //checkArray = scanCodeList.where((element) => element == result!.code);
-        if (checkArray.isEmpty) {
-         // scanCodeList.add(result!.code);
-          apiService.showToast('Scanned successfully');
-          print('Scanned successfully');
-        } else {
-          apiService.showToast('Already scanned');
-          print('Already scanned');
-        }
-      }
-      // GOOD ISSUE NOTE
-      if (widget.ginTemplate) {
-        await callBin();
-      }
+  Future<void> manageScannedQR() async {
+    if (result == null || result!.rawValue == null) return;
 
-      // GOOD RECEIVE NOTE
-      if (widget.grnTemplate) {
-        await callBin();
-      }
+    String scannedCode = result!.rawValue!;
+    setState(() => loadingText = true);
+     print('get=============>$scannedCode');
 
-      // STORE VIEW
-      if (widget.storeTemplate) {
-        await callBin();
-      }
+    if (!scanCodeList.contains(scannedCode)) {
+      scanCodeList.add(scannedCode);
+      apiService.showToast('Scanned successfully');
+      print('Scanned successfully: $scannedCode');
+    } else {
+      apiService.showToast('Already scanned');
+      print('Already scanned: $scannedCode');
+      setState(() {
+        loadingText = false;
+        pause = true;
+      });
+      await cameraController.stop();
+      return;
+    }
+
+    if (widget.ginTemplate ||
+        (widget.grnTemplate ?? false) ||
+        (widget.storeTemplate ?? false)) {
+      await callBin();
+      print("object");
+      print(widget.storeTemplate);
+      print(widget.grnTemplate);
+      print(widget.ginTemplate);
     }
   }
-
-  void _onPermissionSet(BuildContext context, MobileScannerController ctrl, bool p) {
-    print('${DateTime.now().toIso8601String()}_onPermissionSet $p');
-    if (!p) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No Permission')),
-      );
-    }
-  }
-
-  callBin() async {
-    var lastCode;
-    lastCode = scanCodeList[0];
-    if (scanCodeList.length > 0) {
-      lastCode = scanCodeList[scanCodeList.length - 1];
-    }
+  Future<void> callBin() async {
+    String lastCode = scanCodeList.isEmpty ? '' : scanCodeList.last;
     var getBin = await apiService.getBin(lastCode);
+    print('get1=============>$getBin');
 
     if (getBin != false) {
       var checkAlreadyIn =
           cartList.where((element) => element['bin_no'] == getBin['bin_no']);
-
       if (checkAlreadyIn.isEmpty) {
         cartList.add({
           "bin_no": getBin['bin_no'].toString(),
-          "description":
-              getBin['description'] == null ? "-" : getBin['description'],
-          "item_name":
-              getBin['item_name'] == null || getBin['item_name'] == false
-                  ? "-"
-                  : getBin['item_name'],
-          "category": getBin['category'] == null ? "-" : getBin['category'],
-          "location": getBin['location'] == null ? "-" : getBin['location'],
-          "min_level": getBin['min_level'] == null ? "-" : getBin['min_level'],
-          "max_level": getBin['max_level'] == null ? "-" : getBin['max_level'],
-          "reorder_level":
-              getBin['reorder_level'] == null ? "-" : getBin['reorder_level'],
-          "uom": getBin['uom'] == null ? '' : getBin['uom'],
-          "cts": getBin['cts'] == null ? 0 : getBin['cts'],
-          "uts": getBin['uts'] == null ? 0 : getBin['uts'],
-          "balance": getBin['balance'] == null ? 0 : getBin['balance'],
-          "created_on":
-              getBin['created_on'] == null ? "" : getBin['created_on'],
+          "description": getBin['description'] ?? "-",
+          "item_name": getBin['item_name'] ?? "-",
+          "category": getBin['category'] ?? "-",
+          "location": getBin['location'] ?? "-",
+          "min_level": getBin['min_level'] ?? "-",
+          "max_level": getBin['max_level'] ?? "-",
+          "reorder_level": getBin['reorder_level'] ?? "-",
+          "uom": getBin['uom'] ?? '',
+          "cts": getBin['cts'] ?? 0,
+          "uts": getBin['uts'] ?? 0,
+          "balance": getBin['balance'] ?? 0,
+          "created_on": getBin['created_on'] ?? "",
         });
+        print('list=================$cartList');
       } else {
         await apiService.showToast('Item already added');
       }
@@ -978,18 +825,14 @@ Widget _buildQrView(BuildContext context) {
         pause = true;
         loadingText = false;
       });
-     cameraController.stop();
+      await cameraController.stop();
     }
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void dispose() {
-   cameraController.dispose();
+    cameraController.dispose();
+    amountController.dispose();
     super.dispose();
   }
 }

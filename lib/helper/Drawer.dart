@@ -151,30 +151,30 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     Navigator.popAndPushNamed(
                         context, AddNewCSRScreen.routeName);
                   }),
-              ListTile(
-                  leading: const Icon(Icons.description_outlined, color: Colors.black),
-                  title: const Text("New GIN"),
-                  // Groot Issue Note
-                  onTap: () {
-                    if (ginAccess) {
-                      Navigator.popAndPushNamed(
-                          context, ManageGINScreen.routeName);
-                    } else {
-                      apiService.showToast(AppLocalizations.of(context)!.permissionError);
-                    }
-                  }),
-              ListTile(
-                  leading: const Icon(Icons.edit_note_rounded, color: Colors.black),
-                  title: const Text("New GRN"),
-                  // Groot receive Note
-                  onTap: () {
-                    if (grnAccess) {
-                      Navigator.popAndPushNamed(
-                          context, ManageGRNScreen.routeName);
-                    } else {
-                      apiService.showToast(AppLocalizations.of(context)!.permissionError);
-                    }
-                  }),
+              // ListTile(
+              //     leading: const Icon(Icons.description_outlined, color: Colors.black),
+              //     title: const Text("New GIN"),
+              //     // Groot Issue Note
+              //     onTap: () {
+              //       if (ginAccess) {
+              //         Navigator.popAndPushNamed(
+              //             context, ManageGINScreen.routeName);
+              //       } else {
+              //         apiService.showToast(AppLocalizations.of(context)!.permissionError);
+              //       }
+              //     }),
+              // ListTile(
+              //     leading: const Icon(Icons.edit_note_rounded, color: Colors.black),
+              //     title: const Text("New GRN"),
+              //     // Groot receive Note
+              //     onTap: () {
+              //       if (grnAccess) {
+              //         Navigator.popAndPushNamed(
+              //             context, ManageGRNScreen.routeName);
+              //       } else {
+              //         apiService.showToast(AppLocalizations.of(context)!.permissionError);
+              //       }
+              //     }),
               ListTile(
                   leading: const Icon(Icons.store, color: Colors.black),
                   title: Text(AppLocalizations.of(context)!.inventoryControl),

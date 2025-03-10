@@ -149,7 +149,7 @@ class _TabletGRNScreenState extends State<TabletGRNScreen>
             ginTemplate: false,
             storeTemplate: false,
             grnTemplate: true,
-            grnCode: 0,
+            grnCode: "0",
             refNo: grnCodeController.text,
             prnNo: prnCodeController.text,
             formReset: formReset,
