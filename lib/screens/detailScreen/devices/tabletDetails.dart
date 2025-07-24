@@ -9,8 +9,9 @@ import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/api/geoShare.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
 import 'package:qfix_nitmo_new/helper/DesignConfig.dart';
+import 'package:qfix_nitmo_new/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 
 class TabletDetails extends StatefulWidget {

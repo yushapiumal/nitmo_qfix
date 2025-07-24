@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,15 +7,18 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qfix_nitmo_new/Constant/Slideanimation.dart';
 import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
 //import 'package:qfix_nitmo_new/helper/QRScanner.dart';
 import 'package:qfix_nitmo_new/helper/StringsRes.dart';
+import 'package:qfix_nitmo_new/helper/vibration_helper.dart';
+import 'package:qfix_nitmo_new/l10n/app_localizations.dart';
 import 'package:qfix_nitmo_new/screens/manageGRNScreen/grnScanner/grnScanner.dart';
 import 'package:qfix_nitmo_new/screens/manageStoreScreen/checkStoreScreen.dart';
 import 'package:qfix_nitmo_new/widgets/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class MobileGRNScreen extends StatefulWidget {
   const MobileGRNScreen({Key? key}) : super(key: key);
@@ -44,6 +49,7 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
   Map<int, String> _selectedAmounts = {}; // Store selected amounts
   Map<int, double> _enteredAmounts = {};
   bool saveBtnDisable = false;
+  bool _isConfirmed = false;
 
   @override
   void initState() {
@@ -64,28 +70,49 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
     futureTasks = Future.delayed(Duration(seconds: 1), () {
       return [
         TaskModelG(
+          'GIN-001',
           taskNo: 'GIN-001',
           description: 'GIN Task 1',
           type: 'GIN',
           items: ['Item A', 'Item B'],
         ),
         TaskModelG(
+          'GRN-002',
           taskNo: 'GRN-002',
           description: 'GRN Task 2',
           type: 'GRN',
-          items: ['Item 1', 'Item 2', 'Item 3'],
+          items: ['NUT'],
         ),
         TaskModelG(
+          'GIN-003',
           taskNo: 'GIN-003',
           description: 'GIN Task 3',
           type: 'GIN',
           items: ['Item X', 'Item Y'],
         ),
         TaskModelG(
+          'GRN-004',
           taskNo: 'GRN-004',
           description: 'GRN Task 4',
           type: 'GRN',
-          items: ['NUTB', 'Item B', 'Item C', 'NUT','NUTB', 'Item B', 'Item C', 'NUT','NUTB', 'Item B', 'Item C', 'NUT','NUTB', 'Item B', 'Item C', 'NUT'],
+          items: [
+            'NUTB',
+            'Item B',
+            'Item C',
+            'NUT',
+            'NUTB',
+            'Item B',
+            'Item C',
+            'NUT',
+            'NUTB',
+            'Item B',
+            'Item C',
+            'NUT',
+            'NUTB',
+            'Item B',
+            'Item C',
+            'NUT'
+          ],
         ),
       ];
     });
@@ -103,12 +130,18 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
     super.dispose();
   }
 
-  formReset() {
+  void formReset() {
     setState(() {
       headerTitle = "NEW GRN";
       showQRScan = false;
+      _selectedTask = null; // Reset selected GRN task
+      _isConfirmed = false; // Reset confirmation state
+
       grnCodeController.clear();
       prnCodeController.clear();
+
+      _itemControllers.clear(); // Clear all item controllers
+      _selectedAmounts.clear(); // Reset selected amounts list
     });
   }
 
@@ -207,110 +240,140 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
     );
   }
 
-Widget showBody() {
-  return !showQRScan
-      ? Stack(
-          children: [
-            SingleChildScrollView(
-              child: Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width / 12,
-                  vertical: MediaQuery.of(context).size.width / 40,
-                ),
-                child: SlideAnimation(
-                  position: 3,
-                  itemCount: 10,
-                  slideDirection: SlideDirection.fromRight,
-                  animationController: _animationController,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 14,
-                        ),
-                        child: Center(
-                          child: Text(
-                            AppLocalizations.of(context)!.grnAndPrn,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
+  Widget showBody() {
+    return !showQRScan
+        ? Stack(
+            children: [
+              SingleChildScrollView(
+                child: Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width / 12,
+                    vertical: MediaQuery.of(context).size.width / 40,
+                  ),
+                  child: SlideAnimation(
+                    position: 3,
+                    itemCount: 10,
+                    slideDirection: SlideDirection.fromRight,
+                    animationController: _animationController,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 14,
+                          ),
+                          child: Center(
+                            child: Text(
+                              AppLocalizations.of(context)!.grnAndPrn,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 20),
-                      Form(
-                        key: formKey,
-                        child: Column(
-                          children: [
-                            showGRNField(),
-                            showValidation1(),
-                            const SizedBox(height: 20),
-                          ],
+                        SizedBox(height: 20),
+                        Form(
+                          key: formKey,
+                          child: Column(
+                            children: [
+                              showGRNField(),
+                              showValidation1(),
+                              const SizedBox(height: 20),
+                            ],
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 80),
-                    ],
+                        const SizedBox(height: 80),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            positionedButton(),
-           
-          ],
-        )
-      : QRScannerPage(
-          grnCode: grnCodeController.text,
-          itemName: _currentItemName ?? '',
-        );
-}
+              positionedButton(),
+            ],
+          )
+        : QRScannerPage(
+            grnCode: grnCodeController.text,
+            itemName: _currentItemName ?? '',
+          );
+  }
 
-
-Widget positionedButton() {
-  return Positioned(
-    left: 0,
-    right: 0,
-    bottom: 0,
-    child: Container(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      color: Colors.white,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          ElevatedButton(
-            onPressed: saveBtnDisable
-                ? null
-                : () {
-                    setState(() {
-                      saveBtnDisable = true; 
-                    });
-
-                    Future.delayed(Duration(seconds: 3), () {
+  Widget positionedButton() {
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: 0,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: saveBtnDisable
+                  ? null
+                  : () {
+                      // Check if a task is selected
+                      if (_selectedTask == null) {
+                        VibrationHelper.triggerVibration();
+                        Fluttertoast.showToast(
+                          msg: "Please select a task first.",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0,
+                        );
+                        return;
+                      }
+                      bool allItemsHaveAmounts =
+                          _selectedTask!.items.asMap().keys.every(
+                                (index) =>
+                                    _selectedAmounts.containsKey(index) &&
+                                    _selectedAmounts[index] != null &&
+                                    _selectedAmounts[index]!.trim().isNotEmpty,
+                              );
+                      if (!allItemsHaveAmounts) {
+                        VibrationHelper.triggerVibration();
+                        print("Validation triggered: Missing amounts");
+                        Fluttertoast.showToast(
+                          msg: "Please scan and add an amount for all items.",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0,
+                        );
+                        return;
+                      }
                       setState(() {
-                        saveBtnDisable = false; // Re-enable button after delay
+                        saveBtnDisable = true;
+                        _showGRNconfirmation(context, _selectedTask!);
                       });
-                    });
-                  },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: saveBtnDisable ? Colors.grey : Colors.blue,
-              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-            ),
-            child: Text(
-              saveBtnDisable ? 'Wait...' : 'Save',
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-                fontSize: 20,
+                      Future.delayed(const Duration(seconds: 3), () {
+                        setState(() {
+                          saveBtnDisable = false;
+                        });
+                      });
+                    },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: saveBtnDisable ? Colors.grey : Colors.blue,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+              ),
+              child: Text(
+                saveBtnDisable ? 'Wait...' : 'Save',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
-}
-
-
+    );
+  }
 
   Widget showValidation1() {
     if (_validateGRN) {
@@ -439,6 +502,9 @@ Widget positionedButton() {
                 'Items:',
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
+              const SizedBox(
+                height: 10,
+              ),
               if (_selectedTask!.items.isNotEmpty)
                 ..._selectedTask!.items.asMap().entries.map((entry) {
                   int index = entry.key;
@@ -452,26 +518,52 @@ Widget positionedButton() {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        child: TextField(
-                          controller: _itemControllers[index],
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            hintText: 'Item ${index + 1}',
-                            prefixIcon: _selectedAmounts[index] != null
-                                ? Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: Text(
-                                      _selectedAmounts[index]!,
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  )
-                                : null,
-                            suffixIcon: IconButton(
-                              icon:
-                                  Icon(Icons.add, color: Colors.blue.shade700),
+                          child: Container(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              blurRadius: 5,
+                              spreadRadius: 2,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        child: Row(
+                          children: [
+                            if (_selectedAmounts[index] != null) ...[
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Text(
+                                  _selectedAmounts[index]!,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                              ),
+                            ],
+                            Expanded(
+                              child: TextField(
+                                controller: _itemControllers[index],
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Item ${index + 1}',
+                                  contentPadding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                ),
+                                readOnly: true,
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.qr_code,
+                                  color: Colors.blue.shade700),
                               onPressed: () async {
                                 final currentItemName =
                                     _itemControllers[index].text;
@@ -498,10 +590,9 @@ Widget positionedButton() {
                                 }
                               },
                             ),
-                          ),
-                          readOnly: true,
+                          ],
                         ),
-                      ),
+                      )),
                     ],
                   );
                 }).toList(),
@@ -544,5 +635,67 @@ Widget positionedButton() {
     );
   }
 
-  bool _isConfirmed = false;
+  void _showGRNconfirmation(BuildContext context, TaskModelG selectedTask) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Selection'),
+          content: Text('You selected GRN: ${selectedTask.taskNo}'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _isConfirmed = true;
+                });
+                VibrationHelper.triggerVibration();
+                _showSuccessMessage(context);
+                formReset();
+                Navigator.of(context).pop();
+                submitData();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue.shade700,
+                foregroundColor: Colors.white,
+              ),
+              child: Text('Confirm'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showSuccessMessage(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('GRN update successful!'),
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
+  void submitData() {
+    if (_selectedTask == null) {
+      print("No task selected");
+      return;
+    }
+    List<Map<String, String>> itemsList = List.generate(
+      _selectedTask!.items.length,
+      (index) => {
+        "item": _selectedTask!.items[index],
+        "amount": _selectedAmounts[index] ?? "0",
+      },
+    );
+
+    apiService.updateStore(
+        _selectedTask!.type, _selectedTask!.taskNo, itemsList);
+  }
 }

@@ -8,9 +8,10 @@ import 'package:qfix_nitmo_new/Constant/Slideanimation.dart';
 import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
 import 'package:qfix_nitmo_new/helper/StringsRes.dart';
+import 'package:qfix_nitmo_new/l10n/app_localizations.dart';
 import 'package:qfix_nitmo_new/screens/homeScreen/homeScreen.dart';
 import 'package:qfix_nitmo_new/screens/landingScreen/landingScreen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class MobileLogin extends StatefulWidget {
   // const MobileLogin({Key? key}) : super(key: key);

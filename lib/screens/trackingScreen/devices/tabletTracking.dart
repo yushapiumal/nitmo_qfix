@@ -6,7 +6,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:qfix_nitmo_new/Constant/Slideanimation.dart';
 import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:qfix_nitmo_new/l10n/app_localizations.dart';
+
 
 
 class TabletTracking extends StatefulWidget {

@@ -14,8 +14,7 @@ import 'package:qfix_nitmo_new/api/geoShare.dart';
 
 class CheckinCheckoutBottom extends StatefulWidget {
   const CheckinCheckoutBottom(
-      {Key? key, required this.from, this.tempPickedDate})
-      : super(key: key);
+      { required this.from, this.tempPickedDate});
   final from;
   final tempPickedDate;
   @override
@@ -112,7 +111,7 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
     try {
       var time = widget.tempPickedDate.toString();
       var timestamp = DateTime.now().millisecondsSinceEpoch.toString();
-      if (selectedContracts.length > 0 && selectedTask.length > 0) {
+      if (selectedContracts.isNotEmpty && selectedTask.isNotEmpty) {
         Map locData = {
           'status': false,
           'uid': storage.getItem('userId'),
@@ -161,7 +160,7 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
       filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
       child: Container(
         height: MediaQuery.of(context).size.height * 0.70,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(50),
@@ -174,7 +173,7 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: EdgeInsetsDirectional.only(end: 0, top: 10, start: 10),
+              padding: const EdgeInsetsDirectional.only(end: 0, top: 10, start: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -182,12 +181,12 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios,
                       color: Colors.black,
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Select Project(s)',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
@@ -207,7 +206,8 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
             Container(
               margin: const EdgeInsets.only(
                   left: 15, bottom: 8, top: 20, right: 15),
-              child: Align(
+              child: const Align(
+                alignment: Alignment.centerLeft,
                 child: Text(
                   "PROJECTS",
                   textAlign: TextAlign.left,
@@ -217,7 +217,6 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                alignment: Alignment.centerLeft,
               ),
             ),
             Container(
@@ -229,30 +228,30 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                 decoration: BoxDecoration(
                   color: Colors.purple[200],
                   // color: Color(0xff5AD2F1).withOpacity(0.50),
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(5),
                   ),
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.width / 3.1,
               child: Container(
                 alignment: Alignment.topLeft,
                 padding:
-                    EdgeInsetsDirectional.only(start: 17, end: 20, top: 20),
+                    const EdgeInsetsDirectional.only(start: 17, end: 20, top: 20),
                 child: contractLoading
                     ? Center(
                         child: CircularProgressIndicator(
                           valueColor:
-                              new AlwaysStoppedAnimation<Color>(Colors.blue),
+                              const AlwaysStoppedAnimation<Color>(Colors.blue),
                         ),
                       )
                     : ListView.builder(
                         shrinkWrap: true,
-                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
                         itemCount: getContracts.length,
-                        physics: ScrollPhysics(),
+                        physics: const ScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return InkWell(
@@ -263,7 +262,7 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                               getProjectTask(
                                   getContracts[index]['contact_serial']);
                             }, // Handle your callback
-                            child: Container(
+                            child: SizedBox(
                               height: 20,
                               child: Card(
                                 color: Colors.purple[50],
@@ -275,7 +274,7 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                                 child: Container(
                                   width:
                                       MediaQuery.of(context).size.width * 0.5,
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -287,7 +286,7 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                                           Text(
                                             getContracts[index]
                                                 ['contact_serial'],
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w700,
                                             ),
@@ -295,17 +294,17 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                                           selectedContracts.contains(
                                                   getContracts[index]
                                                       ['contact_serial'])
-                                              ? Icon(
+                                              ? const Icon(
                                                   Icons.check_box,
                                                   color: Colors.green,
                                                 )
-                                              : Icon(
+                                              : const Icon(
                                                   Icons.check_box_outline_blank,
                                                   color: Colors.grey,
                                                 ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Expanded(
@@ -315,14 +314,14 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                                             child: Text(
                                               getContracts[index]['product'],
                                               textAlign: TextAlign.left,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 16,
                                               ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                     ],
@@ -335,11 +334,12 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                       ),
               ),
             ),
-            getContractTask.length > 0
+            getContractTask.isNotEmpty
                 ? Container(
                     margin: const EdgeInsets.only(
                         left: 15, bottom: 8, top: 20, right: 15),
-                    child: Align(
+                    child: const Align(
+                      alignment: Alignment.centerLeft,
                       child: Text(
                         "TASK",
                         textAlign: TextAlign.left,
@@ -349,11 +349,10 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      alignment: Alignment.centerLeft,
                     ),
                   )
-                : SizedBox(),
-            getContractTask.length > 0
+                : const SizedBox(),
+            getContractTask.isNotEmpty
                 ? Container(
                     margin: const EdgeInsets.only(top: 3, bottom: 3, left: 16),
                     alignment: Alignment.bottomLeft,
@@ -363,31 +362,31 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                       decoration: BoxDecoration(
                         color: Colors.pink[200],
                         // color: Color(0xff5AD2F1).withOpacity(0.50),
-                        borderRadius: BorderRadius.all(
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(5),
                         ),
                       ),
                     ),
                   )
-                : SizedBox(),
-            Container(
+                : const SizedBox(),
+            SizedBox(
               height: MediaQuery.of(context).size.width / 2.8,
               child: Container(
                 alignment: Alignment.topLeft,
                 padding:
-                    EdgeInsetsDirectional.only(start: 17, end: 20, top: 20),
+                    const EdgeInsetsDirectional.only(start: 17, end: 20, top: 20),
                 child: contractTaskLoading
                     ? Center(
                         child: CircularProgressIndicator(
                           valueColor:
-                              new AlwaysStoppedAnimation<Color>(Colors.blue),
+                              const AlwaysStoppedAnimation<Color>(Colors.blue),
                         ),
                       )
                     : ListView.builder(
                         shrinkWrap: false,
-                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
                         itemCount: getContractTask.length,
-                        physics: ScrollPhysics(),
+                        physics: const ScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return InkWell(
@@ -404,7 +403,7 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                               elevation: 5.0,
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.7,
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -413,27 +412,25 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          '#' +
-                                              getContractTask[index]['csrId']
-                                                  .toString(),
-                                          style: TextStyle(
+                                          '#${getContractTask[index]['csrId']}',
+                                          style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
                                         selectedTask.contains(
                                                 getContractTask[index]['csrId'])
-                                            ? Icon(
+                                            ? const Icon(
                                                 Icons.check_box,
                                                 color: Colors.green,
                                               )
-                                            : Icon(
+                                            : const Icon(
                                                 Icons.check_box_outline_blank,
                                                 color: Colors.grey,
                                               ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 5,
                                     ),
                                     // Container(
@@ -452,12 +449,12 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                                     Text(
                                       getContractTask[index]['serviceArea']
                                           .toString(),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 5,
                                     ),
                                     Container(
@@ -478,13 +475,13 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                       ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
-            selectedTask.length > 0
+            selectedTask.isNotEmpty
                 ? Padding(
                     padding:
-                        EdgeInsetsDirectional.only(end: 0, top: 30, start: 10),
+                        const EdgeInsetsDirectional.only(end: 0, top: 30, start: 10),
                     child: GestureDetector(
                       onTap: () {
                         // setState(() {
@@ -511,7 +508,7 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                                       ],
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight),
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                               topRight: Radius.circular(15),
                               bottomRight: Radius.circular(15),
                               topLeft: Radius.circular(15),
@@ -519,15 +516,15 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                             ),
                           ),
                           alignment: AlignmentDirectional.center,
-                          margin: EdgeInsets.only(
+                          margin: const EdgeInsets.only(
                             left: 5.0,
                           ),
-                          padding: EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(10.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               buttonSubmit
-                                  ? Text(
+                                  ? const Text(
                                       'Wait...',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
@@ -541,13 +538,13 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                                           ? 'CHECK-IN'
                                           : 'CHECK-OUT',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                              SizedBox(width: 5),
+                              const SizedBox(width: 5),
                               Icon(
                                 widget.from == 'checkin'
                                     ? Icons.input
@@ -560,8 +557,8 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                       ),
                     ),
                   )
-                : SizedBox(),
-            SizedBox(
+                : const SizedBox(),
+            const SizedBox(
               height: 10,
             ),
           ],

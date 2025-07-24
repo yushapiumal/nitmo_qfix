@@ -10,7 +10,7 @@ import 'package:qfix_nitmo_new/helper/StringsRes.dart';
 
 class MyBottomSheet extends StatefulWidget {
   const MyBottomSheet({
-    Key? key,
+   
     required this.closeCard,
     this.submitFromBottomCard,
     this.gin,
@@ -18,7 +18,7 @@ class MyBottomSheet extends StatefulWidget {
     this.item,
     this.grnCode,
     this.index,
-  }) : super(key: key);
+  });
 
   final closeCard;
   final submitFromBottomCard;
@@ -49,7 +49,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
     grnCode = widget.grnCode;
     index = widget.index;
 
-    _timer = new Timer.periodic(Duration(seconds: 1), (Timer t) => getTime());
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer t) => getTime());
   }
 
   @override
@@ -102,7 +102,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
       child: Padding(
         padding: MediaQuery.of(context).viewInsets,
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             // gradient: UiUtils.buildLinerGradient([Theme.of(context).scaffoldBackgroundColor, Theme.of(context).canvasColor], Alignment.topCenter, Alignment.bottomCenter),
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -114,12 +114,12 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
           child: Form(
             key: _formKeyDialog,
             child: Container(
-              margin: EdgeInsets.only(top: 10),
+              margin: const EdgeInsets.only(top: 10),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
                     Padding(
-                      padding: EdgeInsetsDirectional.only(end: 20, top: 30),
+                      padding: const EdgeInsetsDirectional.only(end: 20, top: 30),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -131,14 +131,14 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                               widget.closeCard();
                               Navigator.pop(context);
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.arrow_back_ios,
                               color: Colors.black,
                             ),
                           ),
                           IconButton(
                             onPressed: () {},
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.search,
                               color: Colors.black,
                             ),
@@ -147,10 +147,10 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(bottom: 8),
+                      margin: const EdgeInsets.only(bottom: 8),
                       alignment: Alignment.center,
                       child: Text('Selected ' + widget.item['bin_no'],
-                          style: TextStyle(fontSize: 16)),
+                          style: const TextStyle(fontSize: 16)),
                     ),
                     SizedBox(
                       height: 25,
@@ -160,23 +160,23 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                           Flexible(
                             child: Text(
                               widget.item['item_name'].toUpperCase(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Text(
                             '[ ' + widget.item['location'] + ' ]',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),
                     ),
-                    gin ? ginUi_grnUi() : SizedBox(),
-                    grn ? ginUi_grnUi() : SizedBox(),
+                    gin ? ginUi_grnUi() : const SizedBox(),
+                    grn ? ginUi_grnUi() : const SizedBox(),
                     SizedBox(
                       width: 200, // <-- Your width
                       height: 50, // <-- Your height
@@ -193,6 +193,10 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                               submitBtn();
                             }
                           },
+                          style: ElevatedButton.styleFrom(
+                            // minimumSize: Size(355, 55),
+                            shape: const StadiumBorder(), backgroundColor: Colors.black,
+                          ),
                           child: Text(
                             'Add',
                             style: TextStyle(
@@ -200,14 +204,10 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                                 color: Colors.white,
                                 fontSize: 20),
                           ),
-                          style: ElevatedButton.styleFrom(
-                            // minimumSize: Size(355, 55),
-                            shape: StadiumBorder(), backgroundColor: Colors.black,
-                          ),
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                   ],
@@ -253,14 +253,14 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
   Widget ginUi_grnUi() {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Container(
-          margin: EdgeInsets.only(left: 20, right: 20),
+          margin: const EdgeInsets.only(left: 20, right: 20),
           child: Table(
             children: [
-              TableRow(
+              const TableRow(
                 children: [
                   Text(
                     "In-Stock",
@@ -283,27 +283,19 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
               TableRow(
                 children: [
                   Text(
-                    widget.item['balance'].toString() +
-                        ' ' +
-                        widget.item['uom'].toString(),
+                    '${widget.item['balance']} ${widget.item['uom']}',
                     textAlign: TextAlign.center,
                   ),
                   Text(
-                    widget.item['min_level'].toString() +
-                        ' ' +
-                        widget.item['uom'].toString(),
+                    '${widget.item['min_level']} ${widget.item['uom']}',
                     textAlign: TextAlign.center,
                   ),
                   Text(
-                    widget.item['max_level'].toString() +
-                        ' ' +
-                        widget.item['uom'].toString(),
+                    '${widget.item['max_level']} ${widget.item['uom']}',
                     textAlign: TextAlign.center,
                   ),
                   Text(
-                    widget.item['reorder_level'].toString() +
-                        ' ' +
-                        widget.item['uom'].toString(),
+                    '${widget.item['reorder_level']} ${widget.item['uom']}',
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -311,11 +303,11 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 15,
         ),
         Padding(
-          padding: EdgeInsets.only(left: 10, right: 10),
+          padding: const EdgeInsets.only(left: 10, right: 10),
           child: TextField(
             onChanged: (_) {
               setState(() {
@@ -326,7 +318,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
             autofocus: true,
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.only(left: 15.0),
+              contentPadding: const EdgeInsets.only(left: 15.0),
               hintStyle: TextStyle(
                   color: ColorsRes.purpalColor,
                   fontSize: 16,
@@ -358,19 +350,19 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         _validateAmount
-            ? Text(
+            ? const Text(
                 'Please add correct amount',
                 style: TextStyle(color: Colors.red),
               )
-            : SizedBox(),
-        SizedBox(
+            : const SizedBox(),
+        const SizedBox(
           height: 20,
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
       ],

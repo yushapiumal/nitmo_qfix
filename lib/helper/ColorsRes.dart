@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ColorsRes {
-  static MaterialColor primaryApp = MaterialColor(
+  static MaterialColor primaryApp = const MaterialColor(
     0xff707070,
     <int, Color>{
       50: warmGreyColor,
@@ -41,26 +41,26 @@ class ColorsRes {
   static const Color orangeColor = Color(0xfff47329);
 
   //FurnitureUI 2
-  static Color background2Color = Color(0xffefefef);
-  static Color tabColor = Color(0xffdedede);
-  static Color textColor = Color(0xff303030);
-  static Color greyLightColor = Color(0xffe0dfdb);
-  static Color halfContainerColor = Color(0xffdedede);
-  static Color yellow = Color(0xffeab61b);
-  static Color purpalColor = Color(0xff3f435d);
-  static Color equvaColor = Color(0xff50989e);
-  static Color darkredColor = Color(0xffd14039);
-  static Color lightpurpalColor = Color(0xffc8cce8);
-  static Color lightcreamColor = Color(0xffb4916c);
+  static Color background2Color = const Color(0xffefefef);
+  static Color tabColor = const Color(0xffdedede);
+  static Color textColor = const Color(0xff303030);
+  static Color greyLightColor = const Color(0xffe0dfdb);
+  static Color halfContainerColor = const Color(0xffdedede);
+  static Color yellow = const Color(0xffeab61b);
+  static Color purpalColor = const Color(0xff3f435d);
+  static Color equvaColor = const Color(0xff50989e);
+  static Color darkredColor = const Color(0xffd14039);
+  static Color lightpurpalColor = const Color(0xffc8cce8);
+  static Color lightcreamColor = const Color(0xffb4916c);
   //FurnitureUI 3
 
-  static Color peachColor = Color(0xffc3a261);
-  static Color chocalateColor = Color(0xffb4916c);
-  static Color darkgreyColor = Color(0xff747474);
-  static Color marunColor = Color(0xffd14039);
-  static Color greceColor = Color(0xffd1cbc1);
-  static Color blueColor = Color(0xff7e93a7);
-  static Color button2Color = Color(0xffd8d8d4);
+  static Color peachColor = const Color(0xffc3a261);
+  static Color chocalateColor = const Color(0xffb4916c);
+  static Color darkgreyColor = const Color(0xff747474);
+  static Color marunColor = const Color(0xffd14039);
+  static Color greceColor = const Color(0xffd1cbc1);
+  static Color blueColor = const Color(0xff7e93a7);
+  static Color button2Color = const Color(0xffd8d8d4);
 
   static const Color gradientColor1 = Color(0xFF004c40);
   static const Color gradientColor2 = Color(0xFF166c5c);

@@ -13,7 +13,7 @@ StreamSubscription<LocationData>? locationSubscription;
 var randNo = 0;
 final LocalStorage storage = LocalStorage('qfix');
 late DatabaseReference dbRef;
-var lastId = null;
+var lastId;
 void initLocations() {
   location.getLocation().then((nowLocate) {
     currentLocation = nowLocate;
@@ -49,7 +49,7 @@ getCurrentLocation(state, locData, existRefIds) async {
     for (var i = 0; i < existRefIds.length; i++) {
       var db = FirebaseDatabase.instance
           .ref()
-          .child("Locations/" + existRefIds[i].toString());
+          .child("Locations/${existRefIds[i]}");
       await db.update({
         "status": Icons.trending_up_rounded,
       });

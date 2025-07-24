@@ -6,6 +6,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
 import 'package:vibration/vibration.dart';
+import 'package:qfix_nitmo_new/helper/vibration_helper.dart';
 
 class QRScannerPage extends StatefulWidget {
   final String grnCode;
@@ -89,13 +90,43 @@ class _QRScannerPageState extends State<QRScannerPage> {
       ),
       body: Column(
         children: [
-          Expanded(flex: 1, child: _buildQrView(context)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [_flashOn(), _flipCamera()],
-          ),
+          Expanded(flex: 2, child: _buildQrView(context)),
           Expanded(
-            flex: 2,
+              //  flex: 1,
+              child: Row(children: [
+            BottomAppBar(
+                color: Colors.transparent,
+                child: Container(
+                    color: Colors.transparent,
+                    width: MediaQuery.of(context).size.width / 1.1,
+                    child: Container(
+                        decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10.0),
+                              topRight: Radius.circular(10.0),
+                            ),
+                            color: Colors.black12),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              FlashToggleButton(
+                                  flashcameraController: cameraController),
+                              FlipCameraButton(
+                                  flipcameraController: cameraController),
+                              CameraPauseIcon(
+                                storeTemplate: true,
+                                onPause: () {
+                                  print("Camera Paused");
+                                },
+                                onResume: () {
+                                  print("Camera Resumed");
+                                },
+                                cameraController: cameraController,
+                              ),
+                            ]))))
+          ])),
+          Expanded(
+            flex: 3,
             child: Column(
               children: [
                 const SizedBox(height: 14),
@@ -110,32 +141,6 @@ class _QRScannerPageState extends State<QRScannerPage> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _flashOn() {
-    return IconButton(
-      color: Colors.red,
-      icon: Icon(flashOn ? Icons.flashlight_on : Icons.flashlight_off),
-      onPressed: () async {
-        await cameraController.toggleTorch();
-        setState(() {
-          flashOn = !flashOn;
-        });
-      },
-    );
-  }
-
-  Widget _flipCamera() {
-    return IconButton(
-      color: Colors.red,
-      icon: const Icon(Icons.flip_camera_ios),
-      onPressed: () async {
-        await cameraController.switchCamera();
-        setState(() {
-          flipCamera = !flipCamera;
-        });
-      },
     );
   }
 
@@ -196,7 +201,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
 
   Widget _buildErrorDisplay() {
     if (!_hasVibrated) {
-      _triggerVibration();
+      VibrationHelper.triggerVibration();
       _hasVibrated = true;
     }
 
@@ -278,7 +283,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
                 double enteredAmount =
                     double.tryParse(amountController.text) ?? 0;
                 if (enteredAmount > maxLevel) {
-                   _triggerVibration();
+                  _triggerVibration();
                   print("Entered value exceeds the valid limit");
                   Fluttertoast.showToast(
                     msg: "Entered amount exceeds the maximum level!",

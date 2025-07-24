@@ -15,6 +15,7 @@ import 'package:qfix_nitmo_new/Constant/SmartKitColor.dart';
 import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
 import 'package:qfix_nitmo_new/helper/DesignConfig.dart';
+import 'package:qfix_nitmo_new/l10n/app_localizations.dart';
 import 'package:qfix_nitmo_new/screens/detailScreen/detailScreen.dart';
 import 'package:qfix_nitmo_new/screens/homeScreen/homeScreen.dart';
 import 'package:qfix_nitmo_new/screens/partsScreen/partsScreen.dart';
@@ -23,7 +24,6 @@ import 'package:qfix_nitmo_new/screens/trackingScreen/trackingScreen.dart';
 import 'package:qfix_nitmo_new/screens/updateScreen/updateScreen.dart';
 import 'package:qfix_nitmo_new/screens/workScreen/devices/mobileWork.dart';
 import 'package:qfix_nitmo_new/screens/workScreen/workScreen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 import 'package:signature/signature.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -363,11 +363,10 @@ class _MobileManageState extends State<MobileManage> {
                 // Change color dynamically
                 label: AppLocalizations.of(context)!.onTheWay,
                 labelBackgroundColor: Color.fromARGB(255, 0, 255, 200),
-                onTap: ()  async{
-                       await markUpdateTask('site', 'on-the-way', false);
-                 
+                onTap: () async {
+                  await markUpdateTask('site', 'on-the-way', false);
                 }),
-                SpeedDialChild(
+            SpeedDialChild(
               child: Icon(
                 btnDisable ? Icons.check : Icons.handyman_outlined,
                 color: Colors.white,
@@ -403,6 +402,23 @@ class _MobileManageState extends State<MobileManage> {
                                 ),
                                 onPressed: () async {
                                   Navigator.of(context).pop();
+
+                                  // showCompleteDialog(context);
+// reopend
+// IconButton(
+//   icon: Icon(Icons.add, color: Colors.blue.shade700),
+//   onPressed: () async {
+//     final isComplete = await showCompleteDialog(context);
+
+//     if (isComplete == true) {
+//       _showDialog(
+//         AppLocalizations.of(context)!.markAsComplete,
+//         'complete',
+//       );
+//     }
+//   },
+// ),
+
                                   _showDialog(
                                       AppLocalizations.of(context)!
                                           .markAsComplete,
@@ -430,8 +446,7 @@ class _MobileManageState extends State<MobileManage> {
                                   AppLocalizations.of(context)!.no,
                                 ),
                                 onPressed: () {
-                                  Navigator.of(context)
-                                      .pop(); // Close the dialog
+                                  Navigator.of(context).pop();
                                 },
                               ),
                               TextButton(
@@ -439,19 +454,15 @@ class _MobileManageState extends State<MobileManage> {
                                   AppLocalizations.of(context)!.yes,
                                 ),
                                 onPressed: () async {
-                                  Navigator.of(context)
-                                      .pop(); // Close the dialog
+                                  Navigator.of(context).pop();
                                   setState(() {
-                                    btnDisable =
-                                        true; // Disable the Start button
+                                    btnDisable = true;
                                   });
                                   var submit = await markUpdateTask(
                                       'work', 'start-work', false);
                                   setState(() {
-                                    btnDisable =
-                                        submit; // Keep Start disabled on success
-                                    isPendingEnabled =
-                                        submit; // Enable Pending button on success
+                                    btnDisable = submit;
+                                    isPendingEnabled = submit;
                                   });
                                 },
                               ),
@@ -461,7 +472,6 @@ class _MobileManageState extends State<MobileManage> {
                       );
                     },
             ),
-            
             SpeedDialChild(
               child: const Icon(Icons.pending_actions_outlined),
               backgroundColor: btnDisable
@@ -536,13 +546,12 @@ class _MobileManageState extends State<MobileManage> {
                     }, // Show toast if not started
             ),
           ],
-          // Set the default and active children for the FAB
           child: CircleAvatar(
             backgroundColor: Colors.amber,
             radius: 28,
             child: ClipOval(
               child: Image.asset(
-                'assets/img/technician.png', // Closed FAB image
+                'assets/img/technician.png',
                 height: 40,
                 width: 40,
                 fit: BoxFit.cover,
@@ -551,6 +560,28 @@ class _MobileManageState extends State<MobileManage> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<bool?> showCompleteDialog(BuildContext context) {
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Complete Action"),
+          content: const Text("Do you want to mark this as complete?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false), // Not complete
+              child: const Text("Not Complete"),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true), // Complete
+              child: const Text("Complete"),
+            ),
+          ],
+        );
+      },
     );
   }
 }

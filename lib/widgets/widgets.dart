@@ -56,7 +56,7 @@ textField(controller, labelText, hintText, keyboardType, inputFormatters,
           fontSize: 16,
           fontWeight: FontWeight.normal,
         ),
-        contentPadding: EdgeInsets.all(15.0),
+        contentPadding: const EdgeInsets.all(15.0),
         // hintText: hintText,
       ),
     ),
@@ -86,7 +86,7 @@ textField(controller, labelText, hintText, keyboardType, inputFormatters,
           fontSize: 18,
           fontWeight: FontWeight.normal,
         ),
-        errorStyle: TextStyle(
+        errorStyle: const TextStyle(
           fontSize: 18,
         ),
         filled: false,
@@ -112,7 +112,7 @@ textField(controller, labelText, hintText, keyboardType, inputFormatters,
           fontSize: 18,
           fontWeight: FontWeight.normal,
         ),
-        contentPadding: EdgeInsets.symmetric(
+        contentPadding: const EdgeInsets.symmetric(
           vertical: 20,
           horizontal: 20,
         ),
@@ -146,13 +146,13 @@ dropDown(optionList, hintText, selectedValue) {
       ),
     ),
     tabletBody: Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         top: 10,
         left: 10,
         right: 10,
       ),
       width: 10,
-      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
@@ -173,7 +173,7 @@ dropDown(optionList, hintText, selectedValue) {
           items: optionList.map((option) {
             return DropdownMenuItem(
               value: option,
-              child: Text(
+              child: const Text(
                 'option',
                 style: TextStyle(
                   fontSize: 18,

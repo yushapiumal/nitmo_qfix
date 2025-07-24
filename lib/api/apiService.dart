@@ -359,42 +359,36 @@ class APIService {
   }
 }
 
-  
- Future<Map<String, dynamic>> sendReason({required String reason}) async {
-    try {
-      String url =
-          'https://capmobile.azurewebsites.net/api/v1/Pickup/pickup-request';
+Future<void> updateStore(String type, String taskNo, List<Map<String, String>> items) async {
+  String apiUrl = "https://your-api-endpoint.com/api/submit";
 
-      final response = await http.post(
-        Uri.parse(url),
-        headers: {
+  Map<String, dynamic> requestBody = {
+    "type": type, 
+    "taskNo": taskNo,
+    "items": items, 
+  };
+
+  try {
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: {
           "Accept": "application/json",
-          "Content-Type": "application/json",
-        
+          "Content-Type": "application/x-www-form-urlencoded",
+          'Authorization': 'Bearer ${storage.getItem('token')}',
         },
-        body: jsonEncode({
-          "reason":Widget
-        }),
-      );
+      body: jsonEncode(requestBody),
+    );
 
-      final values = json.decode(response.body);
-
-      if (values['status'] == 'success') {
-        return {
-          "status": "success",
-          "message": values['message'].toString(),
-        };
-      } else {
-        return {
-          "status": "error",
-          "message": values['message'] ?? 'Unknown error occurred',
-        };
-      }
-    } catch (e) {
-      print('Error: $e');
-      throw Exception();
+    if (response.statusCode == 200) {
+      print("Data submitted successfully: ${response.body}");
+    } else {
+      print("Failed to submit data: ${response.body}");
     }
+  } catch (error) {
+    print("Error submitting data: $error");
   }
+}
+
 
 
   Future addNewItem(itemCode, detail) async {
@@ -439,7 +433,9 @@ class APIService {
         },
       );
       if (response.statusCode == 200) {
+       
         var jsonData = json.decode(response.body);
+          print("Decoded JSON Data: $jsonData");
         if (jsonData['status']) {
           final detail = (jsonData['data'] as List)
               .map((data) => TaskModel.fromJson(data))
@@ -458,45 +454,42 @@ class APIService {
     }
   }
 
- 
-Future<List<TaskModel>> fetchGINorGRNData(String type) async {
-   // DateTime today = DateTime.now();
-   // String formattedDate = DateFormat('dd/MM/yyyy').format(today);
-    
-    // Update URL based on the type (GIN or GRN)
+ //fatch GRN and GIN
+Future<List<TaskModelG>> fetchGINorGRNData(String type) async {
+  try {
     final response = await http.get(
       Uri.parse('https://your-api-url.com/api/tasks?type=$type'),
     );
 
-    try {
-      if (response.statusCode == 200) {
-        Map<String, dynamic> responseData = jsonDecode(response.body);
-        List<dynamic> tasksData = responseData['data'];
+    if (response.statusCode == 200) {
+      Map<String, dynamic> responseData = jsonDecode(response.body);
+      List<dynamic> tasksData = responseData['data'];
 
-        if (tasksData.isEmpty) {
-          print("No $type tasks available.");
-          return [];
-        }
-
-        List<TaskModel> tasks = tasksData.map((task) {
-          return TaskModel.fromJson(task);
-        }).toList();
-
-        return tasks;
-      } else {
-        print('Failed to load tasks');
+      if (tasksData.isEmpty) {
+        print("No $type tasks available.");
         return [];
       }
-    } catch (e) {
-      print('Error: $e');
+
+      List<TaskModelG> tasks = tasksData.map((task) {
+        return TaskModelG.fromJson(task);
+      }).toList();
+
+      return tasks;
+    } else {
+      print('Failed to load tasks');
       return [];
     }
+  } catch (e) {
+    print('Error: $e');
+    return [];
   }
+}
+
 
 
   Future getCsrTrack(csrId) async {
     try {
-      String url = await api.apiSet() + 'csr-track/${csrId}';
+      String url = await api.apiSet() + 'csr-track/$csrId';
       final response = await http.get(
         Uri.parse(url),
         headers: {
@@ -578,7 +571,7 @@ Future<List<TaskModel>> fetchGINorGRNData(String type) async {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 2,
-        backgroundColor: Color.fromARGB(255, 36, 36, 36),
+        backgroundColor: const Color.fromARGB(255, 36, 36, 36),
         textColor: Colors.white);
   }
 
@@ -587,23 +580,27 @@ Future<List<TaskModel>> fetchGINorGRNData(String type) async {
  class TaskModelG {
   final String taskNo;
   final String description;
-  final String type; // GIN or GRN
-  final List<String> items; // List of items associated with the task
+  final String type; 
+  final List<String> items; 
+  final String task;
 
-  TaskModelG({
+  TaskModelG(this.task, {
     required this.taskNo,
     required this.description,
     required this.type,
-    required this.items, // Added items parameter
+    required this.items, 
   });
 
-  // Factory constructor to create Task from JSON
+
   factory TaskModelG.fromJson(Map<String, dynamic> json) {
     return TaskModelG(
+      json['task'] ?? 'N/A',
       taskNo: json['taskNo'] ?? 'N/A',
       description: json['description'] ?? 'N/A',
       type: json['type'] ?? 'N/A',
-      items: (json['items'] as List<dynamic>?)?.map((item) => item as String).toList() ?? [], // Parse items from JSON
+      items: (json['items'] as List<dynamic>?)?.map((item) => item as String).toList() ?? [], 
     );
   }
 }
+
+

@@ -100,7 +100,7 @@ class TaskModel {
 }
 
 Future<Map<String, List<TaskModel>>> getNoteList() async {
-  await Future.delayed(Duration(seconds: 2));
+  await Future.delayed(const Duration(seconds: 2));
 
   // Dummy data for testing
   List<TaskModel> ginList = [

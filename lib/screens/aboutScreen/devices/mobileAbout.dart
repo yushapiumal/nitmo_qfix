@@ -6,7 +6,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 import 'package:qfix_nitmo_new/Constant/Slideanimation.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:qfix_nitmo_new/l10n/app_localizations.dart';
+
 
 
 class MobileAbout extends StatefulWidget {

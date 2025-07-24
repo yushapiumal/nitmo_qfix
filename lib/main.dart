@@ -8,13 +8,13 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
+import 'package:qfix_nitmo_new/l10n/app_localizations.dart';
 import 'package:qfix_nitmo_new/l10n/l10n.dart';
 import 'package:qfix_nitmo_new/provider/locale_provider.dart';
 import 'api/geoShare.dart';
 import 'firebase_options.dart';
 import 'route.dart';
 import 'screens/splashScreen/splashScreen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {

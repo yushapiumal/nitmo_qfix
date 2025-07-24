@@ -13,6 +13,7 @@ import 'package:qfix_nitmo_new/Constant/SmartKitColor.dart';
 import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
 import 'package:qfix_nitmo_new/helper/DesignConfig.dart';
+import 'package:qfix_nitmo_new/l10n/app_localizations.dart';
 import 'package:qfix_nitmo_new/screens/detailScreen/detailScreen.dart';
 import 'package:qfix_nitmo_new/screens/homeScreen/homeScreen.dart';
 import 'package:qfix_nitmo_new/screens/partsScreen/partsScreen.dart';
@@ -20,7 +21,6 @@ import 'package:qfix_nitmo_new/screens/siteScreen/siteScreen.dart';
 import 'package:qfix_nitmo_new/screens/trackingScreen/trackingScreen.dart';
 import 'package:qfix_nitmo_new/screens/updateScreen/updateScreen.dart';
 import 'package:qfix_nitmo_new/screens/workScreen/workScreen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 
 

@@ -8,9 +8,10 @@ import 'package:localstorage/localstorage.dart';
 import 'package:qfix_nitmo_new/Constant/Slideanimation.dart';
 import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
+import 'package:qfix_nitmo_new/l10n/app_localizations.dart';
 import 'package:qfix_nitmo_new/screens/manageStoreScreen/checkStoreScreen.dart';
 import 'package:qfix_nitmo_new/widgets/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class MobileNewItemScreen extends StatefulWidget {
   const MobileNewItemScreen({Key? key}) : super(key: key);

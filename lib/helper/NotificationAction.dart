@@ -21,7 +21,9 @@ Future _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 class NotificationAction extends StatefulWidget {
-  const NotificationAction({Key? key}) : super(key: key);
+  const NotificationAction({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<NotificationAction> createState() => _NotificationActionState();
@@ -115,7 +117,7 @@ class _NotificationActionState extends State<NotificationAction> {
             leading: NotificationBadge(totalNotifications: _totalNotifications),
             subtitle: Text(_notificationInfo!.body!),
             background: ColorsRes.chocalateColor,
-            duration: Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
           );
 
           if (message.data['buzz'] == '1') {
@@ -157,7 +159,7 @@ class _NotificationActionState extends State<NotificationAction> {
         alignment: Alignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.only(right: 15),
+            padding: const EdgeInsets.only(right: 15),
             child: Icon(Icons.notifications_none,
                 color: ColorsRes.appBarText, size: 30),
           ),
@@ -169,15 +171,15 @@ class _NotificationActionState extends State<NotificationAction> {
                       decoration: DesignConfig.boxDecorationContainer(
                           ColorsRes.secondaryButton, 20),
                       alignment: Alignment.center,
-                      margin: EdgeInsets.only(top: 15, left: 5),
-                      padding: EdgeInsets.only(
+                      margin: const EdgeInsets.only(top: 15, left: 5),
+                      padding: const EdgeInsets.only(
                         left: 3,
                         right: 3,
                       ),
                       child: Text(
                         _totalNotifications.toString(),
                         style: Theme.of(context).textTheme.bodySmall!.merge(
-                            TextStyle(
+                            const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold)),
                         textAlign: TextAlign.center,
@@ -185,7 +187,7 @@ class _NotificationActionState extends State<NotificationAction> {
                     ),
                   ),
                 )
-              : SizedBox()
+              : const SizedBox()
         ],
       ),
     );
@@ -202,7 +204,7 @@ class NotificationBadge extends StatelessWidget {
     return Container(
       width: 40.0,
       height: 40.0,
-      decoration: new BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         shape: BoxShape.circle,
       ),
@@ -211,7 +213,7 @@ class NotificationBadge extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             '$totalNotifications',
-            style: TextStyle(color: Colors.black, fontSize: 20),
+            style: const TextStyle(color: Colors.black, fontSize: 20),
           ),
         ),
       ),

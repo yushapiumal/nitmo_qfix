@@ -1,14 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
+//import 'package:vibration/vibration.dart';
+import 'package:qfix_nitmo_new/helper/vibration_helper.dart';
 
 class QRScannerPage extends StatefulWidget {
   final String ginCode;
   final VoidCallback? onReset;
-  final String  itemName;
+  final String itemName;
   const QRScannerPage({
     Key? key,
     required this.ginCode,
@@ -35,9 +38,10 @@ class _QRScannerPageState extends State<QRScannerPage> {
   bool loadingText = false;
   List<Map<String, dynamic>> cartList = [];
   List<String> scanCodeList = [];
-  Map<String, dynamic> finalGRNIssueList = {};
+  Map<String, dynamic> finalGINIssueList = {};
   bool saveBtnDisable = false;
-  
+  late TextEditingController amountController;
+  bool _hasVibrated = false;
 
   @override
   void reassemble() {
@@ -50,8 +54,15 @@ class _QRScannerPageState extends State<QRScannerPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    amountController = TextEditingController();
+  }
+
+  @override
   void dispose() {
     cameraController.dispose();
+    amountController.dispose();
     super.dispose();
   }
 
@@ -76,7 +87,22 @@ class _QRScannerPageState extends State<QRScannerPage> {
           Expanded(flex: 1, child: _buildQrView(context)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [_flashOn(), _flipCamera()],
+            children: [
+              FlashToggleButton(flashcameraController: cameraController), 
+            FlipCameraButton(flipcameraController: cameraController),
+            
+              CameraPauseIcon(
+                storeTemplate: true, 
+                onPause: () {
+                  print("Camera Paused");
+                },
+                onResume: () {
+                  print("Camera Resumed");
+                },
+                cameraController:
+                    cameraController, 
+              ),
+            ],
           ),
           Expanded(
             flex: 2,
@@ -86,9 +112,8 @@ class _QRScannerPageState extends State<QRScannerPage> {
                 _buildScanResult(),
                 if (loadingText) const Text('Loading...'),
                 const SizedBox(height: 10),
-                _buildScannedItemsList(),
                 const SizedBox(height: 10),
-                _buildSaveButton(),
+                _buildSaveButton(0),
                 const SizedBox(height: 10),
               ],
             ),
@@ -160,36 +185,38 @@ class _QRScannerPageState extends State<QRScannerPage> {
 
   // Display last scanned code
   Widget _buildScanResult() {
+    if (result == null || result!.rawValue == widget.itemName) {
+      _hasVibrated = false;
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        if (widget.itemName.isNotEmpty)
+        if (result == null)
           Text(
-            result == null
-                ? 'Scan a code'
-                : 'Last scanned: ${result!.rawValue} - ${widget.itemName}',
+            'Scan a code${widget.itemName.isNotEmpty ? ' - ${widget.itemName}' : ''}',
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-          )
-        else if (result == null)
-          const Text(
-            'Scan a code',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           )
         else if (result!.rawValue == widget.itemName)
-          Text(
-            'Last scanned: ${result!.rawValue}',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-          )
+          _buildScannedItemsList()
         else
-          Text(
-            'Error: "${result!.rawValue}" does not match "${widget.itemName}"',
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: Colors.red,
-            ),
-          ),
+          _buildErrorDisplay(),
       ],
+    );
+  }
+
+  Widget _buildErrorDisplay() {
+    if (!_hasVibrated) {
+      VibrationHelper.triggerVibration();
+      _hasVibrated = true;
+    }
+
+    return Text(
+      'Error: "${result!.rawValue}" does not match "${widget.itemName}"',
+      style: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: Colors.red,
+      ),
     );
   }
 
@@ -210,16 +237,24 @@ class _QRScannerPageState extends State<QRScannerPage> {
   // Individual scanned item
   Widget _buildListItem(int index) {
     return Card(
-      elevation: 2,
+      elevation: 3,
       child: ListTile(
         title: Text(cartList[index]['item_name'] ?? 'Unknown Item'),
-        subtitle: Text(cartList[index]['description'] ?? 'No description'),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+                "Max: ${cartList[index]['max_level'] ?? 'not loaded'} ${cartList[index]['uom'] ?? ''}"),
+            Text(
+                "Min: ${cartList[index]['min_level'] ?? 'not loaded'} ${cartList[index]['uom'] ?? ''}"),
+          ],
+        ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (finalGRNIssueList[cartList[index]['bin_no']] != null)
+            if (finalGINIssueList[cartList[index]['bin_no']] != null)
               Text(
-                '${finalGRNIssueList[cartList[index]['bin_no']]['amount']} ${cartList[index]['uom']}',
+                '${finalGINIssueList[cartList[index]['bin_no']]['amount']} ${cartList[index]['uom']}',
                 style: const TextStyle(color: Colors.green),
               ),
             IconButton(
@@ -228,7 +263,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
                 setState(() {
                   cartList.removeAt(index);
                   scanCodeList.removeAt(index);
-                  finalGRNIssueList.remove(cartList[index]['bin_no']);
+                  finalGINIssueList.remove(cartList[index]['bin_no']);
                 });
               },
             ),
@@ -240,13 +275,36 @@ class _QRScannerPageState extends State<QRScannerPage> {
   }
 
   // Save button
-  Widget _buildSaveButton() {
-    return finalGRNIssueList.isNotEmpty
+  Widget _buildSaveButton(int index) {
+    return finalGINIssueList.isNotEmpty
         ? SizedBox(
             width: 200,
             height: 50,
             child: ElevatedButton(
-              onPressed: saveBtnDisable ? null : _submitGIN,
+              onPressed: () {
+                double maxLevel = double.tryParse(
+                        cartList[index]['max_level']?.toString() ?? '0') ??
+                    0;
+                double enteredAmount =
+                    double.tryParse(amountController.text) ?? 0;
+                if (enteredAmount > maxLevel) {
+                  VibrationHelper.triggerVibration();
+                  print("Entered value exceeds the valid limit");
+                  Fluttertoast.showToast(
+                    msg: "Entered amount exceeds the maximum level!",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0,
+                  );
+                } else {
+                  print("Amount is within the limit.");
+                  if (!saveBtnDisable) {
+                    Navigator.pop(context, enteredAmount);
+                  }
+                }
+              },
               style: ElevatedButton.styleFrom(
                 shape: const StadiumBorder(),
                 backgroundColor: Colors.black,
@@ -267,14 +325,12 @@ class _QRScannerPageState extends State<QRScannerPage> {
   // Handle QR scan
   Future<void> _manageScannedQR() async {
     if (result == null || result!.rawValue == null) return;
-
     String scannedCode = result!.rawValue!;
     setState(() => loadingText = true);
-
     if (!scanCodeList.contains(scannedCode)) {
       scanCodeList.add(scannedCode);
       apiService.showToast('Scanned successfully');
-      await _fetchItemData(scannedCode);
+      await callBin(scannedCode);
     } else {
       apiService.showToast('Already scanned');
       setState(() {
@@ -286,7 +342,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
   }
 
   // Fetch item data from API
-  Future<void> _fetchItemData(String scannedCode) async {
+  Future<void> callBin(String scannedCode) async {
     var getBin = await apiService.getBin(scannedCode);
     if (getBin != false) {
       if (!cartList.any((item) => item['bin_no'] == getBin['bin_no'])) {
@@ -296,7 +352,8 @@ class _QRScannerPageState extends State<QRScannerPage> {
             "description": getBin['description'] ?? "-",
             "item_name": getBin['item_name'] ?? "-",
             "uom": getBin['uom'] ?? '',
-            "balance": getBin['balance'] ?? 0,
+            "max_level": getBin['max_level'] ?? "-",
+            "min_level": getBin['min_level'] ?? "-",
           });
           pause = true;
           loadingText = false;
@@ -315,7 +372,6 @@ class _QRScannerPageState extends State<QRScannerPage> {
 
   // Show dialog to input amount
   Future<void> _showAmountDialog(int index) async {
-    TextEditingController amountController = TextEditingController();
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -333,7 +389,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
           ElevatedButton(
             onPressed: () {
               setState(() {
-                finalGRNIssueList[cartList[index]['bin_no']] = {
+                finalGINIssueList[cartList[index]['bin_no']] = {
                   'scanId': cartList[index]['bin_no'],
                   'amount': amountController.text,
                 };
@@ -347,29 +403,28 @@ class _QRScannerPageState extends State<QRScannerPage> {
     );
   }
 
-  // Submit GRN data
+  // Submit GIN data
   Future<void> _submitGIN() async {
-    if (finalGRNIssueList.length != cartList.length) {
+    if (finalGINIssueList.length != cartList.length) {
       apiService.showToast('Please enter amounts for all items');
       return;
     }
     setState(() => saveBtnDisable = true);
-
-    List lineItems = finalGRNIssueList.values
+    List lineItems = finalGINIssueList.values
         .map((val) => {'bin_number': val['scanId'], 'quantity': val['amount']})
         .toList();
 
     var data = {
-      'ref_type': 'GiN',
+      'ref_type': 'GIN',
       'ref_number': widget.ginCode,
-      'sid': '5555', // Example SID, adjust as needed
+      'sid': '5555',
       'line_items': jsonEncode(lineItems),
     };
 
     bool submit = await apiService.saveStoreLedger('receive', data);
     if (submit) {
       widget.onReset?.call();
-      Navigator.pop(context);
+      Navigator.pop(context, amountController.text);
     }
     setState(() => saveBtnDisable = false);
   }

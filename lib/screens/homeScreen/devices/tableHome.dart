@@ -11,7 +11,7 @@ import 'package:localstorage/localstorage.dart';
 
 import 'package:octo_image/octo_image.dart';
 import 'package:qfix_nitmo_new/Constant/Slideanimation.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/helper/CheckingCheckoutBottom.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
@@ -19,6 +19,7 @@ import 'package:qfix_nitmo_new/helper/DesignConfig.dart';
 import 'package:qfix_nitmo_new/helper/Drawer.dart';
 import 'package:qfix_nitmo_new/helper/NotificationAction.dart';
 import 'package:qfix_nitmo_new/helper/StringsRes.dart';
+import 'package:qfix_nitmo_new/l10n/app_localizations.dart';
 import 'package:qfix_nitmo_new/model/TaskModel.dart';
 import 'package:qfix_nitmo_new/screens/manageScreen/manageScreen.dart';
 

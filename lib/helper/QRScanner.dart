@@ -12,7 +12,6 @@ import 'package:qfix_nitmo_new/screens/manageGRNScreen/manageGRNScreen.dart';
 
 class QRScanner extends StatefulWidget {
   const QRScanner({
-    Key? key,
     required this.ginTemplate,
     this.storeTemplate,
     this.grnTemplate,
@@ -20,7 +19,7 @@ class QRScanner extends StatefulWidget {
     this.refNo,
     this.prnNo,
     this.formReset,
-  }) : super(key: key);
+  });
 
   final bool ginTemplate;
   final bool? storeTemplate;
@@ -83,27 +82,26 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
       children: [
         Expanded(flex: 1, child: _buildQrView(context)),
         Expanded(
-          flex: 2,
+          flex: 3,
           child: Column(
             children: [
               Row(
                 children: [
                   BottomAppBar(
-                    color:  Colors.transparent,
+                    color: Colors.transparent,
                     child: Container(
-                      color:  Colors.transparent,
-                      width: MediaQuery.of(context).size.width/1.1,
+                      color: Colors.transparent,
+                      width: MediaQuery.of(context).size.width / 1.1,
                       child: Container(
                         decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10.0),
-                            topRight: Radius.circular(10.0),
-                          ),
-                          color: Colors.black12
-                        ),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10.0),
+                              topRight: Radius.circular(10.0),
+                            ),
+                            color: Colors.black12),
                         child: Row(
-                           mainAxisSize: MainAxisSize.min,
-                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconButton(
                               onPressed: () async {
@@ -655,7 +653,7 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
       return;
     }
     setState(() => saveBtnDisable = true);
-    List line_items = finalGINIssueList.values
+    List lineItems = finalGINIssueList.values
         .map((val) => {'bin_number': val['scanId'], 'quantity': val['amount']})
         .toList();
 
@@ -663,7 +661,7 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
       'ref_type': 'GIN',
       'ref_number': widget.refNo,
       'sid': '5555',
-      'line_items': jsonEncode(line_items),
+      'line_items': jsonEncode(lineItems),
     };
 
     bool submit = await apiService.saveStoreLedger('issue', data);
@@ -680,7 +678,7 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
       return;
     }
     setState(() => saveBtnDisable = true);
-    List line_items = finalGRNIssueList.values
+    List lineItems = finalGRNIssueList.values
         .map((val) => {'bin_number': val['scanId'], 'quantity': val['amount']})
         .toList();
 
@@ -689,7 +687,7 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
       'ref_number': widget.refNo,
       'prn_number': widget.prnNo,
       'sid': '5555',
-      'line_items': jsonEncode(line_items),
+      'line_items': jsonEncode(lineItems),
     };
 
     bool submit = await apiService.saveStoreLedger('receive', data);
@@ -724,7 +722,7 @@ class _QRScannerState extends State<QRScanner> with TickerProviderStateMixin {
     );
   }
 
-Widget _buildQrView(BuildContext context) {
+  Widget _buildQrView(BuildContext context) {
     var scanArea = (MediaQuery.of(context).size.width < 300 ||
             MediaQuery.of(context).size.height < 300)
         ? 150.0
@@ -761,12 +759,13 @@ Widget _buildQrView(BuildContext context) {
       ],
     );
   }
+
   Future<void> manageScannedQR() async {
     if (result == null || result!.rawValue == null) return;
 
     String scannedCode = result!.rawValue!;
     setState(() => loadingText = true);
-     print('get=============>$scannedCode');
+    print('get=============>$scannedCode');
 
     if (!scanCodeList.contains(scannedCode)) {
       scanCodeList.add(scannedCode);
@@ -793,6 +792,7 @@ Widget _buildQrView(BuildContext context) {
       print(widget.ginTemplate);
     }
   }
+
   Future<void> callBin() async {
     String lastCode = scanCodeList.isEmpty ? '' : scanCodeList.last;
     var getBin = await apiService.getBin(lastCode);

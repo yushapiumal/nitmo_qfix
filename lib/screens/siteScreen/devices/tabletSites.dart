@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:qfix_nitmo_new/l10n/app_localizations.dart';
+
 
 
 class TabletSites extends StatefulWidget {

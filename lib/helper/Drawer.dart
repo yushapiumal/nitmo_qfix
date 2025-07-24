@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qfix_nitmo_new/api/apiService.dart';
+import 'package:qfix_nitmo_new/l10n/app_localizations.dart';
 import 'package:qfix_nitmo_new/screens/aboutScreen/aboutScreen.dart';
 import 'package:qfix_nitmo_new/screens/addNewCsrScreen/addNewCsrScreen.dart';
 import 'package:qfix_nitmo_new/screens/addNewItemScreen/addNewItemScreen.dart';
@@ -107,7 +107,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 ),
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    colorFilter: new ColorFilter.mode(
+                    colorFilter: ColorFilter.mode(
                         Colors.black.withOpacity(0.5), BlendMode.dstATop),
                     image: const AssetImage(
                       'assets/img/coverBG.jpg',
@@ -234,16 +234,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (context) => new AlertDialog(
+                      builder: (context) => AlertDialog(
                         title:
-                            new Text(AppLocalizations.of(context)!.areyousure),
-                        content: new Text(
+                            Text(AppLocalizations.of(context)!.areyousure),
+                        content: Text(
                             AppLocalizations.of(context)!.doyouwantlogout),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () => Navigator.pop(
                                 context), // Navigator.of(context).pop(false),
-                            child: new Text(AppLocalizations.of(context)!.no),
+                            child: Text(AppLocalizations.of(context)!.no),
                           ),
                           TextButton(
                             // onPressed: () => Navigator.of(context).pop(true),
@@ -252,7 +252,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                               Navigator.popAndPushNamed(
                                   context, LandingScreen.routeName);
                             },
-                            child: new Text(AppLocalizations.of(context)!.yes),
+                            child: Text(AppLocalizations.of(context)!.yes),
                           ),
                         ],
                       ),
@@ -280,7 +280,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 ),
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    colorFilter: new ColorFilter.mode(
+                    colorFilter: ColorFilter.mode(
                         Colors.black.withOpacity(0.5), BlendMode.dstATop),
                     image: const AssetImage(
                       'assets/img/coverBG.jpg',
@@ -412,7 +412,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (context) => new AlertDialog(
+                      builder: (context) => AlertDialog(
                         title:
                              Text(AppLocalizations.of(context)!.areyousure),
                         content:  Text(

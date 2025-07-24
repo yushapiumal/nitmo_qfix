@@ -11,7 +11,7 @@ import 'package:qfix_nitmo_new/helper/ColorsRes.dart';
 import 'package:qfix_nitmo_new/helper/StringsRes.dart';
 import 'package:qfix_nitmo_new/screens/homeScreen/homeScreen.dart';
 import 'package:qfix_nitmo_new/screens/landingScreen/landingScreen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:qfix_nitmo_new/l10n/app_localizations.dart';
 
 class TabletLogin extends StatefulWidget {
   const TabletLogin({Key? key}) : super(key: key);

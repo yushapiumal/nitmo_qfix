@@ -13,7 +13,7 @@ class DesignConfig {
   static RoundedRectangleBorder setRoundedBorder(
       Color bordercolor, double bradius, bool issetside) {
     return RoundedRectangleBorder(
-        side: new BorderSide(color: bordercolor, width: 0),
+        side: BorderSide(color: bordercolor, width: 0),
         borderRadius: BorderRadius.circular(bradius));
   }
 
@@ -37,7 +37,7 @@ class DesignConfig {
   static BoxDecoration boxDecorationHalfContainer(Color color) {
     return BoxDecoration(
       color: color,
-      borderRadius: BorderRadius.only(
+      borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(
             10.0,
           ),
@@ -105,7 +105,7 @@ class DesignConfig {
     return BoxDecoration(
       color: btncolor,
       borderRadius: BorderRadius.circular(radius),
-      boxShadow: [
+      boxShadow: const [
         BoxShadow(
           color: Color(0x29000000),
           spreadRadius: 0,
@@ -123,7 +123,7 @@ class DesignConfig {
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(radius1),
           topRight: Radius.circular(radius2)),
-      boxShadow: [
+      boxShadow: const [
         BoxShadow(
           color: Color.fromARGB(41, 0, 0, 0),
           spreadRadius: 0,
@@ -138,7 +138,7 @@ class DesignConfig {
     return BoxDecoration(
       color: btncolor,
       borderRadius: BorderRadius.circular(radius),
-      boxShadow: [
+      boxShadow: const [
         BoxShadow(
           color: Color(0x29000000),
           spreadRadius: 0,
@@ -153,7 +153,7 @@ class DesignConfig {
     return BoxDecoration(
       color: btncolor,
       borderRadius: BorderRadius.circular(radius),
-      boxShadow: [
+      boxShadow: const [
         BoxShadow(
           color: Color(0x29000000),
           spreadRadius: 0,
@@ -168,7 +168,7 @@ class DesignConfig {
     return BoxDecoration(
       color: btncolor,
       shape: BoxShape.circle,
-      boxShadow: [
+      boxShadow: const [
         BoxShadow(
           color: Color(0x29000000),
           spreadRadius: 0,
