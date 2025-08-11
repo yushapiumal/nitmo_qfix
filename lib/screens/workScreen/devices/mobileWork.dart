@@ -36,7 +36,7 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
   }
 
   @override
@@ -62,16 +62,16 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
               btnDisable
                   ? Container(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 90),
+                        padding: const EdgeInsets.symmetric(vertical: 90),
                         child: Center(
                           child: CircularProgressIndicator(
                             valueColor:
-                                new AlwaysStoppedAnimation<Color>(Colors.blue),
+                                const AlwaysStoppedAnimation<Color>(Colors.blue),
                           ),
                         ),
                       ),
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
             ],
           ),
         ),
@@ -102,7 +102,7 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
         ),
         context: context,
         builder: (BuildContext context) {
-          return Container(
+          return SizedBox(
             // Content of the bottom sheet
             height: MediaQuery.of(context).size.height /
                 1.3, // Set the desired height
@@ -119,7 +119,7 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
 
   Widget helpingText() {
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
       width: 600,
       child: const Text(
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
@@ -179,7 +179,7 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
 
   Widget buttonDelay() {
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
       width: 600,
       child: CupertinoButton(
           onPressed: btnDisable
@@ -201,7 +201,7 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
                 CupertinoIcons.hourglass,
                 color: Colors.black,
               ),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               Text(
                 AppLocalizations.of(context)!.markAsDelay,
                 style: const TextStyle(
@@ -216,7 +216,7 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
 
   Widget buttonComplete() {
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
       width: 600,
       child: CupertinoButton(
           onPressed: btnDisable
@@ -233,7 +233,7 @@ class _MobileWorkState extends State<MobileWork> with TickerProviderStateMixin {
                 CupertinoIcons.checkmark_seal,
                 color: Colors.black,
               ),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               Text(
                 AppLocalizations.of(context)!.markAsComplete,
                 style: const TextStyle(
@@ -293,7 +293,7 @@ class ActivityModel extends StatefulWidget {
 
 class _ActivityModelState extends State<ActivityModel> {
   late double padding = 0.0;
-  SignatureController _signatureController = SignatureController(
+  final SignatureController _signatureController = SignatureController(
     penStrokeWidth: 2,
     penColor: Colors.black,
     exportBackgroundColor: Colors.white,
@@ -305,7 +305,7 @@ class _ActivityModelState extends State<ActivityModel> {
   String? rescheduleTime;
   TextEditingController completeDescription = TextEditingController();
   TextEditingController customerName = TextEditingController();
-  CalendarController _calendarController = CalendarController();
+  final CalendarController _calendarController = CalendarController();
   bool _textValidate = false;
   bool _customerNameTextValidate = false;
   bool btnDisable = false;
@@ -319,7 +319,7 @@ class _ActivityModelState extends State<ActivityModel> {
 
   @override
   Widget build(BuildContext context) {
-    final minDate = DateTime.now().add(Duration(days: 1));
+    final minDate = DateTime.now().add(const Duration(days: 1));
     if (widget.type == 'complete') {
       setState(() {
         padding = 20.0; // Update the padding value if type is 'complete'
@@ -335,7 +335,7 @@ class _ActivityModelState extends State<ActivityModel> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       child: TextField(
                         scrollPadding: EdgeInsets.only(
                             bottom:
@@ -348,7 +348,7 @@ class _ActivityModelState extends State<ActivityModel> {
                         controller: customerName,
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 15.0, top: 20),
+                          contentPadding: const EdgeInsets.only(left: 15.0, top: 20),
                           hintStyle: TextStyle(
                             color: ColorsRes.purpalColor,
                             fontSize: 16,
@@ -382,21 +382,21 @@ class _ActivityModelState extends State<ActivityModel> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     _customerNameTextValidate
                         ? Text(
                             AppLocalizations.of(context)!.customersNameError,
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.red, fontSize: 12),
+                            style: const TextStyle(color: Colors.red, fontSize: 12),
                           )
-                        : SizedBox(),
-                    SizedBox(
+                        : const SizedBox(),
+                    const SizedBox(
                       height: 10,
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       child: TextField(
                         scrollPadding: EdgeInsets.only(
                             bottom:
@@ -410,7 +410,7 @@ class _ActivityModelState extends State<ActivityModel> {
                         controller: completeDescription,
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 15.0, top: 20),
+                          contentPadding: const EdgeInsets.only(left: 15.0, top: 20),
                           hintStyle: TextStyle(
                             color: ColorsRes.purpalColor,
                             fontSize: 16,
@@ -425,14 +425,14 @@ class _ActivityModelState extends State<ActivityModel> {
                           focusedBorder: OutlineInputBorder(
                             gapPadding: 2.0,
                             borderRadius: BorderRadius.circular(24),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: ColorsRes.warmGreyColor,
                             ),
                           ),
                           border: OutlineInputBorder(
                             gapPadding: 0.3,
                             borderRadius: BorderRadius.circular(24),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: ColorsRes.warmGreyColor,
                               width: 1,
                             ),
@@ -443,23 +443,23 @@ class _ActivityModelState extends State<ActivityModel> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     _textValidate
                         ? Text(
                             AppLocalizations.of(context)!.descriptionError,
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.red, fontSize: 12),
+                            style: const TextStyle(color: Colors.red, fontSize: 12),
                           )
-                        : SizedBox(),
-                    SizedBox(
+                        : const SizedBox(),
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
                       AppLocalizations.of(context)!.customerSignature,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                       ),
                     ),
@@ -472,7 +472,7 @@ class _ActivityModelState extends State<ActivityModel> {
                             width: 1,
                             style: BorderStyle.solid,
                           ),
-                          borderRadius: BorderRadius.all(
+                          borderRadius: const BorderRadius.all(
                             Radius.circular(20),
                           ),
                         ),
@@ -522,7 +522,7 @@ class _ActivityModelState extends State<ActivityModel> {
                                   },
                             //  style: ButtonStyle(backgroundColor:Colors.),
                             child: Text(AppLocalizations.of(context)!.cancel,
-                                style: TextStyle(fontSize: 12)),
+                                style: const TextStyle(fontSize: 12)),
                           ),
                         ),
                         Padding(
@@ -538,7 +538,7 @@ class _ActivityModelState extends State<ActivityModel> {
                                     });
                                   },
                             child: Text(AppLocalizations.of(context)!.clear,
-                                style: TextStyle(fontSize: 12)),
+                                style: const TextStyle(fontSize: 12)),
                           ),
                         ),
                         Padding(
@@ -549,13 +549,13 @@ class _ActivityModelState extends State<ActivityModel> {
                             onPressed: btnDisable
                                 ? null
                                 : () async {
-                                    if (!customerName.text.isEmpty ||
-                                        !completeDescription.text.isEmpty) {
+                                    if (customerName.text.isNotEmpty ||
+                                        completeDescription.text.isNotEmpty) {
                                       setState(() {
                                         btnDisable = true;
                                       });
                                       final signatureSVG =
-                                          await _signatureController.toRawSVG(
+                                          _signatureController.toRawSVG(
                                               width: 50, height: 50);
 
                                       var statusTxt = "No Solution";
@@ -605,7 +605,7 @@ class _ActivityModelState extends State<ActivityModel> {
                               btnDisable
                                   ? AppLocalizations.of(context)!.checking
                                   : AppLocalizations.of(context)!.submit,
-                              style: TextStyle(fontSize: 12),
+                              style: const TextStyle(fontSize: 12),
                             ),
                           ),
                         ),
@@ -628,9 +628,9 @@ class _ActivityModelState extends State<ActivityModel> {
                         child: TimePickerSpinner(
                           is24HourMode: false,
                           normalTextStyle:
-                              TextStyle(fontSize: 14, color: Color(0xffb3b8bd)),
+                              const TextStyle(fontSize: 14, color: Color(0xffb3b8bd)),
                           highlightedTextStyle:
-                              TextStyle(fontSize: 19, color: Colors.black),
+                              const TextStyle(fontSize: 19, color: Colors.black),
                           spacing: 50,
                           itemHeight: 50,
                           isForce2Digits: true,
@@ -643,10 +643,10 @@ class _ActivityModelState extends State<ActivityModel> {
                           },
                         ),
                       ),
-                      Divider(),
+                      const Divider(),
                       Padding(
                         padding: const EdgeInsets.only(top: 5),
-                        child: Container(
+                        child: SizedBox(
                           width: 229,
                           height: 300,
                           child: SfCalendar(
@@ -679,7 +679,6 @@ class _ActivityModelState extends State<ActivityModel> {
               ),
               actions: [
                 TextButton(
-                  child: Text(AppLocalizations.of(context)!.cancel),
                   onPressed: btnDisable
                       ? null
                       : () {
@@ -691,10 +690,10 @@ class _ActivityModelState extends State<ActivityModel> {
 
                           Navigator.of(context).pop();
                         },
+                  child: Text(AppLocalizations.of(context)!.cancel),
                 ),
                 widget.type == 'complete'
                     ? TextButton(
-                        child: Text(AppLocalizations.of(context)!.clear),
                         onPressed: btnDisable
                             ? null
                             : () {
@@ -702,6 +701,7 @@ class _ActivityModelState extends State<ActivityModel> {
                                   _signatureController.clear();
                                 });
                               },
+                        child: Text(AppLocalizations.of(context)!.clear),
                       )
                     : const SizedBox(),
                 TextButton(
@@ -717,7 +717,7 @@ class _ActivityModelState extends State<ActivityModel> {
                               setState(() {
                                 btnDisable = true;
                               });
-                              final signatureSVG = await _signatureController
+                              final signatureSVG = _signatureController
                                   .toRawSVG(width: 50, height: 50);
                               var data = {
                                 'completeNote': completeDescription.text,

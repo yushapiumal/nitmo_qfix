@@ -92,7 +92,7 @@ class _MobileStoreScreenState extends State<MobileStoreScreen>
         backgroundColor: ColorsRes.backgroundColor,
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
             ),
             onPressed: () {
@@ -102,16 +102,16 @@ class _MobileStoreScreenState extends State<MobileStoreScreen>
           shadowColor: Colors.transparent,
           title: Text(
             headerTitle.toUpperCase(),
-            style: TextStyle(
+            style: const TextStyle(
               letterSpacing: 4,
             ),
           ),
-          bottom: PreferredSize(
+          bottom: const PreferredSize(
+            preferredSize: Size(50, 5),
             child: Divider(
               color: ColorsRes.greyColor,
               height: 2.3,
             ),
-            preferredSize: Size(50, 5),
           ),
           centerTitle: true,
           automaticallyImplyLeading: false,
@@ -119,7 +119,7 @@ class _MobileStoreScreenState extends State<MobileStoreScreen>
         body: showQRScanner(),
         floatingActionButton: SpeedDial(
           animatedIcon: AnimatedIcons.menu_close,
-          animatedIconTheme: IconThemeData(size: 22.0),
+          animatedIconTheme: const IconThemeData(size: 22.0),
           curve: Curves.bounceIn,
           overlayColor: Colors.black,
           overlayOpacity: 0.5,
@@ -130,10 +130,10 @@ class _MobileStoreScreenState extends State<MobileStoreScreen>
           backgroundColor: ColorsRes.secondaryButton,
           foregroundColor: Colors.black,
           elevation: 8.0,
-          shape: CircleBorder(),
+          shape: const CircleBorder(),
           children: [
             SpeedDialChild(
-                child: Icon(Icons.description_outlined),
+                child: const Icon(Icons.description_outlined),
                 backgroundColor: eStudy2,
                 label: 'New GIN',
                 onTap: () {
@@ -145,7 +145,7 @@ class _MobileStoreScreenState extends State<MobileStoreScreen>
                   }
                 }),
             SpeedDialChild(
-              child: Icon(Icons.edit_note_rounded),
+              child: const Icon(Icons.edit_note_rounded),
               backgroundColor: Colors.amber,
               label: 'New GRN',
               onTap: () {
@@ -157,7 +157,7 @@ class _MobileStoreScreenState extends State<MobileStoreScreen>
               },
             ),
             SpeedDialChild(
-              child: Icon(Icons.new_label_outlined),
+              child: const Icon(Icons.new_label_outlined),
               backgroundColor: smartkey2,
               label: 'New Item',
               //labelStyle: TextTheme(fontSize: 18.0),

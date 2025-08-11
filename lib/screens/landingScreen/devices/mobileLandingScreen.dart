@@ -52,7 +52,7 @@ class _MobileLandingScreenState extends State<MobileLandingScreen>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 2000),
+      duration: const Duration(milliseconds: 2000),
     );
     _timer = startTimer();
   }
@@ -90,7 +90,7 @@ class _MobileLandingScreenState extends State<MobileLandingScreen>
           child: Stack(
             children: [
               Transform.translate(
-                offset: new Offset(0.0, 0.0),
+                offset: const Offset(0.0, 0.0),
                 child: Image.asset(
                   backgroundArray[selectedBg],
                   fit: BoxFit.cover,
@@ -123,10 +123,6 @@ class _MobileLandingScreenState extends State<MobileLandingScreen>
                     child: Column(
                       children: [
                         Container(
-                          child: Image.asset(
-                            'assets/icon/qfix-logo.png',
-                            width: MediaQuery.of(context).size.width / 5,
-                          ),
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(10),
@@ -139,12 +135,16 @@ class _MobileLandingScreenState extends State<MobileLandingScreen>
                                 spreadRadius: 5,
                                 blurRadius: 7,
                                 offset:
-                                    Offset(0, 3), // changes position of shadow
+                                    const Offset(0, 3), // changes position of shadow
                               ),
                             ],
                           ),
+                          child: Image.asset(
+                            'assets/icon/qfix-logo.png',
+                            width: MediaQuery.of(context).size.width / 5,
+                          ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         // Text(
@@ -154,7 +154,7 @@ class _MobileLandingScreenState extends State<MobileLandingScreen>
                         //     fontWeight: FontWeight.bold,
                         //   ),
                         // ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         showTenantCodePicker(),
@@ -166,7 +166,7 @@ class _MobileLandingScreenState extends State<MobileLandingScreen>
                                   fontWeight: FontWeight.w600,
                                 ),
                               )
-                            : SizedBox()
+                            : const SizedBox()
                       ],
                     ),
                   ),
@@ -189,14 +189,14 @@ class _MobileLandingScreenState extends State<MobileLandingScreen>
                             // top: MediaQuery.of(context).size.height / 50,
                             left: MediaQuery.of(context).size.width / 10,
                             right: MediaQuery.of(context).size.width / 10),
-                        padding: EdgeInsets.only(top: 14.0, bottom: 14.0),
+                        padding: const EdgeInsets.only(top: 14.0, bottom: 14.0),
                         decoration: DesignConfig.boxDecorationContainer(
                             ColorsRes.primaryButton, 10.0),
                         child: Text(
                           btnDisable
                               ? AppLocalizations.of(context)!.checking
                               : AppLocalizations.of(context)!.login,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 14,
                               color: ColorsRes.white,
                               fontWeight: FontWeight.bold),
@@ -247,12 +247,12 @@ class _MobileLandingScreenState extends State<MobileLandingScreen>
 
   Widget langPicker() {
     final provider = Provider.of<LocaleProvider>(context);
-    final locale = provider.locale ?? Locale('en');
+    final locale = provider.locale ?? const Locale('en');
 
     var selectedLang = storage.getItem('lang');
 
     return Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         top: 20.0,
         left: 30.0,
         right: 30.0,
@@ -262,12 +262,8 @@ class _MobileLandingScreenState extends State<MobileLandingScreen>
         children: [
           GestureDetector(
             child: ElevatedButton(
-              child: Text(
-                'EN',
-                style: TextStyle(color: Colors.black),
-              ),
               onPressed: () {
-                provider.setLocale(Locale('en'));
+                provider.setLocale(const Locale('en'));
                 storage.setItem('lang', 'en');
               },
               style: ElevatedButton.styleFrom(
@@ -276,16 +272,16 @@ class _MobileLandingScreenState extends State<MobileLandingScreen>
                   borderRadius: BorderRadius.circular(20), // <-- Radius
                 ),
               ),
+              child: Text(
+                'EN',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
           ),
           GestureDetector(
             child: ElevatedButton(
-              child: Text(
-                'සිං',
-                style: TextStyle(color: Colors.black),
-              ),
               onPressed: () {
-                provider.setLocale(Locale('si'));
+                provider.setLocale(const Locale('si'));
                 storage.setItem('lang', 'si');
               },
               style: ElevatedButton.styleFrom(
@@ -293,6 +289,10 @@ class _MobileLandingScreenState extends State<MobileLandingScreen>
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20), // <-- Radius
                 ),
+              ),
+              child: Text(
+                'සිං',
+                style: TextStyle(color: Colors.black),
               ),
             ),
           ),
@@ -345,12 +345,12 @@ class _MobileLandingScreenState extends State<MobileLandingScreen>
           controller: tenantCodeController,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(left: 15.0),
+            contentPadding: const EdgeInsets.only(left: 15.0),
             hintStyle: TextStyle(
                 color: ColorsRes.purpalColor,
                 fontSize: 16,
                 fontWeight: FontWeight.normal),
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
                 color: ColorsRes.black,
                 fontSize: 16,
                 fontWeight: FontWeight.normal),
@@ -359,14 +359,14 @@ class _MobileLandingScreenState extends State<MobileLandingScreen>
             focusedBorder: OutlineInputBorder(
               gapPadding: 0.0,
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: ColorsRes.black,
               ),
             ),
             border: OutlineInputBorder(
               gapPadding: 0.0,
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: ColorsRes.black,
                 width: 1,
               ),

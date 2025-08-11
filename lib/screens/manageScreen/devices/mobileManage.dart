@@ -29,7 +29,7 @@ import 'package:signature/signature.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class MobileManage extends StatefulWidget {
-  MobileManage({Key? key, required this.taskData, required this.markUpdateTask})
+  const MobileManage({Key? key, required this.taskData, required this.markUpdateTask})
       : super(key: key);
   final markUpdateTask;
   final taskData;
@@ -200,7 +200,7 @@ class _MobileManageState extends State<MobileManage> {
   String? complexity;
   bool btnDisable = false;
   toggleComplexity() async {
-    var _duration = Duration(milliseconds: 2500);
+    var duration = const Duration(milliseconds: 2500);
     if (complexity == 'L1') {
       setState(() {
         complexity = 'L2';
@@ -214,7 +214,7 @@ class _MobileManageState extends State<MobileManage> {
         complexity = 'L1';
       });
     }
-    return Timer(_duration, callComplexityChangeApi);
+    return Timer(duration, callComplexityChangeApi);
   }
 
   callComplexityChangeApi() async {
@@ -252,7 +252,7 @@ class _MobileManageState extends State<MobileManage> {
         ),
         context: context,
         builder: (BuildContext context) {
-          return Container(
+          return SizedBox(
             // Content of the bottom sheet
             height: MediaQuery.of(context).size.height /
                 1.3, // Set the desired height
@@ -273,7 +273,7 @@ class _MobileManageState extends State<MobileManage> {
       elevation: 4,
       shadowColor: Colors.black,
       leading: IconButton(
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_back,
         ),
         onPressed: () {
@@ -287,12 +287,12 @@ class _MobileManageState extends State<MobileManage> {
                   btnDisable ? false : toggleComplexity();
                 },
                 child: Container(
-                  margin: EdgeInsets.only(right: 12),
+                  margin: const EdgeInsets.only(right: 12),
                   height: 28.0,
                   width: 28.0,
                   decoration: DesignConfig.complexityIcon(complexity),
                   child: Padding(
-                    padding: EdgeInsets.all(2),
+                    padding: const EdgeInsets.all(2),
                     child: Center(
                       child: Text(
                         complexity.toString(),
@@ -303,7 +303,7 @@ class _MobileManageState extends State<MobileManage> {
                   ),
                 ),
               )
-            : SizedBox()
+            : const SizedBox()
       ],
       title: Text(
         'CSR #${widget.taskData.csr_id}',
@@ -355,14 +355,14 @@ class _MobileManageState extends State<MobileManage> {
           foregroundColor: Colors.white,
           direction: SpeedDialDirection.up,
           elevation: 8.0,
-          shape: CircleBorder(),
+          shape: const CircleBorder(),
           children: [
             SpeedDialChild(
                 child: const Icon(Icons.pending_actions_outlined),
                 backgroundColor: const Color.fromARGB(255, 0, 255, 200),
                 // Change color dynamically
                 label: AppLocalizations.of(context)!.onTheWay,
-                labelBackgroundColor: Color.fromARGB(255, 0, 255, 200),
+                labelBackgroundColor: const Color.fromARGB(255, 0, 255, 200),
                 onTap: () async {
                   await markUpdateTask('site', 'on-the-way', false);
                 }),
@@ -382,7 +382,7 @@ class _MobileManageState extends State<MobileManage> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text("Confirm"),
+                            title: const Text("Confirm"),
                             content: Text(
                               AppLocalizations.of(context)!.askfinish,
                             ),
@@ -436,7 +436,7 @@ class _MobileManageState extends State<MobileManage> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text("Confirm"),
+                            title: const Text("Confirm"),
                             content: Text(
                               AppLocalizations.of(context)!.askstart,
                             ),
@@ -502,7 +502,7 @@ class _MobileManageState extends State<MobileManage> {
                   ? const Color.fromARGB(255, 0, 132, 255)
                   : Colors.grey,
               label: AppLocalizations.of(context)!.parts,
-              labelBackgroundColor: Color.fromARGB(255, 0, 132, 255),
+              labelBackgroundColor: const Color.fromARGB(255, 0, 132, 255),
               onTap: btnDisable
                   ? () {
                       setState(() {
@@ -526,7 +526,7 @@ class _MobileManageState extends State<MobileManage> {
                   ? const Color.fromARGB(255, 215, 130, 226)
                   : const Color.fromARGB(255, 158, 158, 158),
               label: AppLocalizations.of(context)!.timeline,
-              labelBackgroundColor: Color.fromARGB(255, 215, 130, 226),
+              labelBackgroundColor: const Color.fromARGB(255, 215, 130, 226),
               onTap: btnDisable
                   ? () {
                       setState(() {

@@ -12,15 +12,15 @@ const Color color1 = Color(0xFFFB2A59);
 const Color color2 = Color(0xFF7E152D);
 const Color color3 = Color(0xFF132735);
 AppBarTheme appBarTheme() {
-  return AppBarTheme(
+  return const AppBarTheme(
     systemOverlayStyle: SystemUiOverlayStyle.dark,
     elevation: 2.0,
     color: smarKitcolor2,
-    toolbarTextStyle: const TextStyle(
+    toolbarTextStyle: TextStyle(
         color: Color(0xFF020202),
         fontSize: 22.0,
       ),
-    iconTheme: const IconThemeData(
+    iconTheme: IconThemeData(
       color: Color(0xFF020202),
     ),
   );
@@ -55,11 +55,11 @@ const Color grobag5 = Color(0x3349DE7F);
 const Color grobag6 = Color(0xFF9FF5CD);
 const Color grobag7 = Colors.black;
 const Color grobag8 = Color(0xFF777777);
-Gradient grobaggradient = LinearGradient(
-  begin: const Alignment(1.0, 1.0),
-  end: const Alignment(-1.0, -1.0),
+Gradient grobaggradient = const LinearGradient(
+  begin: Alignment(1.0, 1.0),
+  end: Alignment(-1.0, -1.0),
   colors: [grobag3, grobag2],
-  stops: const [0.1, 0.9],
+  stops: [0.1, 0.9],
 );
 
 // CryptoTech //
@@ -155,12 +155,12 @@ const Color dHomemainlight = Color(0xffFEF5ED);
 const Color dHomedarkshadow = Color(0xffAEAEC0);
 const Color dHomelightshadow = Color(0xFFffffff);
 
-Gradient gradient = LinearGradient(
+Gradient gradient = const LinearGradient(
   colors: [
     cryptocolor3,
     cryptocolor2,
   ],
-  stops: const [0.1, 0.9],
+  stops: [0.1, 0.9],
   begin: Alignment.bottomCenter,
   end: Alignment.topCenter,
 );
@@ -188,10 +188,10 @@ OutlineInputBorder outlineborderedittext = OutlineInputBorder(
   borderRadius: BorderRadius.circular(10.0),
 );
 
-Gradient appbargradient = LinearGradient(
-    stops: const [0, 1],
-    begin: const Alignment(-0.00, -1.00),
-    end: const Alignment(0.00, 1.00),
+Gradient appbargradient = const LinearGradient(
+    stops: [0, 1],
+    begin: Alignment(-0.00, -1.00),
+    end: Alignment(0.00, 1.00),
     colors: [cryptocolor2, cryptocolor3]);
 
 BoxDecoration circulargradient_box = BoxDecoration(
@@ -217,11 +217,11 @@ const Color bookKing4 = Color(0xfff1f2ff);
 const Color bookKing5 = Color(0x33bcc1ff);
 const Color bookKing6 = Color(0xFFD5D8FD);
 
-Gradient bookKinggradient = LinearGradient(
-  begin: const Alignment(1.0, 1.0),
-  end: const Alignment(-1.0, -1.0),
+Gradient bookKinggradient = const LinearGradient(
+  begin: Alignment(1.0, 1.0),
+  end: Alignment(-1.0, -1.0),
   colors: [bookKing3, bookKing2],
-  stops: const [0.0, 1.0],
+  stops: [0.0, 1.0],
 );
 
 // // SmartKey //
@@ -233,16 +233,16 @@ const Color smartkey4 = Color(0xfff5fbf9);
 const Color smartkey5 = Color(0x3379ffd2);
 const Color smartkey6 = Color(0xFFD4FCEE);
 
-Gradient smartkeygradient = LinearGradient(
-  begin: const Alignment(1.0, 1.0),
-  end: const Alignment(-1.0, -1.0),
+Gradient smartkeygradient = const LinearGradient(
+  begin: Alignment(1.0, 1.0),
+  end: Alignment(-1.0, -1.0),
   colors: [smartkey3, smartkey2],
-  stops: const [0.0, 1.0],
+  stops: [0.0, 1.0],
 );
 
 final Shader linearGradient = const LinearGradient(
   colors: <Color>[Color(0xff3c9ea8), Color(0xff69dea0)],
-).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
+).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
 
 // Music //
 const Color music1 = Color(0xffFFEAF3);
@@ -303,14 +303,14 @@ const Color vpn55 = Color(0x33FFA7A7);
 const Color vpn66 = Color(0xFFFAE9BB);
 const Color vpn77 = Color(0xFF777777);
 
-Gradient vpntopgradient = LinearGradient(
+Gradient vpntopgradient = const LinearGradient(
   colors: [
     vpn22,
     vpn33,
   ],
-  stops: const [0.7, 0.3],
-  begin: const Alignment(-0.91, -0.42),
-  end: const Alignment(0.91, 0.42),
+  stops: [0.7, 0.3],
+  begin: Alignment(-0.91, -0.42),
+  end: Alignment(0.91, 0.42),
 );
 
 BoxDecoration vpncirculargradient_box = BoxDecoration(
@@ -321,7 +321,7 @@ BoxDecoration vpncirculargradient_box = BoxDecoration(
   ],
 );
 
-Gradient vpngradient = LinearGradient(
+Gradient vpngradient = const LinearGradient(
   colors: [
     vpn22,
     vpn33,

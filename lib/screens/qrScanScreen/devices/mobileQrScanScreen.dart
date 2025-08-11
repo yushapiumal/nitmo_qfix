@@ -53,24 +53,24 @@ class _MobileQRScanScreenState extends State<MobileQRScanScreen> {
       backgroundColor: ColorsRes.backgroundColor,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: ColorsRes.backgroundColor,
         shadowColor: Colors.transparent,
         title: Text(
           'QR SCAN'.toUpperCase(),
-          style: TextStyle(
+          style: const TextStyle(
             color: ColorsRes.violateColor,
             letterSpacing: 4,
           ),
         ),
-        bottom: PreferredSize(
+        bottom: const PreferredSize(
+          preferredSize: Size(50, 5),
           child: Divider(
             color: ColorsRes.greyColor,
             height: 2.3,
           ),
-          preferredSize: Size(50, 5),
         ),
         centerTitle: true,
         automaticallyImplyLeading: false,

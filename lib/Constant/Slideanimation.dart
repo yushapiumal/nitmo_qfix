@@ -10,13 +10,13 @@ class SlideAnimation extends StatefulWidget {
   final AnimationController? animationController;
 
   // we have created a named parameter constructor
-  const SlideAnimation({
+  const SlideAnimation({Key? key, 
     required this.position,
     required this.itemCount,
     required this.slideDirection,
     required this.animationController,
     required this.child,
-  });
+  }) : super(key: key);
 
   @override
   _SlideAnimationState createState() => _SlideAnimationState();

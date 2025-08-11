@@ -11,7 +11,7 @@ class ManageGRNScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveLayout(
+    return const ResponsiveLayout(
       mobileBody: MobileGRNScreen(),
       tabletBody: TabletGRNScreen(),
     );

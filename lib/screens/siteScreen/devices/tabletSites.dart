@@ -22,7 +22,7 @@ class _TabletSitesState extends State<TabletSites>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
   }
 
   @override
@@ -33,9 +33,9 @@ class _TabletSitesState extends State<TabletSites>
 
   Widget helpingText() {
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
       width: 600,
-      child: Text(
+      child: const Text(
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
         style: TextStyle(fontSize: 16),
         textAlign: TextAlign.center,
@@ -45,9 +45,24 @@ class _TabletSitesState extends State<TabletSites>
 
   Widget buttonMarkIn() {
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
       width: 600,
       child: CupertinoButton(
+          onPressed: btnDisable
+              ? null
+              : () async {
+                  setState(() {
+                    btnDisable = true;
+                  });
+                  var submit =
+                      await widget.markUpdateTask('site', 'mark-in', false);
+                  if (submit || !submit) {
+                    setState(() {
+                      btnDisable = false;
+                    });
+                  }
+                },
+          color: ColorsRes.secondaryButton,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -73,7 +88,15 @@ class _TabletSitesState extends State<TabletSites>
                 ],
               ),
             ],
-          ),
+          )),
+    );
+  }
+
+  Widget buttonMarkOut() {
+    return Container(
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+      width: 600,
+      child: CupertinoButton(
           onPressed: btnDisable
               ? null
               : () async {
@@ -81,22 +104,14 @@ class _TabletSitesState extends State<TabletSites>
                     btnDisable = true;
                   });
                   var submit =
-                      await widget.markUpdateTask('site', 'mark-in', false);
+                      await widget.markUpdateTask('site', 'mark-out', false);
                   if (submit || !submit) {
                     setState(() {
                       btnDisable = false;
                     });
                   }
                 },
-          color: ColorsRes.secondaryButton),
-    );
-  }
-
-  Widget buttonMarkOut() {
-    return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-      width: 600,
-      child: CupertinoButton(
+          color: ColorsRes.secondaryButton,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -122,7 +137,15 @@ class _TabletSitesState extends State<TabletSites>
                 ],
               ),
             ],
-          ),
+          )),
+    );
+  }
+
+  Widget buttonOnTheWay() {
+    return Container(
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+      width: 600,
+      child: CupertinoButton(
           onPressed: btnDisable
               ? null
               : () async {
@@ -130,22 +153,14 @@ class _TabletSitesState extends State<TabletSites>
                     btnDisable = true;
                   });
                   var submit =
-                      await widget.markUpdateTask('site', 'mark-out', false);
+                      await widget.markUpdateTask('site', 'on-the-way', false);
                   if (submit || !submit) {
                     setState(() {
                       btnDisable = false;
                     });
                   }
                 },
-          color: ColorsRes.secondaryButton),
-    );
-  }
-
-  Widget buttonOnTheWay() {
-    return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-      width: 600,
-      child: CupertinoButton(
+          color: ColorsRes.secondaryButton,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -171,22 +186,7 @@ class _TabletSitesState extends State<TabletSites>
                 ],
               ),
             ],
-          ),
-          onPressed: btnDisable
-              ? null
-              : () async {
-                  setState(() {
-                    btnDisable = true;
-                  });
-                  var submit =
-                      await widget.markUpdateTask('site', 'on-the-way', false);
-                  if (submit || !submit) {
-                    setState(() {
-                      btnDisable = false;
-                    });
-                  }
-                },
-          color: ColorsRes.secondaryButton),
+          )),
     );
   }
 
@@ -206,16 +206,16 @@ class _TabletSitesState extends State<TabletSites>
               btnDisable
                   ? Container(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 90),
+                        padding: const EdgeInsets.symmetric(vertical: 90),
                         child: Center(
                           child: CircularProgressIndicator(
                             valueColor:
-                                new AlwaysStoppedAnimation<Color>(Colors.blue),
+                                const AlwaysStoppedAnimation<Color>(Colors.blue),
                           ),
                         ),
                       ),
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
             ],
           ),
         ),

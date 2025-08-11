@@ -110,7 +110,7 @@ class _TabletUpdateState extends State<TabletUpdate> {
   }
 
   toggleComplexity() async {
-    const _duration = Duration(milliseconds: 2500);
+    const duration = Duration(milliseconds: 2500);
 
     // Update complexity level
     setState(() {
@@ -122,7 +122,7 @@ class _TabletUpdateState extends State<TabletUpdate> {
     });
 
     // Call complexity API after a delay
-    return Timer(_duration, callComplexityChangeApi);
+    return Timer(duration, callComplexityChangeApi);
   }
 
   callComplexityChangeApi() async {

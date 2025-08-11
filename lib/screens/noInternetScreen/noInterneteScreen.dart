@@ -15,6 +15,6 @@ class NoInternetScreen extends StatefulWidget {
 class _NoInternetScreenState extends State<NoInternetScreen> {
   @override
   Widget build(BuildContext context) {
-    return Text('No Internet');
+    return const Text('No Internet');
   }
 }

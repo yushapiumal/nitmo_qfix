@@ -31,7 +31,7 @@ class _TabletTrackingState extends State<TabletTracking>
     super.initState();
     getTrackingDetails();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1500));
+        vsync: this, duration: const Duration(milliseconds: 1500));
   }
 
   @override
@@ -49,7 +49,7 @@ class _TabletTrackingState extends State<TabletTracking>
 
     if (getTracking['taskCount'] > 0) {
       Map<String, dynamic> data =
-          new Map<String, dynamic>.from(getTracking['fixesList']);
+          Map<String, dynamic>.from(getTracking['fixesList']);
 
       data.forEach((key, value) {
         setState(() {
@@ -74,7 +74,7 @@ class _TabletTrackingState extends State<TabletTracking>
           left: MediaQuery.of(context).size.width * .1, top: 20),
       child: Text(
         date,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.bold,
           color: ColorsRes.black,
@@ -89,8 +89,8 @@ class _TabletTrackingState extends State<TabletTracking>
         Container(
             alignment: Alignment.topLeft,
             height: 25,
-            padding: EdgeInsets.only(left: 15),
-            child: DottedLine(
+            padding: const EdgeInsets.only(left: 15),
+            child: const DottedLine(
               dashLength: 3,
               lineLength: 30,
               lineThickness: 3,
@@ -99,7 +99,7 @@ class _TabletTrackingState extends State<TabletTracking>
             )),
       ]);
     }
-    return SizedBox();
+    return const SizedBox();
   }
 
   @override
@@ -123,7 +123,7 @@ class _TabletTrackingState extends State<TabletTracking>
                                   top: MediaQuery.of(context).size.height / 3),
                               child: Center(
                                 child: CircularProgressIndicator(
-                                  valueColor: new AlwaysStoppedAnimation<Color>(
+                                  valueColor: const AlwaysStoppedAnimation<Color>(
                                       Colors.blue),
                                 ),
                               ),
@@ -140,7 +140,7 @@ class _TabletTrackingState extends State<TabletTracking>
   }
 
   showTaskList() {
-    return dateList.length == 0
+    return dateList.isEmpty
         ? Container(
             child: Padding(
               padding:
@@ -155,7 +155,7 @@ class _TabletTrackingState extends State<TabletTracking>
             shrinkWrap: true,
             reverse: true,
             itemCount: dateList.length,
-            physics: ScrollPhysics(),
+            physics: const ScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return trackListView(index);
             },
@@ -171,7 +171,7 @@ class _TabletTrackingState extends State<TabletTracking>
             left: MediaQuery.of(context).size.width * .1,
             right: 30,
           ),
-          child: Divider(
+          child: const Divider(
             color: Color(0xff26707070),
             thickness: 2,
           ),
@@ -182,8 +182,8 @@ class _TabletTrackingState extends State<TabletTracking>
             borderRadius: const BorderRadius.all(Radius.circular(15)),
             boxShadow: [
               BoxShadow(
-                color: Color.fromARGB(41, 0, 0, 0),
-                offset: new Offset(2, 5),
+                color: const Color.fromARGB(41, 0, 0, 0),
+                offset: const Offset(2, 5),
                 blurRadius: 10.0,
                 spreadRadius: 0,
               )
@@ -206,14 +206,14 @@ class _TabletTrackingState extends State<TabletTracking>
             padding: EdgeInsets.zero,
             shrinkWrap: true,
             itemCount: trackList[index].length,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int ind) {
               return Column(
                 children: [
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       dateList[index] != 'Today'
@@ -240,7 +240,7 @@ class _TabletTrackingState extends State<TabletTracking>
                                   size: 25,
                                   color: ColorsRes.redColor.withOpacity(0.5),
                                 ),
-                                Icon(Icons.circle,
+                                const Icon(Icons.circle,
                                     size: 15, color: ColorsRes.redColor),
                               ],
                             ),
@@ -249,7 +249,7 @@ class _TabletTrackingState extends State<TabletTracking>
                       ),
                       Expanded(
                         flex: 1,
-                        child: Container(
+                        child: SizedBox(
                           width: MediaQuery.of(context).size.width * 4,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -260,7 +260,7 @@ class _TabletTrackingState extends State<TabletTracking>
                               children: [
                                 Text(
                                   trackList[index][ind]['action'],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600),
                                 ),
@@ -270,7 +270,7 @@ class _TabletTrackingState extends State<TabletTracking>
                                 ),
                                 Text(
                                   trackList[index][ind]['technician_assignee'],
-                                  style: TextStyle(color: Color(0xff959595)),
+                                  style: const TextStyle(color: Color(0xff959595)),
                                 ),
                               ],
                             ),
@@ -286,7 +286,7 @@ class _TabletTrackingState extends State<TabletTracking>
                           children: [
                             Text(
                               timeSplit(trackList[index][ind]['createdOn']),
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.w600),
                               maxLines: 1,
                               softWrap: false,
@@ -295,7 +295,7 @@ class _TabletTrackingState extends State<TabletTracking>
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                     ],
@@ -306,23 +306,23 @@ class _TabletTrackingState extends State<TabletTracking>
                             Container(
                                 alignment: Alignment.topLeft,
                                 height: 25,
-                                padding: EdgeInsets.only(left: 15),
-                                child: DottedLine(
+                                padding: const EdgeInsets.only(left: 15),
+                                child: const DottedLine(
                                   dashLength: 3,
                                   direction: Axis.vertical,
                                   dashColor: Colors.black,
                                 )),
                             Container(
                               margin:
-                                  EdgeInsets.only(left: 40, top: 0, right: 20),
-                              child: Divider(
+                                  const EdgeInsets.only(left: 40, top: 0, right: 20),
+                              child: const Divider(
                                 color: Color(0xff26707070),
                                 thickness: 2,
                               ),
                             ),
                           ],
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
                 ],
               );
             },

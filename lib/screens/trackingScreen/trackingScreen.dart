@@ -1,5 +1,3 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:qfix_nitmo_new/screens/trackingScreen/devices/mobileTracking.dart';
 import 'package:qfix_nitmo_new/screens/trackingScreen/devices/tabletTracking.dart';

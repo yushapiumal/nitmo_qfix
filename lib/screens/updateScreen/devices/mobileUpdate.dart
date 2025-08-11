@@ -117,7 +117,7 @@ class _MobileUpdateState extends State<MobileUpdate> {
   }
 
   toggleComplexity() async {
-    const _duration = Duration(milliseconds: 2500);
+    const duration = Duration(milliseconds: 2500);
 
     // Update complexity level
     setState(() {
@@ -129,7 +129,7 @@ class _MobileUpdateState extends State<MobileUpdate> {
     });
 
     // Call complexity API after a delay
-    return Timer(_duration, callComplexityChangeApi);
+    return Timer(duration, callComplexityChangeApi);
   }
 
   callComplexityChangeApi() async {

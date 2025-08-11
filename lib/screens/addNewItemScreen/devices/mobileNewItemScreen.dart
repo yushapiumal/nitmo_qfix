@@ -41,20 +41,20 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
   var uomList = ['Pcs', 'Ft', 'Kg', 'g', 'Ltr', 'L'];
   bool showError = false;
   bool itemSelected = false;
-  bool _valItemCode = false;
-  bool _valItemName = false;
-  bool _valItemLocation = false;
-  bool _valItemDetail = false;
-  bool _valItemMax = false;
-  bool _valItemMin = false;
-  bool _valItemReorder = false;
+  final bool _valItemCode = false;
+  final bool _valItemName = false;
+  final bool _valItemLocation = false;
+  final bool _valItemDetail = false;
+  final bool _valItemMax = false;
+  final bool _valItemMin = false;
+  final bool _valItemReorder = false;
   bool btnDisable = false;
 
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
   }
 
   @override
@@ -72,7 +72,7 @@ class _MobileNewItemScreenState extends State<MobileNewItemScreen>
         backgroundColor: ColorsRes.backgroundColor,
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
             ),
             onPressed: () {

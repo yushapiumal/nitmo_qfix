@@ -25,7 +25,7 @@ class _TabletSplashState extends State<TabletSplash>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1000));
+        vsync: this, duration: const Duration(milliseconds: 1000));
     startTime();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
@@ -37,8 +37,8 @@ class _TabletSplashState extends State<TabletSplash>
   }
 
   startTime() async {
-    var _duration = Duration(milliseconds: 3500);
-    return Timer(_duration, navigationPage);
+    var duration = const Duration(milliseconds: 3500);
+    return Timer(duration, navigationPage);
   }
 
   Future<void> navigationPage() async {
@@ -80,12 +80,8 @@ class _TabletSplashState extends State<TabletSplash>
                         child: Column(
                           children: [
                             Container(
-                              child: Image.asset(
-                                'assets/icon/qfix-logo.png',
-                                width: MediaQuery.of(context).size.width / 8,
-                              ),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     topRight: Radius.circular(10),
                                     bottomLeft: Radius.circular(10),
@@ -95,13 +91,17 @@ class _TabletSplashState extends State<TabletSplash>
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 5,
                                     blurRadius: 7,
-                                    offset: Offset(
+                                    offset: const Offset(
                                         0, 3), // changes position of shadow
                                   ),
                                 ],
                               ),
+                              child: Image.asset(
+                                'assets/icon/qfix-logo.png',
+                                width: MediaQuery.of(context).size.width / 8,
+                              ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                           ],

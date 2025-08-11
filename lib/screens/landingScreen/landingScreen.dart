@@ -10,7 +10,7 @@ class LandingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveLayout(
+    return const ResponsiveLayout(
       mobileBody: MobileLandingScreen(),
       tabletBody: TableLandingScreen(),
     );

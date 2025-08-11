@@ -11,7 +11,7 @@ import 'package:qfix_nitmo_new/helper/Slide_action.dart';
 import 'package:qfix_nitmo_new/screens/manageGRNScreen/manageGRNScreen.dart';
 
 class QRScanner extends StatefulWidget {
-  const QRScanner({
+  const QRScanner({Key? key, 
     required this.ginTemplate,
     this.storeTemplate,
     this.grnTemplate,
@@ -19,7 +19,7 @@ class QRScanner extends StatefulWidget {
     this.refNo,
     this.prnNo,
     this.formReset,
-  });
+  }) : super(key: key);
 
   final bool ginTemplate;
   final bool? storeTemplate;

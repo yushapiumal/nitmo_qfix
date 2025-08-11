@@ -14,6 +14,8 @@ import 'package:qfix_nitmo_new/screens/landingScreen/landingScreen.dart';
 
 
 class MobileLogin extends StatefulWidget {
+  const MobileLogin({Key? key}) : super(key: key);
+
   // const MobileLogin({Key? key}) : super(key: key);
 
   @override
@@ -28,8 +30,8 @@ class _MobileLoginState extends State<MobileLogin>
   late FirebaseMessaging messaging;
   bool _obscureTextPassword = true;
   AnimationController? _animationController;
-  TextEditingController emailController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   bool _validate = false;
   String errorMsg = "";
   APIService apiServer = APIService();
@@ -39,7 +41,7 @@ class _MobileLoginState extends State<MobileLogin>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
     setFirebaseToken();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
@@ -87,12 +89,12 @@ class _MobileLoginState extends State<MobileLogin>
           controller: emailController,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(left: 15.0),
+            contentPadding: const EdgeInsets.only(left: 15.0),
             hintStyle: TextStyle(
                 color: ColorsRes.purpalColor,
                 fontSize: 16,
                 fontWeight: FontWeight.normal),
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
                 color: ColorsRes.warmGreyColor,
                 fontSize: 16,
                 fontWeight: FontWeight.normal),
@@ -101,14 +103,14 @@ class _MobileLoginState extends State<MobileLogin>
             focusedBorder: OutlineInputBorder(
               gapPadding: 0.0,
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: ColorsRes.warmGreyColor,
               ),
             ),
             border: OutlineInputBorder(
               gapPadding: 0.0,
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: ColorsRes.warmGreyColor,
                 width: 1,
               ),
@@ -150,12 +152,12 @@ class _MobileLoginState extends State<MobileLogin>
           controller: passwordController,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(left: 15.0),
+            contentPadding: const EdgeInsets.only(left: 15.0),
             hintStyle: TextStyle(
                 color: ColorsRes.purpalColor,
                 fontSize: 16,
                 fontWeight: FontWeight.normal),
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
                 color: ColorsRes.warmGreyColor,
                 fontSize: 16,
                 fontWeight: FontWeight.normal),
@@ -164,14 +166,14 @@ class _MobileLoginState extends State<MobileLogin>
             focusedBorder: OutlineInputBorder(
               gapPadding: 0.0,
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: ColorsRes.warmGreyColor,
               ),
             ),
             border: OutlineInputBorder(
               gapPadding: 0.0,
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: ColorsRes.warmGreyColor,
                 width: 1,
               ),
@@ -257,7 +259,7 @@ class _MobileLoginState extends State<MobileLogin>
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
+      value: const SystemUiOverlayStyle(
         statusBarIconBrightness: Brightness.light,
       ),
       child: WillPopScope(
@@ -293,13 +295,9 @@ class _MobileLoginState extends State<MobileLogin>
                   child: Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: Image.asset(
-                          'assets/icon/qfix-logo.png',
-                          width: MediaQuery.of(context).size.width / 5,
-                        ),
+                        margin: const EdgeInsets.only(top: 20),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(10),
                               topRight: Radius.circular(10),
                               bottomLeft: Radius.circular(10),
@@ -310,9 +308,13 @@ class _MobileLoginState extends State<MobileLogin>
                               spreadRadius: 5,
                               blurRadius: 7,
                               offset:
-                                  Offset(0, 3), // changes position of shadow
+                                  const Offset(0, 3), // changes position of shadow
                             ),
                           ],
+                        ),
+                        child: Image.asset(
+                          'assets/icon/qfix-logo.png',
+                          width: MediaQuery.of(context).size.width / 5,
                         ),
                       ),
                       Align(
@@ -388,13 +390,13 @@ class _MobileLoginState extends State<MobileLogin>
                                       child: Center(
                                         child: CircularProgressIndicator(
                                           valueColor:
-                                              new AlwaysStoppedAnimation<Color>(
+                                              const AlwaysStoppedAnimation<Color>(
                                                   Colors.blue),
                                         ),
                                       ),
                                     )
-                                  : SizedBox(),
-                              SizedBox(
+                                  : const SizedBox(),
+                              const SizedBox(
                                 width: 20,
                               ),
                               SlideAnimation(
@@ -414,11 +416,11 @@ class _MobileLoginState extends State<MobileLogin>
                                                   .size
                                                   .width /
                                               15),
-                                      padding: EdgeInsets.all(20.0),
+                                      padding: const EdgeInsets.all(20.0),
                                       decoration: BoxDecoration(
                                           color: ColorsRes.secondaryButton,
                                           shape: BoxShape.circle),
-                                      child: Icon(Icons.arrow_forward,
+                                      child: const Icon(Icons.arrow_forward,
                                           color: ColorsRes.black),
                                     ),
                                   ),

@@ -40,12 +40,12 @@ class _NotificationActionState extends State<NotificationAction> {
     _totalNotifications = 0;
     super.initState();
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-      PushNotification notification = await PushNotification(
+      PushNotification notification = PushNotification(
         title: message.notification?.title,
         body: message.notification?.body,
       );
       setState(() async {
-        _notificationInfo = await notification;
+        _notificationInfo = notification;
         _totalNotifications++;
       });
     });
@@ -83,7 +83,7 @@ class _NotificationActionState extends State<NotificationAction> {
     await Firebase.initializeApp();
 
     // 2. Instantiate Firebase Messaging
-    _messaging = await FirebaseMessaging.instance;
+    _messaging = FirebaseMessaging.instance;
 
     // 3. On iOS, this helps to take the user permissions
     NotificationSettings settings = await _messaging.requestPermission(
@@ -158,8 +158,8 @@ class _NotificationActionState extends State<NotificationAction> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 15),
+          const Padding(
+            padding: EdgeInsets.only(right: 15),
             child: Icon(Icons.notifications_none,
                 color: ColorsRes.appBarText, size: 30),
           ),
@@ -197,7 +197,7 @@ class _NotificationActionState extends State<NotificationAction> {
 class NotificationBadge extends StatelessWidget {
   final int totalNotifications;
 
-  const NotificationBadge({required this.totalNotifications});
+  const NotificationBadge({Key? key, required this.totalNotifications}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

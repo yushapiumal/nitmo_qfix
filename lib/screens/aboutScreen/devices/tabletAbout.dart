@@ -22,7 +22,7 @@ class _TabletAboutState extends State<TabletAbout>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1000));
+        vsync: this, duration: const Duration(milliseconds: 1000));
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
@@ -41,7 +41,7 @@ class _TabletAboutState extends State<TabletAbout>
         backgroundColor: ColorsRes.backgroundColor,
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               size: 30,
             ),
@@ -52,16 +52,16 @@ class _TabletAboutState extends State<TabletAbout>
           shadowColor: Colors.transparent,
           title: Text(
             'About'.toUpperCase(),
-            style: TextStyle(
+            style: const TextStyle(
               letterSpacing: 4,
             ),
           ),
-          bottom: PreferredSize(
+          bottom: const PreferredSize(
+            preferredSize: Size(50, 5),
             child: Divider(
               color: ColorsRes.greyColor,
               height: 2.3,
             ),
-            preferredSize: Size(50, 5),
           ),
           centerTitle: true,
           automaticallyImplyLeading: false,
@@ -85,12 +85,8 @@ class _TabletAboutState extends State<TabletAbout>
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              child: Image.asset(
-                                'assets/icon/qfix-logo.png',
-                                width: MediaQuery.of(context).size.width / 8,
-                              ),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     topRight: Radius.circular(10),
                                     bottomLeft: Radius.circular(10),
@@ -100,36 +96,38 @@ class _TabletAboutState extends State<TabletAbout>
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 5,
                                     blurRadius: 7,
-                                    offset: Offset(
+                                    offset: const Offset(
                                         0, 3), // changes position of shadow
                                   ),
                                 ],
                               ),
+                              child: Image.asset(
+                                'assets/icon/qfix-logo.png',
+                                width: MediaQuery.of(context).size.width / 8,
+                              ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
-                            Text(
+                            const Text(
                               'QFix',
                               style: TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.w500),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 60,
                             ),
-                            Text(
+                            const Text(
                               'build 1.0.4 | 07.07.23',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w500),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 60,
                             ),
                             Text(
-                              '© ' +
-                                  DateFormat.y().format(DateTime.now()) +
-                                  ' Ceynet Asia Private Limited',
-                              style: TextStyle(
+                              '© ${DateFormat.y().format(DateTime.now())} Ceynet Asia Private Limited',
+                              style: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w500),
                             ),
                           ],

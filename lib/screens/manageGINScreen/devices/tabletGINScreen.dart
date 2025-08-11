@@ -20,7 +20,7 @@ class TabletGINScreen extends StatefulWidget {
 class _TabletGINScreenState extends State<TabletGINScreen>
     with SingleTickerProviderStateMixin {
   final formKey = GlobalKey<FormState>();
-  TextEditingController ginCodeController = new TextEditingController();
+  TextEditingController ginCodeController = TextEditingController();
   AnimationController? _animationController;
   bool _validateGIN = false;
   String headerTitle = "New Goods Issue Note";
@@ -29,7 +29,7 @@ class _TabletGINScreenState extends State<TabletGINScreen>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
@@ -56,7 +56,7 @@ class _TabletGINScreenState extends State<TabletGINScreen>
         backgroundColor: ColorsRes.backgroundColor,
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               size: 30,
             ),
@@ -73,7 +73,7 @@ class _TabletGINScreenState extends State<TabletGINScreen>
           shadowColor: Colors.transparent,
           title: Text(
             headerTitle.toUpperCase(),
-            style: TextStyle(
+            style: const TextStyle(
               letterSpacing: 4,
             ),
           ),
@@ -129,7 +129,7 @@ class _TabletGINScreenState extends State<TabletGINScreen>
                         child: Column(
                           children: [
                             showGRNField(),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             showValidation(),
@@ -180,13 +180,13 @@ Widget showGRNField() {
     controller: ginCodeController,
     keyboardType: TextInputType.text,
     decoration: InputDecoration(
-      contentPadding: EdgeInsets.only(left: 15.0),
+      contentPadding: const EdgeInsets.only(left: 15.0),
       hintStyle: TextStyle(
         color: ColorsRes.purpalColor,
         fontSize: 16,
         fontWeight: FontWeight.normal,
       ),
-      labelStyle: TextStyle(
+      labelStyle: const TextStyle(
         color: ColorsRes.greyColor,
         fontSize: 16,
         fontWeight: FontWeight.normal,
@@ -196,14 +196,14 @@ Widget showGRNField() {
       focusedBorder: OutlineInputBorder(
         gapPadding: 0.0,
         borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: ColorsRes.warmGreyColor,
         ),
       ),
       border: OutlineInputBorder(
         gapPadding: 0.0,
         borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: ColorsRes.warmGreyColor,
           width: 1,
         ),
@@ -252,7 +252,7 @@ Widget showGRNField() {
     if (formKey.currentState!.validate() && ginCodeController.text.isNotEmpty) {
       setState(() {
         showQRScan = true;
-        headerTitle = 'GIN #' + ginCodeController.text;
+        headerTitle = 'GIN #${ginCodeController.text}';
       });
     }
 

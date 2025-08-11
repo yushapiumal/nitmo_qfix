@@ -36,7 +36,7 @@ class _TabletWorkState extends State<TabletWork> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
   }
 
   @override
@@ -62,16 +62,16 @@ class _TabletWorkState extends State<TabletWork> with TickerProviderStateMixin {
               btnDisable
                   ? Container(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 90),
+                        padding: const EdgeInsets.symmetric(vertical: 90),
                         child: Center(
                           child: CircularProgressIndicator(
                             valueColor:
-                                new AlwaysStoppedAnimation<Color>(Colors.blue),
+                                const AlwaysStoppedAnimation<Color>(Colors.blue),
                           ),
                         ),
                       ),
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
             ],
           ),
         ),
@@ -119,7 +119,7 @@ class _TabletWorkState extends State<TabletWork> with TickerProviderStateMixin {
 
   Widget helpingText() {
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
       width: 600,
       child: const Text(
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
@@ -179,7 +179,7 @@ class _TabletWorkState extends State<TabletWork> with TickerProviderStateMixin {
 } 
   Widget buttonDelay() {
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
       width: 600,
       child: CupertinoButton(
           onPressed: btnDisable
@@ -204,7 +204,7 @@ class _TabletWorkState extends State<TabletWork> with TickerProviderStateMixin {
                 CupertinoIcons.hourglass,
                 color: Colors.black,
               ),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               Text(
                 AppLocalizations.of(context)!.markAsDelay,
                 style: const TextStyle(
@@ -219,7 +219,7 @@ class _TabletWorkState extends State<TabletWork> with TickerProviderStateMixin {
 
   Widget buttonComplete() {
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
       width: 600,
       child: CupertinoButton(
           onPressed: btnDisable
@@ -236,7 +236,7 @@ class _TabletWorkState extends State<TabletWork> with TickerProviderStateMixin {
                 CupertinoIcons.checkmark_seal,
                 color: Colors.black,
               ),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               Text(
                 AppLocalizations.of(context)!.markAsComplete,
                 style: const TextStyle(

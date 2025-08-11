@@ -196,7 +196,7 @@ class DesignConfig {
           isfullratingbar
               ? RatingBarIndicator(
                   rating: double.parse(rating),
-                  itemBuilder: (context, index) => Icon(
+                  itemBuilder: (context, index) => const Icon(
                     Icons.star,
                     color: ColorsRes.ratingColor,
                   ),
@@ -204,14 +204,14 @@ class DesignConfig {
                   itemSize: 14,
                   direction: Axis.horizontal,
                 )
-              : Icon(
+              : const Icon(
                   Icons.star,
                   size: 14,
                   color: ColorsRes.ratingColor,
                 ),
           Text(
             "\t\t$rating",
-            style: TextStyle(
+            style: const TextStyle(
                 color: ColorsRes.greyColor, fontWeight: FontWeight.w400),
           ),
         ],

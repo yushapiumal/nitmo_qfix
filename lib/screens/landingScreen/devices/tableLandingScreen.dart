@@ -50,7 +50,7 @@ class _TableLandingScreenState extends State<TableLandingScreen>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 2000),
+      duration: const Duration(milliseconds: 2000),
     );
     _timer = startTimer();
   }
@@ -88,7 +88,7 @@ class _TableLandingScreenState extends State<TableLandingScreen>
           child: Stack(
             children: [
               Transform.translate(
-                offset: new Offset(0.0, 0.0),
+                offset: const Offset(0.0, 0.0),
                 child: Image.asset(
                   backgroundArray[selectedBg],
                   fit: BoxFit.cover,
@@ -108,12 +108,8 @@ class _TableLandingScreenState extends State<TableLandingScreen>
                     child: Column(
                       children: [
                         Container(
-                          child: Image.asset(
-                            'assets/icon/qfix-logo.png',
-                            width: MediaQuery.of(context).size.width / 8,
-                          ),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(10),
                                 topRight: Radius.circular(10),
                                 bottomLeft: Radius.circular(10),
@@ -124,12 +120,16 @@ class _TableLandingScreenState extends State<TableLandingScreen>
                                 spreadRadius: 5,
                                 blurRadius: 7,
                                 offset:
-                                    Offset(0, 3), // changes position of shadow
+                                    const Offset(0, 3), // changes position of shadow
                               ),
                             ],
                           ),
+                          child: Image.asset(
+                            'assets/icon/qfix-logo.png',
+                            width: MediaQuery.of(context).size.width / 8,
+                          ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         // Text(
@@ -139,7 +139,7 @@ class _TableLandingScreenState extends State<TableLandingScreen>
                         //     fontWeight: FontWeight.bold,
                         //   ),
                         // ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         showTenantCodePicker(),
@@ -152,7 +152,7 @@ class _TableLandingScreenState extends State<TableLandingScreen>
                                   fontSize: 18,
                                 ),
                               )
-                            : SizedBox()
+                            : const SizedBox()
                       ],
                     ),
                   ),
@@ -185,7 +185,7 @@ class _TableLandingScreenState extends State<TableLandingScreen>
                           btnDisable
                               ? AppLocalizations.of(context)!.checking
                               : AppLocalizations.of(context)!.login,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 18,
                               color: ColorsRes.white,
                               fontWeight: FontWeight.bold),
@@ -236,12 +236,12 @@ class _TableLandingScreenState extends State<TableLandingScreen>
 
   Widget langPicker() {
     final provider = Provider.of<LocaleProvider>(context);
-    final locale = provider.locale ?? Locale('en');
+    final locale = provider.locale ?? const Locale('en');
 
     var selectedLang = storage.getItem('lang');
 
     return Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         top: 20.0,
         left: 30.0,
         right: 30.0,
@@ -251,12 +251,8 @@ class _TableLandingScreenState extends State<TableLandingScreen>
         children: [
           GestureDetector(
             child: ElevatedButton(
-              child: Text(
-                'EN',
-                style: TextStyle(color: Colors.black),
-              ),
               onPressed: () {
-                provider.setLocale(Locale('en'));
+                provider.setLocale(const Locale('en'));
                 storage.setItem('lang', 'en');
               },
               style: ElevatedButton.styleFrom(
@@ -265,16 +261,16 @@ class _TableLandingScreenState extends State<TableLandingScreen>
                   borderRadius: BorderRadius.circular(20), // <-- Radius
                 ),
               ),
+              child: Text(
+                'EN',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
           ),
           GestureDetector(
             child: ElevatedButton(
-              child: Text(
-                'සිං',
-                style: TextStyle(color: Colors.black),
-              ),
               onPressed: () {
-                provider.setLocale(Locale('si'));
+                provider.setLocale(const Locale('si'));
                 storage.setItem('lang', 'si');
               },
               style: ElevatedButton.styleFrom(
@@ -283,16 +279,16 @@ class _TableLandingScreenState extends State<TableLandingScreen>
                   borderRadius: BorderRadius.circular(20), // <-- Radius
                 ),
               ),
+              child: Text(
+                'සිං',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
           ),
           GestureDetector(
             child: ElevatedButton(
-              child: Text(
-                'தமிழ்',
-                style: TextStyle(color: Colors.black),
-              ),
               onPressed: () {
-                provider.setLocale(Locale('ta'));
+                provider.setLocale(const Locale('ta'));
                 storage.setItem('lang', 'ta');
               },
               style: ElevatedButton.styleFrom(
@@ -300,6 +296,10 @@ class _TableLandingScreenState extends State<TableLandingScreen>
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20), // <-- Radius
                 ),
+              ),
+              child: Text(
+                'தமிழ்',
+                style: TextStyle(color: Colors.black),
               ),
             ),
           ),
@@ -342,7 +342,7 @@ class _TableLandingScreenState extends State<TableLandingScreen>
                 color: ColorsRes.purpalColor,
                 fontSize: 18,
                 fontWeight: FontWeight.normal),
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
                 color: ColorsRes.black,
                 fontSize: 18,
                 fontWeight: FontWeight.normal),
@@ -351,14 +351,14 @@ class _TableLandingScreenState extends State<TableLandingScreen>
             focusedBorder: OutlineInputBorder(
               gapPadding: 0.0,
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: ColorsRes.black,
               ),
             ),
             border: OutlineInputBorder(
               gapPadding: 0.0,
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: ColorsRes.black,
                 width: 1.5,
               ),

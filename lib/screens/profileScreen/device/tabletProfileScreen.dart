@@ -34,7 +34,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
   @override
   void initState() {
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
     super.initState();
     storage.ready.then((_) => {
           setState(() {
@@ -56,7 +56,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
       backgroundColor: ColorsRes.backgroundColor,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
           ),
           onPressed: () => Navigator.of(context).pop(),
@@ -64,7 +64,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
         shadowColor: Colors.transparent,
         title: Text(
          AppLocalizations.of(context)!.settings,
-          style: TextStyle(
+          style: const TextStyle(
             letterSpacing: 4,
           ),
         ),
@@ -98,9 +98,9 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                     child: CircleAvatar(
                       radius: 60,
                       backgroundColor:
-                          Color.fromARGB(255, 250, 141, 8).withOpacity(0.5),
+                          const Color.fromARGB(255, 250, 141, 8).withOpacity(0.5),
                       child: Container(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: ClipOval(
                           child: Image.asset(
                             'assets/img/avatar1.png',
@@ -181,8 +181,8 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                             right: MediaQuery.of(context).size.width / 15),
                         title: Row(
                           children: [
-                            Icon(Icons.person),
-                            SizedBox(width: 18.0),
+                            const Icon(Icons.person),
+                            const SizedBox(width: 18.0),
                             Text(
                               storage.getItem('calling_name'),
                               textAlign: TextAlign.start,
@@ -209,8 +209,8 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                             right: MediaQuery.of(context).size.width / 15),
                         title: Row(
                           children: [
-                            Icon(Icons.phone),
-                            SizedBox(width: 18.0),
+                            const Icon(Icons.phone),
+                            const SizedBox(width: 18.0),
                             Text(
                               storage.getItem('contact'),
                               textAlign: TextAlign.start,
@@ -236,8 +236,8 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                             right: MediaQuery.of(context).size.width / 15),
                         title: Row(
                           children: [
-                            Icon(Icons.badge),
-                            SizedBox(width: 18.0),
+                            const Icon(Icons.badge),
+                            const SizedBox(width: 18.0),
                             Text(
                               storage.getItem('designation'),
                               textAlign: TextAlign.start,
@@ -269,8 +269,8 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                             right: MediaQuery.of(context).size.width / 15),
                         title: Row(
                           children: [
-                            Icon(Icons.power_settings_new),
-                            SizedBox(width: 18.0),
+                            const Icon(Icons.power_settings_new),
+                            const SizedBox(width: 18.0),
                             Text(
                               AppLocalizations.of(context)!.logout,
                               textAlign: TextAlign.start,
@@ -285,16 +285,16 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                         onTap: () {
                           showDialog(
                             context: context,
-                            builder: (context) => new AlertDialog(
-                              title: new Text(
+                            builder: (context) => AlertDialog(
+                              title: Text(
                                   AppLocalizations.of(context)!.areyousure),
-                              content: new Text(AppLocalizations.of(context)!
+                              content: Text(AppLocalizations.of(context)!
                                   .doyouwantlogout),
                               actions: <Widget>[
                                 TextButton(
                                   onPressed: () => Navigator.pop(
                                       context), // Navigator.of(context).pop(false),
-                                  child: new Text(
+                                  child: Text(
                                       AppLocalizations.of(context)!.no),
                                 ),
                                 TextButton(
@@ -304,7 +304,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                                     Navigator.popAndPushNamed(
                                         context, LandingScreen.routeName);
                                   },
-                                  child: new Text(
+                                  child: Text(
                                       AppLocalizations.of(context)!.yes),
                                 ),
                               ],
@@ -325,12 +325,12 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
 
   Widget langPicker() {
     final provider = Provider.of<LocaleProvider>(context);
-    final locale = provider.locale ?? Locale('en');
+    final locale = provider.locale ?? const Locale('en');
 
     var selectedLang = storage.getItem('lang');
 
     return Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         top: 20.0,
         left: 30.0,
         right: 30.0,
@@ -340,12 +340,8 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
         children: [
           GestureDetector(
             child: ElevatedButton(
-              child: Text(
-                'EN',
-                style: TextStyle(color: Colors.black),
-              ),
               onPressed: () {
-                provider.setLocale(Locale('en'));
+                provider.setLocale(const Locale('en'));
                 storage.setItem('lang', 'en');
               },
               style: ElevatedButton.styleFrom(
@@ -354,16 +350,16 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                   borderRadius: BorderRadius.circular(20), // <-- Radius
                 ),
               ),
+              child: Text(
+                'EN',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
           ),
           GestureDetector(
             child: ElevatedButton(
-              child: Text(
-                'සිං',
-                style: TextStyle(color: Colors.black),
-              ),
               onPressed: () {
-                provider.setLocale(Locale('si'));
+                provider.setLocale(const Locale('si'));
                 storage.setItem('lang', 'si');
               },
               style: ElevatedButton.styleFrom(
@@ -372,16 +368,16 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                   borderRadius: BorderRadius.circular(20), // <-- Radius
                 ),
               ),
+              child: Text(
+                'සිං',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
           ),
           GestureDetector(
             child: ElevatedButton(
-              child: Text(
-                'தமிழ்',
-                style: TextStyle(color: Colors.black),
-              ),
               onPressed: () {
-                provider.setLocale(Locale('ta'));
+                provider.setLocale(const Locale('ta'));
                 storage.setItem('lang', 'ta');
               },
               style: ElevatedButton.styleFrom(
@@ -389,6 +385,10 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20), // <-- Radius
                 ),
+              ),
+              child: Text(
+                'தமிழ்',
+                style: TextStyle(color: Colors.black),
               ),
             ),
           ),

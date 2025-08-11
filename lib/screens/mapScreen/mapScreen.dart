@@ -65,10 +65,10 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('MAP SCREEN'),
+        title: const Text('MAP SCREEN'),
       ),
       body: currentLocation == null
-          ? Text('loading...')
+          ? const Text('loading...')
           : GoogleMap(
               initialCameraPosition: CameraPosition(
                   target: LatLng(
@@ -76,7 +76,7 @@ class _MapScreenState extends State<MapScreen> {
                   zoom: 15.5),
               polylines: {
                 Polyline(
-                    polylineId: PolylineId('route'),
+                    polylineId: const PolylineId('route'),
                     points: polylineCoordinates,
                     color: Colors.orange,
                     width: 4)
@@ -86,8 +86,8 @@ class _MapScreenState extends State<MapScreen> {
                     markerId: const MarkerId("currentLocation"),
                     position: LatLng(currentLocation!.latitude!,
                         currentLocation!.longitude!)),
-                Marker(markerId: MarkerId("Source"), position: sourceLocation),
-                Marker(
+                const Marker(markerId: MarkerId("Source"), position: sourceLocation),
+                const Marker(
                     markerId: MarkerId("Destination"),
                     position: destinationLocation)
               },

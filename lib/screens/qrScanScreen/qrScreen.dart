@@ -12,7 +12,7 @@ class QRScanScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveLayout(
+    return const ResponsiveLayout(
       mobileBody: MobileQRScanScreen(),
       tabletBody: TabletQRScanScreen(),
     );

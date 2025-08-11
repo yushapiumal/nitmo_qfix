@@ -90,7 +90,7 @@ class _TabletStoreScreenState extends State<TabletStoreScreen>
         backgroundColor: ColorsRes.backgroundColor,
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               size: 30,
             ),
@@ -101,16 +101,16 @@ class _TabletStoreScreenState extends State<TabletStoreScreen>
           shadowColor: Colors.transparent,
           title: Text(
             headerTitle.toUpperCase(),
-            style: TextStyle(
+            style: const TextStyle(
               letterSpacing: 4,
             ),
           ),
-          bottom: PreferredSize(
+          bottom: const PreferredSize(
+            preferredSize: Size(50, 5),
             child: Divider(
               color: ColorsRes.greyColor,
               height: 2.3,
             ),
-            preferredSize: Size(50, 5),
           ),
           centerTitle: true,
           automaticallyImplyLeading: false,
@@ -118,7 +118,7 @@ class _TabletStoreScreenState extends State<TabletStoreScreen>
         body: showQRScanner(),
         floatingActionButton: SpeedDial(
           animatedIcon: AnimatedIcons.menu_close,
-          animatedIconTheme: IconThemeData(
+          animatedIconTheme: const IconThemeData(
             size: 35,
           ),
           curve: Curves.bounceIn,
@@ -131,16 +131,16 @@ class _TabletStoreScreenState extends State<TabletStoreScreen>
           backgroundColor: ColorsRes.secondaryButton,
           foregroundColor: Colors.black,
           elevation: 8.0,
-          shape: CircleBorder(),
+          shape: const CircleBorder(),
           children: [
             SpeedDialChild(
-                child: Icon(
+                child: const Icon(
                   Icons.description_outlined,
                   size: 35,
                 ),
                 backgroundColor: eStudy2,
                 label: 'New GIN',
-                labelStyle: TextStyle(
+                labelStyle: const TextStyle(
                   fontSize: 18,
                 ),
                 onTap: () {
@@ -152,13 +152,13 @@ class _TabletStoreScreenState extends State<TabletStoreScreen>
                   }
                 }),
             SpeedDialChild(
-              child: Icon(
+              child: const Icon(
                 Icons.edit_note_rounded,
                 size: 35,
               ),
               backgroundColor: Colors.amber,
               label: 'New GRN',
-              labelStyle: TextStyle(fontSize: 18.0),
+              labelStyle: const TextStyle(fontSize: 18.0),
               onTap: () {
                 if (grnAccess) {
                   Navigator.popAndPushNamed(context, ManageGRNScreen.routeName);
@@ -168,13 +168,13 @@ class _TabletStoreScreenState extends State<TabletStoreScreen>
               },
             ),
             SpeedDialChild(
-              child: Icon(
+              child: const Icon(
                 Icons.new_label_outlined,
                 size: 35,
               ),
               backgroundColor: smartkey2,
               label: 'New Item',
-              labelStyle: TextStyle(fontSize: 18.0),
+              labelStyle: const TextStyle(fontSize: 18.0),
               onTap: () {
                 if (addItemAccess) {
                   Navigator.popAndPushNamed(

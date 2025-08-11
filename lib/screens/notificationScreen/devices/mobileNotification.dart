@@ -31,16 +31,16 @@ class _MobileNotificationState extends State<MobileNotification>
     super.initState();
     startTime();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
   }
 
   startTime() async {
     setState(() {
       loading = true;
     });
-    var _duration = Duration(milliseconds: 3000);
+    var duration = const Duration(milliseconds: 3000);
 
-    return Timer(_duration, getMyNotifications);
+    return Timer(duration, getMyNotifications);
   }
 
   @override
@@ -70,7 +70,7 @@ class _MobileNotificationState extends State<MobileNotification>
         backgroundColor: ColorsRes.backgroundColor,
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.popAndPushNamed(context, HomeScreen.routeName);
             },
@@ -78,7 +78,7 @@ class _MobileNotificationState extends State<MobileNotification>
           shadowColor: Colors.transparent,
           title: Text(
             'Notifications'.toUpperCase(),
-            style: TextStyle(
+            style: const TextStyle(
               letterSpacing: 4,
             ),
           ),
@@ -99,7 +99,7 @@ class _MobileNotificationState extends State<MobileNotification>
                           ),
                           child: Center(
                             child: CircularProgressIndicator(
-                              valueColor: new AlwaysStoppedAnimation<Color>(
+                              valueColor: const AlwaysStoppedAnimation<Color>(
                                 Colors.blue,
                               ),
                             ),
@@ -119,9 +119,9 @@ class _MobileNotificationState extends State<MobileNotification>
     return count > 0
         ? ListView.builder(
             shrinkWrap: true,
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             itemCount: notificationList.length,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               var split = notificationList[index]['date'].split(" ");
               var date = split[0];
@@ -129,20 +129,20 @@ class _MobileNotificationState extends State<MobileNotification>
               return Column(
                 children: [
                   ListTile(
-                    leading: Container(
+                    leading: SizedBox(
                       width: 40,
                       height: 40,
                       child: CircleAvatar(
+                        backgroundColor: ColorsRes.secondaryButton,
                         child: Icon(
                           Icons.notifications_none,
                           color: Colors.black,
                         ),
-                        backgroundColor: ColorsRes.secondaryButton,
                       ),
                     ),
                     title: Text(
                       notificationList[index]['title'],
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(notificationList[index]['description']),
                     trailing: Column(
@@ -153,7 +153,7 @@ class _MobileNotificationState extends State<MobileNotification>
                       ],
                     ),
                   ),
-                  Divider(
+                  const Divider(
                     height: 2,
                     thickness: 1,
                     indent: 20,
@@ -169,7 +169,7 @@ class _MobileNotificationState extends State<MobileNotification>
               margin: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height / 3,
               ),
-              child: Text('No notifications found'),
+              child: const Text('No notifications found'),
             ),
           );
   }

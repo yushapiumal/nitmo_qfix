@@ -30,16 +30,16 @@ class _TabletNotificationState extends State<TabletNotification>
     super.initState();
     startTime();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
   }
 
   startTime() async {
     setState(() {
       loading = true;
     });
-    var _duration = Duration(milliseconds: 3000);
+    var duration = const Duration(milliseconds: 3000);
 
-    return Timer(_duration, getMyNotifications);
+    return Timer(duration, getMyNotifications);
   }
 
   @override
@@ -69,7 +69,7 @@ class _TabletNotificationState extends State<TabletNotification>
         backgroundColor: ColorsRes.backgroundColor,
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               size: 30,
             ),
@@ -80,7 +80,7 @@ class _TabletNotificationState extends State<TabletNotification>
           shadowColor: Colors.transparent,
           title: Text(
             'Notifications'.toUpperCase(),
-            style: TextStyle(
+            style: const TextStyle(
               letterSpacing: 4,
             ),
           ),
@@ -101,7 +101,7 @@ class _TabletNotificationState extends State<TabletNotification>
                           ),
                           child: Center(
                             child: CircularProgressIndicator(
-                              valueColor: new AlwaysStoppedAnimation<Color>(
+                              valueColor: const AlwaysStoppedAnimation<Color>(
                                 Colors.blue,
                               ),
                             ),
@@ -125,7 +125,7 @@ class _TabletNotificationState extends State<TabletNotification>
               horizontal: MediaQuery.of(context).size.width / 25,
             ),
             itemCount: notificationList.length,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               var split = notificationList[index]['date'].split(" ");
               var date = split[0];
@@ -133,27 +133,27 @@ class _TabletNotificationState extends State<TabletNotification>
               return Column(
                 children: [
                   ListTile(
-                    leading: Container(
+                    leading: SizedBox(
                       width: 40,
                       height: 40,
                       child: CircleAvatar(
+                        backgroundColor: ColorsRes.secondaryButton,
                         child: Icon(
                           Icons.notifications_none,
                           color: Colors.black,
                         ),
-                        backgroundColor: ColorsRes.secondaryButton,
                       ),
                     ),
                     title: Text(
                       notificationList[index]['title'],
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
                     ),
                     subtitle: Text(
                       notificationList[index]['description'],
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                       ),
                     ),
@@ -165,7 +165,7 @@ class _TabletNotificationState extends State<TabletNotification>
                       ],
                     ),
                   ),
-                  Divider(
+                  const Divider(
                     height: 2,
                     thickness: 1,
                     indent: 20,
@@ -181,7 +181,7 @@ class _TabletNotificationState extends State<TabletNotification>
               margin: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height / 3,
               ),
-              child: Text('No notifications found'),
+              child: const Text('No notifications found'),
             ),
           );
   }

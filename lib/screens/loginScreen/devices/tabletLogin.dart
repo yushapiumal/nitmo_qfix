@@ -28,8 +28,8 @@ class _TabletLoginState extends State<TabletLogin>
   late FirebaseMessaging messaging;
   bool _obscureTextPassword = true;
   AnimationController? _animationController;
-  TextEditingController emailController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   bool _validate = false;
   String errorMsg = "";
   APIService apiServer = APIService();
@@ -39,7 +39,7 @@ class _TabletLoginState extends State<TabletLogin>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
     setFirebaseToken();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
@@ -87,7 +87,7 @@ class _TabletLoginState extends State<TabletLogin>
           controller: emailController,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            errorStyle: TextStyle(fontSize: 18),
+            errorStyle: const TextStyle(fontSize: 18),
             contentPadding: EdgeInsets.symmetric(
               vertical: MediaQuery.of(context).size.height / 60,
               horizontal: MediaQuery.of(context).size.height / 60,
@@ -97,7 +97,7 @@ class _TabletLoginState extends State<TabletLogin>
                 color: ColorsRes.purpalColor,
                 fontSize: 18,
                 fontWeight: FontWeight.normal),
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
                 color: ColorsRes.warmGreyColor,
                 fontSize: 18,
                 fontWeight: FontWeight.normal),
@@ -106,14 +106,14 @@ class _TabletLoginState extends State<TabletLogin>
             focusedBorder: OutlineInputBorder(
               gapPadding: 0.0,
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: ColorsRes.warmGreyColor,
               ),
             ),
             border: OutlineInputBorder(
               gapPadding: 0.0,
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: ColorsRes.warmGreyColor,
                 width: 1,
               ),
@@ -155,7 +155,7 @@ class _TabletLoginState extends State<TabletLogin>
           controller: passwordController,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
-            errorStyle: TextStyle(fontSize: 18),
+            errorStyle: const TextStyle(fontSize: 18),
             contentPadding: EdgeInsets.symmetric(
               vertical: MediaQuery.of(context).size.height / 60,
               horizontal: MediaQuery.of(context).size.height / 60,
@@ -164,7 +164,7 @@ class _TabletLoginState extends State<TabletLogin>
                 color: ColorsRes.purpalColor,
                 fontSize: 18,
                 fontWeight: FontWeight.normal),
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
                 color: ColorsRes.warmGreyColor,
                 fontSize: 18,
                 fontWeight: FontWeight.normal),
@@ -173,14 +173,14 @@ class _TabletLoginState extends State<TabletLogin>
             focusedBorder: OutlineInputBorder(
               gapPadding: 0.0,
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: ColorsRes.warmGreyColor,
               ),
             ),
             border: OutlineInputBorder(
               gapPadding: 0.0,
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: ColorsRes.warmGreyColor,
                 width: 1,
               ),
@@ -241,7 +241,7 @@ class _TabletLoginState extends State<TabletLogin>
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
+      value: const SystemUiOverlayStyle(
         statusBarIconBrightness: Brightness.light,
       ),
       child: WillPopScope(
@@ -286,12 +286,8 @@ class _TabletLoginState extends State<TabletLogin>
                         margin: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height / 10,
                         ),
-                        child: Image.asset(
-                          'assets/icon/qfix-logo.png',
-                          width: MediaQuery.of(context).size.width / 8,
-                        ),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(10),
                               topRight: Radius.circular(10),
                               bottomLeft: Radius.circular(10),
@@ -302,9 +298,13 @@ class _TabletLoginState extends State<TabletLogin>
                               spreadRadius: 5,
                               blurRadius: 7,
                               offset:
-                                  Offset(0, 3), // changes position of shadow
+                                  const Offset(0, 3), // changes position of shadow
                             ),
                           ],
+                        ),
+                        child: Image.asset(
+                          'assets/icon/qfix-logo.png',
+                          width: MediaQuery.of(context).size.width / 8,
                         ),
                       ),
                       Align(
@@ -334,7 +334,7 @@ class _TabletLoginState extends State<TabletLogin>
                       ),
                       SizedBox(height: MediaQuery.of(context).size.height / 20),
                       showEmail(),
-                      SizedBox(
+                      const SizedBox(
                         height: 1,
                       ),
                       showPassword(),
@@ -382,13 +382,13 @@ class _TabletLoginState extends State<TabletLogin>
                                       child: Center(
                                         child: CircularProgressIndicator(
                                           valueColor:
-                                              new AlwaysStoppedAnimation<Color>(
+                                              const AlwaysStoppedAnimation<Color>(
                                                   Colors.blue),
                                         ),
                                       ),
                                     )
-                                  : SizedBox(),
-                              SizedBox(
+                                  : const SizedBox(),
+                              const SizedBox(
                                 width: 20,
                               ),
                               SlideAnimation(
@@ -414,7 +414,7 @@ class _TabletLoginState extends State<TabletLogin>
                                       decoration: BoxDecoration(
                                           color: ColorsRes.secondaryButton,
                                           shape: BoxShape.circle),
-                                      child: Icon(Icons.arrow_forward,
+                                      child: const Icon(Icons.arrow_forward,
                                           color: ColorsRes.black),
                                     ),
                                   ),

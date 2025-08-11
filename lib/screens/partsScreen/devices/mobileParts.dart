@@ -44,7 +44,7 @@ class _MobilePartsState extends State<MobileParts>
     super.initState();
 
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
 
     for (var element in widget.taskData.contract['coverage']) {
       contractList.add(element);
@@ -71,9 +71,9 @@ class _MobilePartsState extends State<MobileParts>
 
   Widget helpingText() {
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
       width: 600,
-      child: Text(
+      child: const Text(
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
         style: TextStyle(fontSize: 16),
         textAlign: TextAlign.center,
@@ -83,7 +83,7 @@ class _MobilePartsState extends State<MobileParts>
 
   Widget selectItem() {
     return Container(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         left: 30,
         right: 30,
       ),
@@ -92,11 +92,11 @@ class _MobilePartsState extends State<MobileParts>
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               top: 10,
             ),
             width: MediaQuery.of(context).size.width / 1.5,
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
@@ -107,7 +107,7 @@ class _MobilePartsState extends State<MobileParts>
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton(
-                hint: Text('Please select product'),
+                hint: const Text('Please select product'),
                 items: contractList.map((con) {
                   return DropdownMenuItem(
                     value: con['serial'],
@@ -140,7 +140,7 @@ class _MobilePartsState extends State<MobileParts>
                   color: Colors.grey.withOpacity(0.8),
                   spreadRadius: 5,
                   blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
+                  offset: const Offset(0, 3), // changes position of shadow
                 ),
               ],
             ),
@@ -180,7 +180,7 @@ class _MobilePartsState extends State<MobileParts>
   }
 
   showSelectedItemData() {
-    if (contractList.length > 0) {
+    if (contractList.isNotEmpty) {
       for (var element in contractList) {
         if (element['serial'] == coverageDropdownValue.toString()) {
           if (element['serial'] == 'other') {
@@ -188,7 +188,7 @@ class _MobilePartsState extends State<MobileParts>
           }
 
           return Container(
-            padding: EdgeInsets.only(left: 20, right: 5),
+            padding: const EdgeInsets.only(left: 20, right: 5),
             child: Table(
               columnWidths: const {
                 0: FlexColumnWidth(1.5),
@@ -202,7 +202,7 @@ class _MobilePartsState extends State<MobileParts>
                       "Family",
                       textAlign: TextAlign.center,
                     ),
-                    Text(
+                    const Text(
                       ":",
                       textAlign: TextAlign.left,
                     ),
@@ -215,11 +215,11 @@ class _MobilePartsState extends State<MobileParts>
                 cellHeight(),
                 TableRow(
                   children: [
-                    Text(
+                    const Text(
                       "Model",
                       textAlign: TextAlign.center,
                     ),
-                    Text(
+                    const Text(
                       ":",
                       textAlign: TextAlign.left,
                     ),
@@ -232,11 +232,11 @@ class _MobilePartsState extends State<MobileParts>
                 cellHeight(),
                 TableRow(
                   children: [
-                    Text(
+                    const Text(
                       "Serial",
                       textAlign: TextAlign.center,
                     ),
-                    Text(
+                    const Text(
                       ":",
                       textAlign: TextAlign.left,
                     ),
@@ -249,11 +249,11 @@ class _MobilePartsState extends State<MobileParts>
                 cellHeight(),
                 TableRow(
                   children: [
-                    Text(
+                    const Text(
                       "Make",
                       textAlign: TextAlign.center,
                     ),
-                    Text(
+                    const Text(
                       ":",
                       textAlign: TextAlign.left,
                     ),
@@ -266,11 +266,11 @@ class _MobilePartsState extends State<MobileParts>
                 cellHeight(),
                 TableRow(
                   children: [
-                    Text(
+                    const Text(
                       "Detail",
                       textAlign: TextAlign.center,
                     ),
-                    Text(
+                    const Text(
                       ":",
                       textAlign: TextAlign.left,
                     ),
@@ -287,7 +287,7 @@ class _MobilePartsState extends State<MobileParts>
         }
       }
     }
-    return SizedBox();
+    return const SizedBox();
   }
 
   showInputField() {
@@ -298,7 +298,7 @@ class _MobilePartsState extends State<MobileParts>
     }
 
     return Container(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         left: 30,
         right: 30,
       ),
@@ -311,7 +311,7 @@ class _MobilePartsState extends State<MobileParts>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width / 1.5,
                       child: textField(
                         newPartsListController,
@@ -332,15 +332,15 @@ class _MobilePartsState extends State<MobileParts>
                             child: Container(
                               width: 30,
                               height: 30,
-                              child: Icon(
-                                Icons.check,
-                                color: Colors.green,
-                                size: 20,
-                              ),
                               // margin: EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 color: Colors.green[100],
                                 borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Icon(
+                                Icons.check,
+                                color: Colors.green,
+                                size: 20,
                               ),
                             ),
                             onTap: () {
@@ -365,14 +365,14 @@ class _MobilePartsState extends State<MobileParts>
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 90,
                 ),
-                partList.length > 0
-                    ? Container(
+                partList.isNotEmpty
+                    ? SizedBox(
                         height: MediaQuery.of(context).size.height / 4,
                         child: SingleChildScrollView(
-                          child: Table(columnWidths: {
-                            0: FlexColumnWidth(0.8),
-                            1: FlexColumnWidth(0.7),
-                            2: FlexColumnWidth(0.2),
+                          child: Table(columnWidths: const {
+                            0: const FlexColumnWidth(0.8),
+                            1: const FlexColumnWidth(0.7),
+                            2: const FlexColumnWidth(0.2),
                           }, children: [
                             const TableRow(
                               children: [
@@ -407,10 +407,10 @@ class _MobilePartsState extends State<MobileParts>
                                         children: [
                                           TableCell(
                                             child: Padding(
-                                              padding: EdgeInsets.all(5),
+                                              padding: const EdgeInsets.all(5),
                                               child: Text(
                                                 item['part'],
-                                                style: TextStyle(fontSize: 14),
+                                                style: const TextStyle(fontSize: 14),
                                               ),
                                             ),
                                           ),
@@ -423,7 +423,7 @@ class _MobilePartsState extends State<MobileParts>
                                                       width: 24,
                                                       height: 24,
                                                       margin:
-                                                          EdgeInsets.all(15),
+                                                          const EdgeInsets.all(15),
                                                       decoration: BoxDecoration(
                                                         color: Colors.grey[200],
                                                         borderRadius:
@@ -447,14 +447,14 @@ class _MobilePartsState extends State<MobileParts>
                                                   Text(
                                                     "${item['qty']}",
                                                     style:
-                                                        TextStyle(fontSize: 14),
+                                                        const TextStyle(fontSize: 14),
                                                   ),
                                                   GestureDetector(
                                                     child: Container(
                                                       width: 24,
                                                       height: 24,
                                                       margin:
-                                                          EdgeInsets.all(15),
+                                                          const EdgeInsets.all(15),
                                                       decoration: BoxDecoration(
                                                         color: Colors.grey[200],
                                                         borderRadius:
@@ -521,11 +521,11 @@ class _MobilePartsState extends State<MobileParts>
                                         ],
                                       ),
                                     ])
-                                .toList(),
+                                ,
                           ]),
                         ),
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
                 Container(
                   margin: EdgeInsets.only(
                     left: MediaQuery.of(context).size.width / 30,
@@ -537,7 +537,7 @@ class _MobilePartsState extends State<MobileParts>
                       onPressed: btnDisable
                           ? null
                           : () async {
-                              if (partList.length == 0) {
+                              if (partList.isEmpty) {
                                 apiService.showToast('Please add parts list');
                               } else {
                                 setState(() {
@@ -570,7 +570,7 @@ class _MobilePartsState extends State<MobileParts>
                             CupertinoIcons.settings_solid,
                             color: Colors.black,
                           ),
-                          SizedBox(width: 5),
+                          const SizedBox(width: 5),
                           Text(
                             AppLocalizations.of(context)!.orderBtnName,
                             style: TextStyle(
@@ -602,30 +602,30 @@ class _MobilePartsState extends State<MobileParts>
               SizedBox(height: MediaQuery.of(context).size.height / 99),
               // helpingText(),
               Align(
-                child: selectItem(),
                 alignment: Alignment.center,
+                child: selectItem(),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              itemSelected ? showSelectedItemData() : SizedBox(),
-              SizedBox(
+              itemSelected ? showSelectedItemData() : const SizedBox(),
+              const SizedBox(
                 height: 20,
               ),
-              itemSelected ? showInputField() : SizedBox(),
+              itemSelected ? showInputField() : const SizedBox(),
               btnDisable
                   ? Container(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Center(
                           child: CircularProgressIndicator(
                             valueColor:
-                                new AlwaysStoppedAnimation<Color>(Colors.blue),
+                                const AlwaysStoppedAnimation<Color>(Colors.blue),
                           ),
                         ),
                       ),
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
             ],
           ),
         ),

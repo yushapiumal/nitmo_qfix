@@ -14,7 +14,7 @@ import 'package:qfix_nitmo_new/api/geoShare.dart';
 
 class CheckinCheckoutBottom extends StatefulWidget {
   const CheckinCheckoutBottom(
-      { required this.from, this.tempPickedDate});
+      {Key? key,  required this.from, this.tempPickedDate}) : super(key: key);
   final from;
   final tempPickedDate;
   @override
@@ -241,10 +241,10 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                 padding:
                     const EdgeInsetsDirectional.only(start: 17, end: 20, top: 20),
                 child: contractLoading
-                    ? Center(
+                    ? const Center(
                         child: CircularProgressIndicator(
                           valueColor:
-                              const AlwaysStoppedAnimation<Color>(Colors.blue),
+                              AlwaysStoppedAnimation<Color>(Colors.blue),
                         ),
                       )
                     : ListView.builder(
@@ -376,10 +376,10 @@ class _CheckinCheckoutBottomState extends State<CheckinCheckoutBottom> {
                 padding:
                     const EdgeInsetsDirectional.only(start: 17, end: 20, top: 20),
                 child: contractTaskLoading
-                    ? Center(
+                    ? const Center(
                         child: CircularProgressIndicator(
                           valueColor:
-                              const AlwaysStoppedAnimation<Color>(Colors.blue),
+                              AlwaysStoppedAnimation<Color>(Colors.blue),
                         ),
                       )
                     : ListView.builder(

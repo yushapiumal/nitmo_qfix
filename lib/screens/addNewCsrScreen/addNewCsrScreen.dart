@@ -17,7 +17,7 @@ class AddNewCSRScreen extends StatefulWidget {
 class _AddNewCSRScreenState extends State<AddNewCSRScreen> {
   @override
   Widget build(BuildContext context) {
-    return ResponsiveLayout(
+    return const ResponsiveLayout(
       mobileBody: MobileNewCsr(),
       tabletBody: TabletNewCsr(),
     );

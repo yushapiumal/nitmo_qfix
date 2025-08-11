@@ -22,8 +22,8 @@ class _TabletGRNScreenState extends State<TabletGRNScreen>
     with SingleTickerProviderStateMixin {
   final formKey = GlobalKey<FormState>();
 
-  TextEditingController grnCodeController = new TextEditingController();
-  TextEditingController prnCodeController = new TextEditingController();
+  TextEditingController grnCodeController = TextEditingController();
+  TextEditingController prnCodeController = TextEditingController();
   AnimationController? _animationController;
   bool _validateGRN = false;
   bool _validatePRN = false;
@@ -33,7 +33,7 @@ class _TabletGRNScreenState extends State<TabletGRNScreen>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
@@ -61,7 +61,7 @@ class _TabletGRNScreenState extends State<TabletGRNScreen>
         backgroundColor: ColorsRes.backgroundColor,
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               size: 30,
             ),
@@ -77,7 +77,7 @@ class _TabletGRNScreenState extends State<TabletGRNScreen>
           shadowColor: Colors.transparent,
           title: Text(
             headerTitle.toUpperCase(),
-            style: TextStyle(
+            style: const TextStyle(
               letterSpacing: 4,
             ),
           ),
@@ -104,7 +104,7 @@ class _TabletGRNScreenState extends State<TabletGRNScreen>
                   animationController: _animationController,
                   child: Column(
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(
                           top: 14,
                         ),
@@ -158,7 +158,7 @@ class _TabletGRNScreenState extends State<TabletGRNScreen>
 
   Widget showValidation1() {
     if (_validateGRN) {
-      return Column(
+      return const Column(
         children: [
           Text(
             'Please enter correct GRN Code',
@@ -176,7 +176,7 @@ class _TabletGRNScreenState extends State<TabletGRNScreen>
 
   Widget showValidation2() {
     if (_validatePRN) {
-      return Column(
+      return const Column(
         children: [
           Text(
             'Please enter correct PRN Code',
@@ -202,13 +202,13 @@ class _TabletGRNScreenState extends State<TabletGRNScreen>
     controller: grnCodeController,
     keyboardType: TextInputType.text,
     decoration: InputDecoration(
-      contentPadding: EdgeInsets.only(left: 15.0),
+      contentPadding: const EdgeInsets.only(left: 15.0),
       hintStyle: TextStyle(
         color: ColorsRes.purpalColor,
         fontSize: 16,
         fontWeight: FontWeight.normal,
       ),
-      labelStyle: TextStyle(
+      labelStyle: const TextStyle(
         color: ColorsRes.greyColor,
         fontSize: 16,
         fontWeight: FontWeight.normal,
@@ -218,14 +218,14 @@ class _TabletGRNScreenState extends State<TabletGRNScreen>
       focusedBorder: OutlineInputBorder(
         gapPadding: 0.0,
         borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: ColorsRes.warmGreyColor,
         ),
       ),
       border: OutlineInputBorder(
         gapPadding: 0.0,
         borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: ColorsRes.warmGreyColor,
           width: 1,
         ),
@@ -245,13 +245,13 @@ Widget showPRNField() {
     controller: prnCodeController,
     keyboardType: TextInputType.text,
     decoration: InputDecoration(
-      contentPadding: EdgeInsets.only(left: 15.0),
+      contentPadding: const EdgeInsets.only(left: 15.0),
       hintStyle: TextStyle(
         color: ColorsRes.purpalColor,
         fontSize: 16,
         fontWeight: FontWeight.normal,
       ),
-      labelStyle: TextStyle(
+      labelStyle: const TextStyle(
         color: ColorsRes.greyColor,
         fontSize: 16,
         fontWeight: FontWeight.normal,
@@ -261,14 +261,14 @@ Widget showPRNField() {
       focusedBorder: OutlineInputBorder(
         gapPadding: 0.0,
         borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: ColorsRes.warmGreyColor,
         ),
       ),
       border: OutlineInputBorder(
         gapPadding: 0.0,
         borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: ColorsRes.warmGreyColor,
           width: 1,
         ),
@@ -287,6 +287,10 @@ Widget showPRNField() {
       ),
       width: 400,
       child: CupertinoButton(
+        onPressed: () {
+          formSubmit();
+        },
+        color: ColorsRes.secondaryButton,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -306,10 +310,6 @@ Widget showPRNField() {
             ),
           ],
         ),
-        onPressed: () {
-          formSubmit();
-        },
-        color: ColorsRes.secondaryButton,
       ),
     );
   }
@@ -320,7 +320,7 @@ Widget showPRNField() {
         prnCodeController.text.isNotEmpty) {
       setState(() {
         showQRScan = true;
-        headerTitle = 'GRN #' + grnCodeController.text;
+        headerTitle = 'GRN #${grnCodeController.text}';
       });
     }
   }

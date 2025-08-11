@@ -39,20 +39,20 @@ class _TabletNewItemScreenState extends State<TabletNewItemScreen>
   var uomList = ['Pcs', 'Ft', 'Kg', 'g', 'Ltr', 'L'];
   bool showError = false;
   bool itemSelected = false;
-  bool _valItemCode = false;
-  bool _valItemName = false;
-  bool _valItemLocation = false;
-  bool _valItemDetail = false;
-  bool _valItemMax = false;
-  bool _valItemMin = false;
-  bool _valItemReorder = false;
+  final bool _valItemCode = false;
+  final bool _valItemName = false;
+  final bool _valItemLocation = false;
+  final bool _valItemDetail = false;
+  final bool _valItemMax = false;
+  final bool _valItemMin = false;
+  final bool _valItemReorder = false;
   bool btnDisable = false;
 
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
   }
 
   @override
@@ -70,7 +70,7 @@ class _TabletNewItemScreenState extends State<TabletNewItemScreen>
         backgroundColor: ColorsRes.backgroundColor,
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               size: 30,
             ),
@@ -82,22 +82,22 @@ class _TabletNewItemScreenState extends State<TabletNewItemScreen>
           shadowColor: Colors.transparent,
           title: Text(
             "Add New Item".toUpperCase(),
-            style: TextStyle(
+            style: const TextStyle(
               letterSpacing: 4,
             ),
           ),
-          bottom: PreferredSize(
+          bottom: const PreferredSize(
+            preferredSize: Size(50, 5),
             child: Divider(
               color: ColorsRes.greyColor,
               height: 2.3,
             ),
-            preferredSize: Size(50, 5),
           ),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
         body: Container(
-          margin: EdgeInsets.only(top: 20),
+          margin: const EdgeInsets.only(top: 20),
           child: showBody(),
         ),
       ),
@@ -190,7 +190,7 @@ class _TabletNewItemScreenState extends State<TabletNewItemScreen>
         animationController: _animationController,
         child: Container(
           width: 340,
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 10.0,
             vertical: 4,
           ),
@@ -204,7 +204,7 @@ class _TabletNewItemScreenState extends State<TabletNewItemScreen>
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton(
-              hint: Text(
+              hint: const Text(
                 'Please select uom',
                 style: TextStyle(
                   color: ColorsRes.warmGreyColor,
@@ -329,8 +329,8 @@ class _TabletNewItemScreenState extends State<TabletNewItemScreen>
           controller: itemDetailController,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(left: 15.0, top: 20),
-            errorStyle: TextStyle(
+            contentPadding: const EdgeInsets.only(left: 15.0, top: 20),
+            errorStyle: const TextStyle(
               fontSize: 12,
             ),
             hintStyle: TextStyle(
@@ -338,7 +338,7 @@ class _TabletNewItemScreenState extends State<TabletNewItemScreen>
               fontSize: 18,
               fontWeight: FontWeight.normal,
             ),
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
                 color: ColorsRes.warmGreyColor,
                 fontSize: 18,
                 fontWeight: FontWeight.normal),
@@ -347,14 +347,14 @@ class _TabletNewItemScreenState extends State<TabletNewItemScreen>
             focusedBorder: OutlineInputBorder(
               gapPadding: 2.0,
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: ColorsRes.warmGreyColor,
               ),
             ),
             border: OutlineInputBorder(
               gapPadding: 0.3,
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: ColorsRes.warmGreyColor,
                 width: 1,
               ),
@@ -429,7 +429,7 @@ class _TabletNewItemScreenState extends State<TabletNewItemScreen>
               ),
             ),
           )
-        : SizedBox();
+        : const SizedBox();
   }
 
   submitForm() async {
@@ -547,6 +547,10 @@ class _TabletNewItemScreenState extends State<TabletNewItemScreen>
                     ),
                     width: 400,
                     child: CupertinoButton(
+                      onPressed: () {
+                        btnDisable ? false : submitForm();
+                      },
+                      color: ColorsRes.secondaryButton,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -568,14 +572,10 @@ class _TabletNewItemScreenState extends State<TabletNewItemScreen>
                           ),
                         ],
                       ),
-                      onPressed: () {
-                        btnDisable ? false : submitForm();
-                      },
-                      color: ColorsRes.secondaryButton,
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
               ],

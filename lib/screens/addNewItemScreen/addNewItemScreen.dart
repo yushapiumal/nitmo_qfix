@@ -12,7 +12,7 @@ class AddNewItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveLayout(
+    return const ResponsiveLayout(
       mobileBody: MobileNewItemScreen(),
       tabletBody: TabletNewItemScreen(),
     );

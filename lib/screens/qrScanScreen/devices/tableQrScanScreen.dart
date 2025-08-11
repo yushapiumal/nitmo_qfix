@@ -12,6 +12,6 @@ class TabletQRScanScreen extends StatefulWidget {
 class _TabletQRScanScreenState extends State<TabletQRScanScreen> {
   @override
   Widget build(BuildContext context) {
-    return Text('data');
+    return const Text('data');
   }
 }

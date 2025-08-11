@@ -189,7 +189,7 @@ class _TabletManageState extends State<TabletManage> {
   String? complexity;
   bool btnDisable = false;
   toggleComplexity() async {
-    var _duration = Duration(milliseconds: 2500);
+    var duration = const Duration(milliseconds: 2500);
     if (complexity == 'L1') {
       setState(() {
         complexity = 'L2';
@@ -203,7 +203,7 @@ class _TabletManageState extends State<TabletManage> {
         complexity = 'L1';
       });
     }
-    return Timer(_duration, callComplexityChangeApi);
+    return Timer(duration, callComplexityChangeApi);
   }
 
   callComplexityChangeApi() async {
@@ -224,7 +224,7 @@ class _TabletManageState extends State<TabletManage> {
       elevation: 4,
       shadowColor: Colors.black,
       leading: IconButton(
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_back,
         ),
         onPressed: () {
@@ -238,12 +238,12 @@ class _TabletManageState extends State<TabletManage> {
                   btnDisable ? false : toggleComplexity();
                 },
                 child: Container(
-                  margin: EdgeInsets.only(right: 12),
+                  margin: const EdgeInsets.only(right: 12),
                   height: 28.0,
                   width: 28.0,
                   decoration: DesignConfig.complexityIcon(complexity),
                   child: Padding(
-                    padding: EdgeInsets.all(2),
+                    padding: const EdgeInsets.all(2),
                     child: Center(
                       child: Text(
                         complexity.toString(),
@@ -254,7 +254,7 @@ class _TabletManageState extends State<TabletManage> {
                   ),
                 ),
               )
-            : SizedBox()
+            : const SizedBox()
       ],
       title: Text(
         'CSR #${widget.taskData.csr_id}',
@@ -297,7 +297,7 @@ class _TabletManageState extends State<TabletManage> {
           foregroundColor: Colors.white,
           direction: SpeedDialDirection.up,
           elevation: 8.0,
-          shape: CircleBorder(),
+          shape: const CircleBorder(),
           children: [
             SpeedDialChild(
               child: const Icon(Icons.business_outlined),

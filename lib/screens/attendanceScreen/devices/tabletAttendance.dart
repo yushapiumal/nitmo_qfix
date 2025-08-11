@@ -29,7 +29,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
     super.initState();
     getAttendance();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
   }
 
   @override
@@ -56,7 +56,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
         backgroundColor: ColorsRes.backgroundColor,
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
             ),
             onPressed: () {
@@ -74,7 +74,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
           automaticallyImplyLeading: false,
         ),
         body: Container(
-          margin: EdgeInsets.only(top: 20),
+          margin: const EdgeInsets.only(top: 20),
           child: showBody(),
         ),
       ),
@@ -91,7 +91,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
           padding: EdgeInsets.zero,
           shrinkWrap: true,
           itemCount: attendanceCount,
-          physics: ScrollPhysics(),
+          physics: const ScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
             return Column(
               children: [
@@ -104,8 +104,8 @@ class _TabletAttendanceState extends State<TabletAttendance>
                     borderRadius: const BorderRadius.all(Radius.circular(15)),
                     boxShadow: [
                       BoxShadow(
-                        color: Color.fromARGB(41, 0, 0, 0),
-                        offset: new Offset(2, 5),
+                        color: const Color.fromARGB(41, 0, 0, 0),
+                        offset: const Offset(2, 5),
                         blurRadius: 10.0,
                         spreadRadius: 0,
                       )
@@ -113,14 +113,14 @@ class _TabletAttendanceState extends State<TabletAttendance>
                   ),
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       attendCard(index),
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
               ],
@@ -158,7 +158,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
                 Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 20),
+                      margin: const EdgeInsets.only(left: 20),
                       width: 60,
                       height: 60,
                       decoration: BoxDecoration(
@@ -186,7 +186,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
                                 Text(
                                   daySplit(attendanceList[index]['date'], true),
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.w800,
                                       fontSize: 25,
                                       color: Colors.red),
@@ -224,7 +224,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
+                              SizedBox(
                                 width: MediaQuery.of(context).size.width / 3,
                                 child: Text(
                                   attendanceList[index]['sname'],
@@ -235,7 +235,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
                                   ),
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                 width: MediaQuery.of(context).size.width / 6,
                                 child: RichText(
                                   textAlign: TextAlign.center,
@@ -260,7 +260,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
+                                SizedBox(
                                   width: MediaQuery.of(context).size.width /8,
                                   child:  Text(
                                   AppLocalizations.of(context)!.intext,
@@ -270,7 +270,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
                                         fontWeight: FontWeight.w600),
                                   ),
                                 ),
-                                Container(
+                                SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width /8,
                                   child: Text(
@@ -283,7 +283,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
                                         fontWeight: FontWeight.w700),
                                   ),
                                 ),
-                                Container(
+                                SizedBox(
                                   width: MediaQuery.of(context).size.width /8,
                                   child: Text(
                                   AppLocalizations.of(context)!.out,
@@ -293,7 +293,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
                                         fontWeight: FontWeight.w600),
                                   ),
                                 ),
-                                Container(
+                                SizedBox(
                                width:
                                       MediaQuery.of(context).size.width /8,
                                   child: Text(
@@ -319,7 +319,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
                   left: MediaQuery.of(context).size.width * .05,
                   right: MediaQuery.of(context).size.width * .05,
                   top: 5),
-              child: Divider(
+              child: const Divider(
                 color: Color(0xff26707070),
                 thickness: 2,
               ),
@@ -333,17 +333,17 @@ class _TabletAttendanceState extends State<TabletAttendance>
                   tapBodyToCollapse: true,
                 ),
                 header:  Padding(
-                  padding: EdgeInsets.only(left: 10, top: 0),
+                  padding: const EdgeInsets.only(left: 10, top: 0),
                   child: Text(
                       AppLocalizations.of(context)!.viewProjects
                   ),
                 ),
-                collapsed: SizedBox(),
+                collapsed: const SizedBox(),
                 expanded: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(bottom: 10, left: 10),
+                      padding: const EdgeInsets.only(bottom: 10, left: 10),
                       child: attendanceList[index]['project'] == false ||
                               attendanceList[index]['task'] == false
                           ? Text(   AppLocalizations.of(context)!.noProjectsOrTasksFound)
@@ -354,7 +354,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
                                   width: 1,
                                 ),
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(6)),
+                                    const BorderRadius.all(Radius.circular(6)),
                               ),
                               child: Table(
                                 border: const TableBorder.symmetric(
@@ -366,7 +366,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
                                   TableRow(
                                       decoration: BoxDecoration(
                                         color: Colors.grey[350],
-                                        borderRadius: BorderRadius.only(
+                                        borderRadius: const BorderRadius.only(
                                             topLeft: Radius.circular(6),
                                             topRight: Radius.circular(6)),
                                       ),
@@ -392,7 +392,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
                                       textScaleFactor: 1,
                                       textAlign: TextAlign.center,
                                     ),
-                                    Text(
+                                    const Text(
                                       'late',
                                       // data.boilerPlate['late'] == null
                                       //     ? " - "
@@ -409,7 +409,7 @@ class _TabletAttendanceState extends State<TabletAttendance>
                 ),
                 builder: (_, collapsed, expanded) {
                   return Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                     child: Expandable(
                       collapsed: collapsed,
                       expanded: expanded,

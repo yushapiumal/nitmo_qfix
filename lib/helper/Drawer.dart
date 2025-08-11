@@ -4,13 +4,11 @@ import 'package:qfix_nitmo_new/api/apiService.dart';
 import 'package:qfix_nitmo_new/l10n/app_localizations.dart';
 import 'package:qfix_nitmo_new/screens/aboutScreen/aboutScreen.dart';
 import 'package:qfix_nitmo_new/screens/addNewCsrScreen/addNewCsrScreen.dart';
-import 'package:qfix_nitmo_new/screens/addNewItemScreen/addNewItemScreen.dart';
 import 'package:qfix_nitmo_new/screens/attendanceScreen/attendanceScreen.dart';
 import 'package:qfix_nitmo_new/screens/landingScreen/landingScreen.dart';
-import 'package:qfix_nitmo_new/screens/manageGINScreen/manageGINScreen.dart';
-import 'package:qfix_nitmo_new/screens/manageGRNScreen/manageGRNScreen.dart';
 import 'package:qfix_nitmo_new/screens/manageStoreScreen/checkStoreScreen.dart';
 import 'package:qfix_nitmo_new/screens/profileScreen/profileScreen.dart';
+import 'package:qfix_nitmo_new/screens/quatation/quatation.dart';
 import 'package:qfix_nitmo_new/ui/responsiveLayout.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -189,11 +187,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   }),
                   ListTile(
                   leading: const Icon(Icons.store, color: Colors.black),
-                  title: Text(AppLocalizations.of(context)!.newItemMenu),
+                  title: const Text("Quotation/Invoice"),
                   onTap: () {
                     if (checkStoreAccess) {
                       Navigator.popAndPushNamed(
-                          context, AddNewItemScreen.routeName);
+                          context, QuatationOrInvoice.routeName);
                     } else {
                       apiService.showToast(
                           AppLocalizations.of(context)!.permissionError);

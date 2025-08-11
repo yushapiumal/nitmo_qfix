@@ -38,20 +38,20 @@ textField(controller, labelText, hintText, keyboardType, inputFormatters,
         focusedBorder: OutlineInputBorder(
           gapPadding: 4.0,
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: ColorsRes.warmGreyColor,
           ),
         ),
         border: OutlineInputBorder(
           gapPadding: 0.0,
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: ColorsRes.warmGreyColor,
             width: 1,
           ),
         ),
         labelText: labelText,
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           color: ColorsRes.warmGreyColor,
           fontSize: 16,
           fontWeight: FontWeight.normal,
@@ -94,20 +94,20 @@ textField(controller, labelText, hintText, keyboardType, inputFormatters,
         focusedBorder: OutlineInputBorder(
           gapPadding: 0.0,
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: ColorsRes.warmGreyColor,
           ),
         ),
         border: OutlineInputBorder(
           gapPadding: 0.0,
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: ColorsRes.warmGreyColor,
             width: 1.5,
           ),
         ),
         labelText: labelText,
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           color: ColorsRes.warmGreyColor,
           fontSize: 18,
           fontWeight: FontWeight.normal,
@@ -129,7 +129,7 @@ dropDown(optionList, hintText, selectedValue) {
       child: DropdownButton(
         hint: Text(
           hintText,
-          style: TextStyle(color: ColorsRes.warmGreyColor),
+          style: const TextStyle(color: ColorsRes.warmGreyColor),
         ),
         items: optionList.map((option) {
           return DropdownMenuItem(
@@ -165,7 +165,7 @@ dropDown(optionList, hintText, selectedValue) {
         child: DropdownButton(
           hint: Text(
             hintText,
-            style: TextStyle(
+            style: const TextStyle(
               color: ColorsRes.warmGreyColor,
               fontSize: 18,
             ),

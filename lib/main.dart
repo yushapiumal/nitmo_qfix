@@ -23,10 +23,19 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.dumpErrorToConsole(details);
+    if (details.exception is TypeError) {
+      print("❌ TypeError: ${details.exception}");
+      print("🌐 Stack Trace: ${details.stack}");
+    }
+  };
+
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   runApp(const NitmoAPP());
+
 }
 
 class NitmoAPP extends StatefulWidget {

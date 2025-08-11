@@ -85,7 +85,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
     super.initState();
     getDefaultValues();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
   }
 
   @override
@@ -130,7 +130,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
     if (getStaff != false) {
       for (var staff in getStaff) {
         var id = staff['s_id'].toString();
-        var name = staff['calling_name'] == null ? '-' : staff['calling_name'];
+        var name = staff['calling_name'] ?? '-';
 
         if (!ownerList.contains(name + ' (' + id + ')')) {
           setState(() {
@@ -166,7 +166,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
         backgroundColor: ColorsRes.backgroundColor,
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
             ),
             onPressed: () {
@@ -183,7 +183,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
           shadowColor: Colors.transparent,
           title: Text(
               AppLocalizations.of(context)!.addnewCsr,
-            style: TextStyle(
+            style: const TextStyle(
               letterSpacing: 4,
             ),
           ),
@@ -191,7 +191,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
           automaticallyImplyLeading: false,
         ),
         body: Container(
-          margin: EdgeInsets.only(top: 20),
+          margin: const EdgeInsets.only(top: 20),
           child: showBody(),
         ),
         bottomNavigationBar: Stack(
@@ -204,7 +204,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
               animationController: _animationController,
               child: Container(
                   height: MediaQuery.of(context).size.height / 15,
-                  margin: EdgeInsets.only(
+                  margin: const EdgeInsets.only(
                     bottom: 05,
                     top: 15,
                   ),
@@ -394,7 +394,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
           animationController: _animationController,
           child: Container(
             width: 340,
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
@@ -408,7 +408,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
               child: DropdownButton(
                 hint:  Text(
            AppLocalizations.of(context)!.selectProjectPlease,
-                  style: TextStyle(color: ColorsRes.warmGreyColor),
+                  style: const TextStyle(color: ColorsRes.warmGreyColor),
                 ),
                 items: customerProjectList.map((con) {
                   return DropdownMenuItem(
@@ -457,16 +457,16 @@ class _MobileNewCsrState extends State<MobileNewCsr>
         ),
       );
     } else {
-      return SizedBox();
+      return const SizedBox();
     }
   }
 
   formHandler() {
     return Column(
       children: [
-        nextPage ? customerForm() : SizedBox(),
-        newProjectPage ? projectForm() : SizedBox(),
-        !nextPage && !newProjectPage ? csrForm() : SizedBox(),
+        nextPage ? customerForm() : const SizedBox(),
+        newProjectPage ? projectForm() : const SizedBox(),
+        !nextPage && !newProjectPage ? csrForm() : const SizedBox(),
       ],
     );
   }
@@ -653,7 +653,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
         ),
       );
     }
-    return SizedBox();
+    return const SizedBox();
   }
 
   customer() {
@@ -669,7 +669,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
         animationController: _animationController,
         child: Container(
           width: 340,
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
@@ -682,7 +682,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
             child: DropdownButton(
               hint: Text(
                   AppLocalizations.of(context)!.selectCustomer,
-                style: TextStyle(color: ColorsRes.greyColor),
+                style: const TextStyle(color: ColorsRes.greyColor),
               ),
               items: customerList.map((con) {
                 return DropdownMenuItem(
@@ -786,7 +786,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
         animationController: _animationController,
         child: Container(
           width: 340,
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
@@ -799,7 +799,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
             child: DropdownButton(
               hint: Text(
                    AppLocalizations.of(context)!.selectServiceType,
-                style: TextStyle(color: ColorsRes.warmGreyColor),
+                style: const TextStyle(color: ColorsRes.warmGreyColor),
               ),
               items: serviceTypeList.map((con) {
                 return DropdownMenuItem(
@@ -837,7 +837,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
         animationController: _animationController,
         child: Container(
           width: 340,
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
@@ -850,7 +850,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
             child: DropdownButton(
               hint: Text(
                   AppLocalizations.of(context)!.selectOwner,
-                style: TextStyle(color: ColorsRes.warmGreyColor),
+                style: const TextStyle(color: ColorsRes.warmGreyColor),
               ),
               items: ownerList.map((con) {
                 return DropdownMenuItem(
@@ -886,7 +886,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
         animationController: _animationController,
         child: Container(
           width: 340,
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
@@ -899,7 +899,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
             child: DropdownButton(
               hint: Text(
                    AppLocalizations.of(context)!.selectTechnician,
-                style: TextStyle(color: ColorsRes.warmGreyColor),
+                style: const TextStyle(color: ColorsRes.warmGreyColor),
               ),
               items: assigneeList.map((con) {
                 return DropdownMenuItem(
@@ -936,7 +936,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
         animationController: _animationController,
         child: Container(
           width: 340,
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
@@ -950,7 +950,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
             child: DropdownButton(
               hint: Text(
                    AppLocalizations.of(context)!.selectComplexity,
-                style: TextStyle(color: ColorsRes.warmGreyColor),
+                style: const TextStyle(color: ColorsRes.warmGreyColor),
               ),
               items: complexityList.map((con) {
                 return DropdownMenuItem(
@@ -1100,7 +1100,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
               ),
             ),
           )
-        : SizedBox();
+        : const SizedBox();
   }
 
   Widget showServiceErrors() {
@@ -1117,7 +1117,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
               ),
             ),
           )
-        : SizedBox();
+        : const SizedBox();
   }
 
   Widget showOwnerErrors() {
@@ -1134,7 +1134,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
               ),
             ),
           )
-        : SizedBox();
+        : const SizedBox();
   }
 
   Widget showAssigneeErrors() {
@@ -1151,7 +1151,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
               ),
             ),
           )
-        : SizedBox();
+        : const SizedBox();
   }
 
   Widget showComplexityErrors() {
@@ -1168,7 +1168,7 @@ class _MobileNewCsrState extends State<MobileNewCsr>
               ),
             ),
           )
-        : SizedBox();
+        : const SizedBox();
   }
 
   submitForm() async {

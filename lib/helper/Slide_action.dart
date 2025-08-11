@@ -13,8 +13,7 @@ abstract class ClosableSlideAction extends StatelessWidget {
     Key? key,
     this.onTap,
     this.closeOnTap = _kCloseOnTap,
-  })  : assert(closeOnTap != null),
-        super(key: key);
+  })  : super(key: key);
 
   /// A tap has occurred.
   final VoidCallback? onTap;
@@ -34,6 +33,7 @@ abstract class ClosableSlideAction extends StatelessWidget {
     // Slidable.of(context)!.close();
   }
 
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: !closeOnTap ? onTap : () => _handleCloseAfterTap(context),
@@ -63,14 +63,13 @@ class SlideAction extends ClosableSlideAction {
     Color? color,
     Decoration? decoration,
     bool closeOnTap = _kCloseOnTap,
-  })  : assert(child != null),
-        assert(decoration == null || decoration.debugAssertIsValid()),
+  })  : assert(decoration == null || decoration.debugAssertIsValid()),
         assert(
             color == null || decoration == null,
             'Cannot provide both a color and a decoration\n'
             'The color argument is just a shorthand for "decoration: new BoxDecoration(color: color)".'),
         decoration = decoration ??
-            (color != null ? new BoxDecoration(color: color) : null),
+            (color != null ? BoxDecoration(color: color) : null),
         super(
           key: key,
           onTap: onTap,
@@ -85,7 +84,7 @@ class SlideAction extends ClosableSlideAction {
   Widget buildAction(BuildContext context) {
     return Container(
       decoration: decoration,
-      child: new Center(
+      child: Center(
         child: child,
       ),
     );
@@ -154,13 +153,13 @@ class IconSlideAction extends ClosableSlideAction {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            new Flexible(
-              child: new Icon(
+            Flexible(
+              child: Icon(
                 icon,
                 color: foregroundColor ?? estimatedColor,
               ),
             ),
-            new Flexible(child: textWidget),
+            Flexible(child: textWidget),
           ],
         ),
       ),

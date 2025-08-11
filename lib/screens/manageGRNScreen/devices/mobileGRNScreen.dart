@@ -31,8 +31,8 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
     with SingleTickerProviderStateMixin {
   final formKey = GlobalKey<FormState>();
 
-  TextEditingController grnCodeController = new TextEditingController();
-  TextEditingController prnCodeController = new TextEditingController();
+  TextEditingController grnCodeController = TextEditingController();
+  TextEditingController prnCodeController = TextEditingController();
   AnimationController? _animationController;
   late List<TextEditingController> _itemControllers;
   bool _validateGRN = false;
@@ -46,8 +46,8 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
   TaskModelG? _selectedTask;
   late Future<List<TaskModelG>> futureTasks;
   String? _currentItemName;
-  Map<int, String> _selectedAmounts = {}; // Store selected amounts
-  Map<int, double> _enteredAmounts = {};
+  final Map<int, String> _selectedAmounts = {}; // Store selected amounts
+  final Map<int, double> _enteredAmounts = {};
   bool saveBtnDisable = false;
   bool _isConfirmed = false;
 
@@ -55,7 +55,7 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
@@ -67,7 +67,7 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
 
     // futureTasks = apiService.fetchGINorGRNData('GIN');
 
-    futureTasks = Future.delayed(Duration(seconds: 1), () {
+    futureTasks = Future.delayed(const Duration(seconds: 1), () {
       return [
         TaskModelG(
           'GIN-001',
@@ -171,7 +171,7 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
     if (formKey.currentState!.validate()) {
       setState(() {
         showQRScan = true;
-        headerTitle = 'GRN #' + grnCodeController.text;
+        headerTitle = 'GRN #${grnCodeController.text}';
         _currentItemName = null;
       });
       Navigator.push(
@@ -206,7 +206,7 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
         backgroundColor: ColorsRes.backgroundColor,
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
             ),
             onPressed: () {
@@ -221,7 +221,7 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
           shadowColor: Colors.transparent,
           title: Text(
             headerTitle.toUpperCase(),
-            style: TextStyle(
+            style: const TextStyle(
               letterSpacing: 4,
             ),
           ),
@@ -271,7 +271,7 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Form(
                           key: formKey,
                           child: Column(
@@ -436,7 +436,7 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
               return DropdownButton<TaskModelG>(
                 isExpanded: true,
                 value: _selectedTask,
-                underline: SizedBox(),
+                underline: const SizedBox(),
                 icon: Icon(Icons.task_alt, color: Colors.blue.shade700),
                 iconSize: 24,
                 dropdownColor: Colors.white,
@@ -453,7 +453,7 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
                   return DropdownMenuItem<TaskModelG>(
                     value: task,
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Text('Task No: ${task.taskNo}',
                           style: TextStyle(
                               color: _selectedTask == task
@@ -595,7 +595,7 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
                       )),
                     ],
                   );
-                }).toList(),
+                }),
             ],
           ),
         ),
@@ -607,14 +607,14 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirm Selection'),
+          title: const Text('Confirm Selection'),
           content: Text('You selected GRN: ${selectedTask.taskNo}'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -627,7 +627,7 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
                 backgroundColor: Colors.blue.shade700,
                 foregroundColor: Colors.white,
               ),
-              child: Text('Confirm'),
+              child: const Text('Confirm'),
             ),
           ],
         );
@@ -640,14 +640,14 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirm Selection'),
+          title: const Text('Confirm Selection'),
           content: Text('You selected GRN: ${selectedTask.taskNo}'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -664,7 +664,7 @@ class _MobileGRNScreenState extends State<MobileGRNScreen>
                 backgroundColor: Colors.blue.shade700,
                 foregroundColor: Colors.white,
               ),
-              child: Text('Confirm'),
+              child: const Text('Confirm'),
             ),
           ],
         );

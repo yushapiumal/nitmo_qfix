@@ -28,7 +28,7 @@ class MobileGINScreen extends StatefulWidget {
 class _MobileGINScreenState extends State<MobileGINScreen>
     with SingleTickerProviderStateMixin {
   final formKey = GlobalKey<FormState>();
-  TextEditingController ginCodeController = new TextEditingController();
+  TextEditingController ginCodeController = TextEditingController();
   AnimationController? _animationController;
   late List<TextEditingController> _itemControllers;
   bool _validateGIN = false;
@@ -43,14 +43,14 @@ class _MobileGINScreenState extends State<MobileGINScreen>
   String? _currentItemName;
   bool saveBtnDisable = false;
   bool _isConfirmed = false;
-  Map<int, String> _selectedAmounts = {}; // Store selected amounts
-  Map<int, double> _enteredAmounts = {};
+  final Map<int, String> _selectedAmounts = {}; // Store selected amounts
+  final Map<int, double> _enteredAmounts = {};
 
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     _itemControllers = _selectedTask != null
@@ -63,7 +63,7 @@ class _MobileGINScreenState extends State<MobileGINScreen>
     // _notesFuture = APIService().getNoteList();
     // futureTasks = apiService.fetchGINorGRNData('GIN');
 
-    futureTasks = Future.delayed(Duration(seconds: 1), () {
+    futureTasks = Future.delayed(const Duration(seconds: 1), () {
       return [
         TaskModelG(
           'GIN-001',
@@ -123,20 +123,20 @@ class _MobileGINScreenState extends State<MobileGINScreen>
 
   Widget _buildListSection(String title, List<TaskModelG> items) {
     if (items.isEmpty) {
-      return Center(child: Text("No tasks available"));
+      return const Center(child: Text("No tasks available"));
     }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Text(title,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         ),
         ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: items.length,
           itemBuilder: (context, index) {
             return ListTile(
@@ -163,7 +163,7 @@ class _MobileGINScreenState extends State<MobileGINScreen>
         backgroundColor: ColorsRes.backgroundColor,
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
             ),
             onPressed: () {
@@ -228,7 +228,7 @@ class _MobileGINScreenState extends State<MobileGINScreen>
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Form(
                           key: formKey,
                           child: Column(
@@ -381,7 +381,7 @@ class _MobileGINScreenState extends State<MobileGINScreen>
               return DropdownButton<TaskModelG>(
                 isExpanded: true,
                 value: _selectedTask,
-                underline: SizedBox(),
+                underline: const SizedBox(),
                 icon: Icon(Icons.task_alt, color: Colors.blue.shade700),
                 iconSize: 24,
                 dropdownColor: Colors.white,
@@ -398,7 +398,7 @@ class _MobileGINScreenState extends State<MobileGINScreen>
                   return DropdownMenuItem<TaskModelG>(
                     value: task,
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Text('Task No: ${task.taskNo}',
                           style: TextStyle(
                               color: _selectedTask == task
@@ -540,7 +540,7 @@ class _MobileGINScreenState extends State<MobileGINScreen>
                       )),
                     ],
                   );
-                }).toList(),
+                }),
             ],
           ),
         ),
@@ -552,14 +552,14 @@ class _MobileGINScreenState extends State<MobileGINScreen>
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirm Selection'),
+          title: const Text('Confirm Selection'),
           content: Text('You selected GIN: ${selectedTask.taskNo}'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -572,7 +572,7 @@ class _MobileGINScreenState extends State<MobileGINScreen>
                 backgroundColor: Colors.blue.shade700,
                 foregroundColor: Colors.white,
               ),
-              child: Text('Confirm'),
+              child: const Text('Confirm'),
             ),
           ],
         );
@@ -585,14 +585,14 @@ class _MobileGINScreenState extends State<MobileGINScreen>
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirm Selection'),
+          title: const Text('Confirm Selection'),
           content: Text('You selected GIN: ${selectedTask.taskNo}'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -608,7 +608,7 @@ class _MobileGINScreenState extends State<MobileGINScreen>
                 backgroundColor: Colors.blue.shade700,
                 foregroundColor: Colors.white,
               ),
-              child: Text('Confirm'),
+              child: const Text('Confirm'),
             ),
           ],
         );
@@ -680,7 +680,7 @@ class _MobileGINScreenState extends State<MobileGINScreen>
     if (formKey.currentState!.validate()) {
       setState(() {
         showQRScan = true;
-        headerTitle = 'GIN #' + ginCodeController.text;
+        headerTitle = 'GIN #${ginCodeController.text}';
         _currentItemName = null;
       });
       Navigator.push(

@@ -13,7 +13,7 @@ class CheckStoreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveLayout(
+    return const ResponsiveLayout(
       mobileBody: MobileStoreScreen(),
       tabletBody: TabletStoreScreen(),
     );

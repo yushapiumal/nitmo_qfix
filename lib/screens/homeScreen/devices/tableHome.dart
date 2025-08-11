@@ -44,18 +44,18 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
   Future<List<TaskModel>>? taskList;
   int _taskListCount = 0;
   bool isLoading = false;
-  var tempArray = Map();
+  var tempArray = {};
   List customArrayByDates = [];
 
   late Animation<Color?> animation;
   late AnimationController controller;
   DateTime? tempPickedDate;
-  ScrollController _scrollBottomBarController =
+  final ScrollController _scrollBottomBarController =
       ScrollController(); // set controller on scrolling
   bool isScrollingDown = false;
-  bool _show = true;
+  final bool _show = true;
   double bottomBarHeight = 75; // set bottom bar height
-  double _bottomBarOffset = 0;
+  final double _bottomBarOffset = 0;
   String address = StringsRes.homeText;
   String title = "TASK";
   late Timer _timer;
@@ -67,10 +67,10 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     getTaskList();
-    _timer = new Timer.periodic(Duration(seconds: 1), (Timer t) => getTime());
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer t) => getTime());
 
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
     // _controller = PageController(initialPage: 0);
     _tabController = TabController(vsync: this, length: 4);
     _tabController!.addListener(() {
@@ -333,14 +333,14 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
     if (filterType == 'open') {
       return listData.status.contains('OPEN')
           ? showWorkAddress(listData)
-          : SizedBox();
+          : const SizedBox();
     }
     if (filterType == 'mine') {
       return listData.assigned_to['s_id']
               .toString()
               .contains(storage.getItem('sId'))
           ? showWorkAddress(listData)
-          : SizedBox();
+          : const SizedBox();
     }
 
     return showWorkAddress(listData);
@@ -371,10 +371,10 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                       padding: EdgeInsets.zero,
                       shrinkWrap: true,
                       itemCount: _taskListCount,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
                         return Padding(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                               top: 9,
                               bottom: 20.0,
                             ),
@@ -389,11 +389,11 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
               }
               return Container(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 90),
+                  padding: const EdgeInsets.symmetric(vertical: 90),
                   child: Center(
                     child: CircularProgressIndicator(
                       valueColor:
-                          new AlwaysStoppedAnimation<Color>(Colors.blue),
+                          const AlwaysStoppedAnimation<Color>(Colors.blue),
                     ),
                   ),
                 ),
@@ -428,12 +428,12 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                     height: MediaQuery.of(context).size.height / 7,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 244, 241, 241),
+                      color: const Color.fromARGB(255, 244, 241, 241),
                       borderRadius: const BorderRadius.all(Radius.circular(15)),
                       boxShadow: [
                         BoxShadow(
-                          color: Color.fromARGB(41, 0, 0, 0),
-                          offset: new Offset(2, 5),
+                          color: const Color.fromARGB(41, 0, 0, 0),
+                          offset: const Offset(2, 5),
                           blurRadius: 10.0,
                           spreadRadius: 0,
                         )
@@ -452,7 +452,7 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                               children: [
                                 Expanded(
                                   child: Container(
-                                    padding: EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                       left: 18,
                                     ),
                                     child: Text(
@@ -480,7 +480,7 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                                     ),
                                   ),
                                   child: IconButton(
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.access_time,
                                       color: ColorsRes.black,
                                     ),
@@ -525,10 +525,10 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                                         ),
                                       ),
                                       alignment: AlignmentDirectional.center,
-                                      margin: EdgeInsets.only(
+                                      margin: const EdgeInsets.only(
                                         left: 20.0,
                                       ),
-                                      padding: EdgeInsets.all(0.5),
+                                      padding: const EdgeInsets.all(0.5),
                                       child: const Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -576,10 +576,10 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                                         ),
                                       ),
                                       alignment: AlignmentDirectional.center,
-                                      margin: EdgeInsets.only(
+                                      margin: const EdgeInsets.only(
                                         left: 5.0,
                                       ),
-                                      padding: EdgeInsets.all(0.5),
+                                      padding: const EdgeInsets.all(0.5),
                                       child: const Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -622,13 +622,13 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
   Widget showStatus(status) {
     if (status == 'CLOSE') {
       // COMPLETE
-      return Icon(
+      return const Icon(
         Icons.radio_button_checked,
         color: Colors.green,
       );
     }
     if (status == 'OPEN') {
-      return Icon(
+      return const Icon(
         Icons.radio_button_checked,
         color: Colors.purple,
       );
@@ -652,7 +652,7 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
       );
     }
 
-    return Icon(
+    return const Icon(
       Icons.radio_button_off,
       color: ColorsRes.greyColor,
     );
@@ -691,24 +691,24 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                     Colors.purple[100]!, 10)
                 : DesignConfig.boxDecorationBorderButtonColor(
                     Colors.green[100]!, 10),
-            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
             child: Column(
               children: [
                 Row(
                   children: [
                     showStatus(data.status),
-                    SizedBox(width: 10.0),
+                    const SizedBox(width: 10.0),
                     Expanded(
                       child: Row(
                         children: [
                           Text(
-                            '#' + data.csr_id.toString(),
-                            style: TextStyle(
+                            '#${data.csr_id}',
+                            style: const TextStyle(
                                 fontSize: 17,
                                 color: ColorsRes.black,
                                 fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Flexible(
@@ -727,14 +727,14 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                         apiService.showToast('call now');
                       },
                       child: Container(
-                        margin: EdgeInsets.only(bottom: 10),
+                        margin: const EdgeInsets.only(bottom: 10),
                         height: 28.0,
                         width: 28.0,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.greenAccent[700]!.withOpacity(0.70)),
                         child: Padding(
-                          padding: EdgeInsets.all(2),
+                          padding: const EdgeInsets.all(2),
                           child: Icon(
                             Icons.phone,
                             size: 15,
@@ -745,10 +745,10 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                     ),
                   ],
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Row(
                   children: [
-                    SizedBox(width: 30.0),
+                    const SizedBox(width: 30.0),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -765,7 +765,7 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Container(
@@ -774,11 +774,11 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                                 decoration: DesignConfig.complexityIcon(
                                     data.complexity),
                                 child: Padding(
-                                  padding: EdgeInsets.all(2),
+                                  padding: const EdgeInsets.all(2),
                                   child: Center(
                                     child: Text(
                                       data.complexity,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -787,7 +787,7 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                               ),
                             ],
                           ),
-                          SizedBox(height: 5.0),
+                          const SizedBox(height: 5.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -805,7 +805,7 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                                   data.customer['address'] == ""
                                       ? ' -'
                                       : data.customer['address'],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 14,
                                     color: Colors.black54,
                                   ),
@@ -830,7 +830,7 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
     DateTime? pickedDate = await showModalBottomSheet<DateTime>(
       context: context,
       builder: (context) {
-        return Container(
+        return SizedBox(
           height: 250,
           child: Column(
             children: <Widget>[
@@ -839,13 +839,13 @@ class _TabletHomeState extends State<TabletHome> with TickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     CupertinoButton(
-                      child: Text('Cancel'),
+                      child: const Text('Cancel'),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                     ),
                     CupertinoButton(
-                      child: Text('Done'),
+                      child: const Text('Done'),
                       onPressed: () {
                         print(tempPickedDate);
                         Navigator.of(context).pop(tempPickedDate);

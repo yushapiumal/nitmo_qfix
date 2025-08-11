@@ -9,7 +9,7 @@ import 'package:qfix_nitmo_new/helper/StringsRes.dart';
 
 
 class MyBottomSheet extends StatefulWidget {
-  const MyBottomSheet({
+  const MyBottomSheet({Key? key, 
    
     required this.closeCard,
     this.submitFromBottomCard,
@@ -18,7 +18,7 @@ class MyBottomSheet extends StatefulWidget {
     this.item,
     this.grnCode,
     this.index,
-  });
+  }) : super(key: key);
 
   final closeCard;
   final submitFromBottomCard;
@@ -197,7 +197,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                             // minimumSize: Size(355, 55),
                             shape: const StadiumBorder(), backgroundColor: Colors.black,
                           ),
-                          child: Text(
+                          child: const Text(
                             'Add',
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -323,7 +323,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                   color: ColorsRes.purpalColor,
                   fontSize: 16,
                   fontWeight: FontWeight.normal),
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 color: ColorsRes.greyColor,
                 fontSize: 16,
                 fontWeight: FontWeight.normal,
@@ -333,14 +333,14 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
               focusedBorder: OutlineInputBorder(
                 gapPadding: 0.0,
                 borderRadius: BorderRadius.circular(14),
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: ColorsRes.warmGreyColor,
                 ),
               ),
               border: OutlineInputBorder(
                 gapPadding: 0.0,
                 borderRadius: BorderRadius.circular(14),
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: ColorsRes.warmGreyColor,
                   width: 1,
                 ),

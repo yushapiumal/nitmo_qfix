@@ -54,7 +54,7 @@ class _ReviewSliderState extends State<ReviewSlider>
     _controller = AnimationController(
       value: initValue,
       vsync: this,
-      duration: Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 400),
     );
     _tween = Tween(end: initValue);
     _animation = _tween.animate(
@@ -68,7 +68,7 @@ class _ReviewSliderState extends State<ReviewSlider>
         });
       });
     _animationValue = initValue;
-    WidgetsBinding.instance!.addPostFrameCallback(_afterLayout);
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
   }
 
   _afterLayout(_) {
@@ -76,7 +76,7 @@ class _ReviewSliderState extends State<ReviewSlider>
   }
 
   void handleTap(int state) {
-    _controller.duration = Duration(milliseconds: 400);
+    _controller.duration = const Duration(milliseconds: 400);
     _tween.begin = _tween.end;
     _tween.end = state.toDouble();
     _controller.reset();
@@ -104,7 +104,7 @@ class _ReviewSliderState extends State<ReviewSlider>
   }
 
   void _onDragEnd(_) {
-    _controller.duration = Duration(milliseconds: 100);
+    _controller.duration = const Duration(milliseconds: 100);
     _tween.begin = _animationValue;
     _tween.end = _animationValue.round().toDouble();
     _controller.reset();
@@ -129,7 +129,7 @@ class _ReviewSliderState extends State<ReviewSlider>
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: paddingSize),
+      padding: const EdgeInsets.symmetric(horizontal: paddingSize),
       height: 100,
       child: LayoutBuilder(
         builder: (context, size) {
@@ -144,7 +144,7 @@ class _ReviewSliderState extends State<ReviewSlider>
                     ? widget.width!
                     : size.maxWidth,
                 optionStyle: /*widget.optionStyle*/
-                    TextStyle(color: Colors.black, fontSize: 12),
+                    const TextStyle(color: Colors.black, fontSize: 12),
 
                 circleDiameter: widget.circleDiameter,
               ),
@@ -182,14 +182,14 @@ class _ReviewSliderState extends State<ReviewSlider>
 const double paddingSize = 10;
 
 class MeasureLine extends StatelessWidget {
-  MeasureLine({
+  const MeasureLine({Key? key, 
     required this.handleTap,
     required this.animationValue,
     required this.states,
     required this.width,
     this.optionStyle,
     required this.circleDiameter,
-  });
+  }) : super(key: key);
 
   final double animationValue;
   final Function handleTap;
@@ -241,7 +241,7 @@ class MeasureLine extends StatelessWidget {
                   opacity: opacity,
                   child: Text(
                     text,
-                    style: optionStyle ?? TextStyle(color: Colors.black),
+                    style: optionStyle ?? const TextStyle(color: Colors.black),
                   ),
                 ),
               )
@@ -264,7 +264,7 @@ class MeasureLine extends StatelessWidget {
             width: width - 40,
             child: Container(
               width: width,
-              color: Color(0xFFeceeef),
+              color: const Color(0xFFeceeef),
               height: 3,
             ),
           ),
@@ -279,22 +279,22 @@ class MeasureLine extends StatelessWidget {
 }
 
 class Face extends StatelessWidget {
-  Face({
+  const Face({Key? key, 
     this.color = const Color(0xFF616154),
     required this.animationValue,
     required this.circleDiameter,
-  });
+  }) : super(key: key);
 
   final double animationValue;
   final Color color;
   final double circleDiameter;
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: circleDiameter,
       width: circleDiameter,
       child: CustomPaint(
-        size: Size(300, 300),
+        size: const Size(300, 300),
         painter: MyPainter(animationValue, color: color),
       ),
     );
@@ -444,7 +444,7 @@ class MyPainter extends CustomPainter {
 }
 
 class MyIndicator extends StatelessWidget {
-  MyIndicator({
+  const MyIndicator({Key? key, 
     required this.animationValue,
     required width,
     required this.onDrag,
@@ -452,7 +452,7 @@ class MyIndicator extends StatelessWidget {
     required this.onDragEnd,
     required this.circleDiameter,
   })  : width = width - circleDiameter,
-        possition = animationValue / 2;
+        possition = animationValue / 2, super(key: key);
 
   final double animationValue;
   final Function(DragUpdateDetails) onDrag;
@@ -468,7 +468,7 @@ class MyIndicator extends StatelessWidget {
       onHorizontalDragStart: onDragStart,
       onHorizontalDragUpdate: onDrag,
       onHorizontalDragEnd: onDragEnd,
-      child: Container(
+      child: SizedBox(
         width: circleDiameter,
         height: circleDiameter,
         child: Stack(
@@ -481,7 +481,7 @@ class MyIndicator extends StatelessWidget {
             Opacity(
               opacity: opacityOfYellow,
               child: Head(
-                color: Color(0xFFfee385),
+                color: const Color(0xFFfee385),
                 circleDiameter: circleDiameter,
               ),
             ),
@@ -508,11 +508,11 @@ class MyIndicator extends StatelessWidget {
 }
 
 class Head extends StatelessWidget {
-  Head({
+  const Head({Key? key, 
     this.color = const Color(0xFFc9ced2),
     this.hasShadow = false,
     required this.circleDiameter,
-  });
+  }) : super(key: key);
 
   final Color color;
   final bool hasShadow;
@@ -525,7 +525,7 @@ class Head extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: hasShadow
             ? [
-                BoxShadow(
+                const BoxShadow(
                   color: Colors.black26,
                   offset: Offset(0, 2),
                   blurRadius: 5.0,

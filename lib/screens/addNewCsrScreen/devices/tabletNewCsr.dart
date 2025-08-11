@@ -83,7 +83,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
     super.initState();
     getDefaultValues();
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
   }
 
   @override
@@ -128,7 +128,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
     if (getStaff != false) {
       for (var staff in getStaff) {
         var id = staff['s_id'].toString();
-        var name = staff['calling_name'] == null ? '-' : staff['calling_name'];
+        var name = staff['calling_name'] ?? '-';
 
         if (!ownerList.contains(name + ' (' + id + ')')) {
           setState(() {
@@ -164,7 +164,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
         backgroundColor: ColorsRes.backgroundColor,
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               size: 30,
             ),
@@ -182,7 +182,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
           shadowColor: Colors.transparent,
           title: Text(
             "Add New CSR".toUpperCase(),
-            style: TextStyle(
+            style: const TextStyle(
               letterSpacing: 4,
             ),
           ),
@@ -190,7 +190,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
           automaticallyImplyLeading: false,
         ),
         body: Container(
-          margin: EdgeInsets.only(top: 20),
+          margin: const EdgeInsets.only(top: 20),
           child: showBody(),
         ),
         bottomNavigationBar: Stack(
@@ -203,7 +203,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
               animationController: _animationController,
               child: Container(
                   height: MediaQuery.of(context).size.height / 15,
-                  margin: EdgeInsets.only(
+                  margin: const EdgeInsets.only(
                     bottom: 05,
                     top: 15,
                   ),
@@ -218,6 +218,10 @@ class _TabletNewCsrState extends State<TabletNewCsr>
   submitButton() {
     if (pageIndex == 0 || finalBtn) {
       return CupertinoButton(
+        color: ColorsRes.secondaryButton,
+        onPressed: () {
+          btnDisable ? false : submitForm();
+        },
         child: RichText(
           text: TextSpan(
             children: [
@@ -239,36 +243,11 @@ class _TabletNewCsrState extends State<TabletNewCsr>
             ],
           ),
         ),
-        color: ColorsRes.secondaryButton,
-        onPressed: () {
-          btnDisable ? false : submitForm();
-        },
       );
     }
 
     if (pageIndex == 1) {
       return CupertinoButton(
-        child: RichText(
-          text: TextSpan(
-            children: [
-              WidgetSpan(
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 20,
-                  color: Colors.black,
-                ),
-              ),
-              TextSpan(
-                text: "Next",
-                style: TextStyle(
-                  fontSize: 17,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
         color: ColorsRes.secondaryButton,
         onPressed: () {
           if (customerDropdownValue == '0' &&
@@ -279,11 +258,6 @@ class _TabletNewCsrState extends State<TabletNewCsr>
             });
           }
         },
-      );
-    }
-
-    if (pageIndex == 2) {
-      return CupertinoButton(
         child: RichText(
           text: TextSpan(
             children: [
@@ -305,6 +279,11 @@ class _TabletNewCsrState extends State<TabletNewCsr>
             ],
           ),
         ),
+      );
+    }
+
+    if (pageIndex == 2) {
+      return CupertinoButton(
         color: ColorsRes.secondaryButton,
         onPressed: () {
           if (customerProjectDropdownValue == 'new' &&
@@ -329,6 +308,27 @@ class _TabletNewCsrState extends State<TabletNewCsr>
             }
           }
         },
+        child: RichText(
+          text: TextSpan(
+            children: [
+              WidgetSpan(
+                child: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                  color: Colors.black,
+                ),
+              ),
+              TextSpan(
+                text: "Next",
+                style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
       );
     }
   }
@@ -401,13 +401,13 @@ class _TabletNewCsrState extends State<TabletNewCsr>
             ),
           ),
           child: Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 10.0,
               vertical: 4,
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton(
-                hint: Text(
+                hint: const Text(
                   'Please select project',
                   style: TextStyle(
                     color: ColorsRes.warmGreyColor,
@@ -419,7 +419,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
                     value: con['value'],
                     child: Text(
                       con['label'],
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                       ),
                       overflow: TextOverflow.ellipsis,
@@ -464,16 +464,16 @@ class _TabletNewCsrState extends State<TabletNewCsr>
         ),
       );
     } else {
-      return SizedBox();
+      return const SizedBox();
     }
   }
 
   formHandler() {
     return Column(
       children: [
-        nextPage ? customerForm() : SizedBox(),
-        newProjectPage ? projectForm() : SizedBox(),
-        !nextPage && !newProjectPage ? csrForm() : SizedBox(),
+        nextPage ? customerForm() : const SizedBox(),
+        newProjectPage ? projectForm() : const SizedBox(),
+        !nextPage && !newProjectPage ? csrForm() : const SizedBox(),
       ],
     );
   }
@@ -676,7 +676,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
         ),
       );
     }
-    return SizedBox();
+    return const SizedBox();
   }
 
   customer() {
@@ -693,7 +693,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
         animationController: _animationController,
         child: Container(
           width: 340,
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 10.0,
             vertical: 4,
           ),
@@ -707,7 +707,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton(
-              hint: Text(
+              hint: const Text(
                 'Please select customer',
                 style: TextStyle(
                   color: ColorsRes.warmGreyColor,
@@ -818,7 +818,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
         animationController: _animationController,
         child: Container(
           width: 340,
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 10.0,
             vertical: 4,
           ),
@@ -832,7 +832,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton(
-              hint: Text(
+              hint: const Text(
                 'Please select service type',
                 style: TextStyle(
                   color: ColorsRes.warmGreyColor,
@@ -844,7 +844,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
                   value: con,
                   child: Text(
                     con,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   ),
@@ -882,7 +882,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
         animationController: _animationController,
         child: Container(
           width: 340,
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 10.0,
             vertical: 4,
           ),
@@ -896,7 +896,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton(
-              hint: Text(
+              hint: const Text(
                 'Please select owner (primary contact)',
                 style: TextStyle(
                   color: ColorsRes.warmGreyColor,
@@ -908,7 +908,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
                   value: con,
                   child: Text(
                     capitalize(con),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   ),
@@ -944,7 +944,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
         animationController: _animationController,
         child: Container(
           width: 340,
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 10.0,
             vertical: 4,
           ),
@@ -958,7 +958,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton(
-              hint: Text(
+              hint: const Text(
                 'Please select primary technician',
                 style: TextStyle(color: ColorsRes.warmGreyColor, fontSize: 18),
               ),
@@ -967,7 +967,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
                   value: con,
                   child: Text(
                     capitalize(con),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   ),
@@ -1005,7 +1005,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
         animationController: _animationController,
         child: Container(
           width: 340,
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 10.0,
             vertical: 4,
           ),
@@ -1020,7 +1020,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton(
-              hint: Text(
+              hint: const Text(
                 'Please select complexity',
                 style: TextStyle(
                   color: ColorsRes.warmGreyColor,
@@ -1032,7 +1032,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
                   value: con,
                   child: Text(
                     con,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   ),
@@ -1179,7 +1179,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
               ),
             ),
           )
-        : SizedBox();
+        : const SizedBox();
   }
 
   Widget showServiceErrors() {
@@ -1196,7 +1196,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
               ),
             ),
           )
-        : SizedBox();
+        : const SizedBox();
   }
 
   Widget showOwnerErrors() {
@@ -1213,7 +1213,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
               ),
             ),
           )
-        : SizedBox();
+        : const SizedBox();
   }
 
   Widget showAssigneeErrors() {
@@ -1230,7 +1230,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
               ),
             ),
           )
-        : SizedBox();
+        : const SizedBox();
   }
 
   Widget showComplexityErrors() {
@@ -1247,7 +1247,7 @@ class _TabletNewCsrState extends State<TabletNewCsr>
               ),
             ),
           )
-        : SizedBox();
+        : const SizedBox();
   }
 
   submitForm() async {
